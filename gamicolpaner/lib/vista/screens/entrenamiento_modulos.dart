@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:gamicolpaner/model/user_model.dart';
+import 'package:gamicolpaner/vista/screens/auth/login_screen.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -11,10 +15,28 @@ class entrenamientoModulos extends StatefulWidget {
 }
 
 class _entrenamientoModulosState extends State<entrenamientoModulos> {
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 185, 238, 198),
+      backgroundColor: const Color.fromARGB(255, 185, 238, 198),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -368,11 +390,14 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
   Widget _getDrawer(BuildContext context) {
     double drawer_height = MediaQuery.of(context).size.height;
     double drawer_width = MediaQuery.of(context).size.width;
+
+    //firebase
+    final user = FirebaseAuth.instance.currentUser!;
     return Drawer(
       width: drawer_width * 0.60,
       elevation: 0,
       child: Container(
-        color: Color.fromARGB(255, 185, 238, 198),
+        color: const Color.fromARGB(255, 185, 238, 198),
         child: ListView(
           children: <Widget>[
             Container(
@@ -389,22 +414,26 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                       fit: BoxFit.cover)), */
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
-                  SizedBox(height: 5.0),
-                  CircleAvatar(
+                children: <Widget>[
+                  const SizedBox(height: 5.0),
+                  const CircleAvatar(
                     radius: 50.0,
                     backgroundImage: NetworkImage(
                         'https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas-sol_23-2149436200.jpg?w=360'),
                   ),
-                  SizedBox(height: 10.0),
-                  Text("Oscar Canelo",
+                  const SizedBox(height: 10.0),
+                  const Text("Oscar Canelo",
                       style: TextStyle(
                           color: Color.fromARGB(255, 42, 42, 42),
                           fontSize: 25,
                           fontWeight: FontWeight.bold)),
-                  Text("Técnica de Sistemas",
+                  const Text("Técnica de Sistemas",
                       style: TextStyle(color: Color.fromARGB(255, 91, 91, 91))),
-                  SizedBox(height: 50.0),
+                  Text(user.email!,
+                      style: const TextStyle(
+                          fontSize: 10,
+                          color: Color.fromARGB(255, 91, 91, 91))),
+                  const SizedBox(height: 50.0),
                 ],
               ),
             ),
@@ -459,10 +488,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
               onTap: () {},
             ),
             SizedBox(
-              height: drawer_height * 0.25,
-            ),
-            const Divider(
-              color: Colors.grey,
+              height: drawer_height * 0.15,
             ),
             Expanded(
               child: ListTile(
@@ -476,9 +502,30 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                 onTap: () {},
               ),
             ),
+            const Divider(
+              color: Colors.grey,
+            ),
+            ListTile(
+              title: const Text("Cerrar sesión",
+                  style: TextStyle(color: Color.fromARGB(255, 99, 99, 99))),
+              leading: const Icon(
+                Icons.logout,
+                color: Colors.grey,
+              ),
+              //at press, run the method
+              onTap: () {
+                logout(context);
+              },
+            ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
 }

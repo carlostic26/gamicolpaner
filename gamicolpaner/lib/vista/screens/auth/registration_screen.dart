@@ -5,6 +5,7 @@ import 'package:gamicolpaner/vista/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gamicolpaner/vista/screens/pin_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
@@ -24,12 +25,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   final passwordEditingController = new TextEditingController();
   final confirmPasswordEditingController = new TextEditingController();
 
-  String? selectedCarrera;
+  String? selectedTecnica;
   String? nombre;
-  List<String> items_carreras = [
-    'Ingeniería en TIC',
-    'Ingeniería Industrial',
+  List<String> items_tecnicas = [
+    'Sistemas',
+    'Contabilidad',
   ];
+  List<bool> isSelected = [false, false];
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.mail),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Correo institucional",
+          hintText: "Correo",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
           ),
@@ -147,7 +149,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.red,
+      color: const Color.fromARGB(255, 2, 59, 64),
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
@@ -158,56 +160,68 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           "Registrarse",
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
+              fontSize: 20,
+              color: Color.fromARGB(255, 209, 252, 207),
+              fontWeight: FontWeight.bold),
         ),
       ),
     );
 
-    final dropdownCarreras = DropdownButtonHideUnderline(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+    final dropdownTecnicas = DropdownButtonHideUnderline(
+      child: Column(
         children: [
-          DropdownButton2(
-            isExpanded: true,
-            hint: Text(
-              'Seleccionar carrera',
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).hintColor,
-              ),
-            ),
-            items: items_carreras
-                .map((item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 14,
-                        ),
+          const Align(alignment: Alignment.centerLeft, child: Text('Técnica')),
+          Row(
+            //mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              for (int i = 0; i < items_tecnicas.length; i++)
+                Row(
+                  children: [
+                    Checkbox(
+                      value: isSelected[i],
+                      onChanged: (value) {
+                        setState(() {
+                          for (int j = 0; j < items_tecnicas.length; j++) {
+                            if (j == i) {
+                              isSelected[j] = value!;
+                            } else {
+                              isSelected[j] = false;
+                            }
+                          }
+                        });
+                      },
+
+                      //color claro: d1fccf: 209, 252, 207
+                      //color base: 1f7e87; 31, 126, 135
+                      //color oscuro: 023b40: 2, 59, 64
+                      checkColor: Color.fromARGB(255, 209, 252, 207),
+                      activeColor: Color.fromARGB(255, 2, 59, 64),
+                      tristate: false,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
                       ),
-                    ))
-                .toList(),
-            value: selectedCarrera,
-            onChanged: (value) {
-              setState(() {
-                selectedCarrera = value as String;
-              });
-            },
-            buttonHeight: 50,
-            buttonWidth: 200,
-            itemHeight: 40,
+                    ),
+                    Text(items_tecnicas[i]),
+                  ],
+                ),
+            ],
           ),
         ],
       ),
     );
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 233, 230),
+      //color claro: d1fccf: 209, 252, 207
+      //color base: 1f7e87; 31, 126, 135
+      //color oscuro: 023b40: 2, 59, 64
+      backgroundColor: const Color.fromARGB(255, 31, 126, 135),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.red),
+          icon: const Icon(Icons.arrow_back,
+              color: Color.fromARGB(255, 209, 252, 207)),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -218,7 +232,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             child: Container(
           color: Colors.transparent,
           child: Padding(
-            padding: const EdgeInsets.all(35.0),
+            padding: const EdgeInsets.fromLTRB(35, 1, 35, 1),
             child: Form(
                 key: _formKey,
                 child: Column(
@@ -226,12 +240,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                        height: 220,
-                        child: Image.asset(
-                          "assets/logo_login_v2.png",
+                        height: 150,
+                        child: Image.network(
+                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEim9Hj2p9LsGTL47iHayHV-ouvuSJKTa0pAIbhBro6xnmb4dZXLNCJyahomAVWDv0Py1sLKY2i-2GLch21OnyG_oSYylW1BjHK05nGKmWps6BIt-FpA90jjaejXufQ6AwhR0cDtrpQ5b4_v6oLUiGwIxhWbZE89Kk11r2feQjQwObLu3OJNhm80A5I/s320/logo.png",
                           fit: BoxFit.contain,
                         )),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 45),
                     fullNameField,
                     const SizedBox(height: 20),
                     emailField,
@@ -240,7 +254,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     const SizedBox(height: 20),
                     confirmPasswordField,
                     const SizedBox(height: 15),
-                    dropdownCarreras,
+                    dropdownTecnicas,
                     const SizedBox(height: 15),
                     signUpButton,
                     const SizedBox(height: 15),
@@ -254,7 +268,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
 
   bool firstLog = false;
 
-  void signUp(String eemail, String ppassword) async {
+  void signUp(
+    String eemail,
+    String ppassword,
+  ) async {
     if (_formKey.currentState!.validate()) {
       await _auth
           .createUserWithEmailAndPassword(email: eemail, password: ppassword)
@@ -280,7 +297,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.fullName = fullNameEditingController.text;
-    userModel.carrera = selectedCarrera.toString();
+    userModel.tecnica = selectedTecnica.toString();
     userModel.sumScoreRC = '0';
     userModel.sumScoreDS = '0';
 
@@ -289,9 +306,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .doc(user.uid)
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Cuenta GamiColpaner creada con éxito");
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-        (route) => false);
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => pinScreen()),
+    );
   }
 }

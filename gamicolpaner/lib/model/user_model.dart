@@ -2,7 +2,7 @@ class UserModel {
   String? uid;
   String? email;
   String? fullName;
-  String? carrera;
+  String? tecnica;
   String? sumScoreRC;
   String? sumScoreDS;
 
@@ -10,7 +10,7 @@ class UserModel {
       {this.uid,
       this.email,
       this.fullName,
-      this.carrera,
+      this.tecnica,
       this.sumScoreRC,
       this.sumScoreDS});
 
@@ -20,7 +20,7 @@ class UserModel {
       uid: map['uid'],
       email: map['email'],
       fullName: map['fullName'],
-      carrera: map['carrera'],
+      tecnica: map['tecnica'],
       sumScoreRC: map['sumScoreRC'],
       sumScoreDS: map['sumScoreDS'],
     );
@@ -32,7 +32,7 @@ class UserModel {
       'uid': uid,
       'email': email,
       'fullName': fullName,
-      'carrera': carrera,
+      'tecnica': tecnica,
       'sumScoreRC': sumScoreRC,
       'sumScoreDS': sumScoreDS,
     };

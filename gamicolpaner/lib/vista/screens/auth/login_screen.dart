@@ -1,4 +1,5 @@
 import 'package:gamicolpaner/vista/screens/auth/registration_screen.dart';
+import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,11 +45,19 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.mail),
+          prefixIcon: const Icon(
+            Icons.mail,
+            color: Color.fromARGB(255, 209, 252, 207),
+          ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Email",
+          hintText: "Correo",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 209, 252, 207)),
           ),
         ));
 
@@ -71,18 +80,29 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.vpn_key),
+          prefixIcon: const Icon(
+            Icons.vpn_key,
+            color: Color.fromARGB(255, 209, 252, 207),
+          ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Password",
+          hintText: "Contraseña",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide:
+                const BorderSide(color: Color.fromARGB(255, 209, 252, 207)),
           ),
         ));
 
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: Colors.red,
+      //color claro: d1fccf: 209, 252, 207
+      //color base: 1f7e87; 31, 126, 135
+      //color oscuro: 023b40: 2, 59, 64
+      color: const Color.fromARGB(255, 2, 59, 64),
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
@@ -90,18 +110,21 @@ class _LoginScreenState extends State<LoginScreen> {
           signIn(emailController.text, passwordController.text);
         },
         child: const Text(
-          "Login",
+          "Ingresar",
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 20,
-              color: Color.fromARGB(255, 225, 225, 225),
+              color: Color.fromARGB(255, 209, 252, 207),
               fontWeight: FontWeight.bold),
         ),
       ),
     );
 
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 255, 233, 230),
+      //color claro: d1fccf: 209, 252, 207
+      //color base: 1f7e87; 31, 126, 135
+      //color oscuro: 023b40: 2, 59, 64
+      backgroundColor: const Color.fromARGB(255, 31, 126, 135),
       body: Center(
         child: SingleChildScrollView(
             child: Container(
@@ -115,9 +138,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     SizedBox(
-                        height: 250,
-                        child: Image.asset(
-                          "assets/logo_login_v2.png",
+                        height: 150,
+                        child: Image.network(
+                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEim9Hj2p9LsGTL47iHayHV-ouvuSJKTa0pAIbhBro6xnmb4dZXLNCJyahomAVWDv0Py1sLKY2i-2GLch21OnyG_oSYylW1BjHK05nGKmWps6BIt-FpA90jjaejXufQ6AwhR0cDtrpQ5b4_v6oLUiGwIxhWbZE89Kk11r2feQjQwObLu3OJNhm80A5I/s320/logo.png",
                           fit: BoxFit.contain,
                         )),
                     const SizedBox(height: 45),
@@ -128,9 +151,26 @@ class _LoginScreenState extends State<LoginScreen> {
                     loginButton,
                     const SizedBox(height: 15),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        GestureDetector(
+                          onTap: () {
+//dialogo explicando que la clave es el numero de identificacion + 2 iniciales de nombre
+                          },
+                          child: const Text(
+                            "Olvidé mi clave",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 12),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 40,
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        const Text("¿No tienes una cuenta? "),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -140,11 +180,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                         const RegistrationScreen()));
                           },
                           child: const Text(
+                            //color claro: d1fccf: 209, 252, 207
+                            //color base: 1f7e87; 31, 126, 135
+                            //color oscuro: 023b40: 2, 59, 64
                             "Regístrate",
                             style: TextStyle(
-                                color: Color.fromARGB(255, 255, 17, 0),
+                                color: Color.fromARGB(255, 209, 252, 207),
                                 fontWeight: FontWeight.w400,
-                                fontSize: 12),
+                                fontSize: 15),
                           ),
                         ),
                       ],
@@ -169,7 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((uid) => {
                 Fluttertoast.showToast(msg: '¡Bienvenido!'),
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const HomeScreen())),
+                    builder: (context) => const entrenamientoModulos())),
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
