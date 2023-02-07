@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gamicolpaner/controller/services/NavigatorServices.dart';
 import 'package:gamicolpaner/controller/services/local_storage.dart';
 import 'package:gamicolpaner/model/user_model.dart';
 import 'package:gamicolpaner/vista/screens/home_screen.dart';
@@ -16,6 +17,8 @@ class RegistrationScreen extends StatefulWidget {
   State<RegistrationScreen> createState() => _RegistrationScreenState();
 }
 
+final navigatorkey = GlobalKey<NavigatorState>();
+
 class _RegistrationScreenState extends State<RegistrationScreen> {
   final _auth = FirebaseAuth.instance;
 
@@ -32,6 +35,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     'Contabilidad',
   ];
   List<bool> isSelected = [false, false];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    NavigatorService().init(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,8 +204,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       //color claro: d1fccf: 209, 252, 207
                       //color base: 1f7e87; 31, 126, 135
                       //color oscuro: 023b40: 2, 59, 64
-                      checkColor: Color.fromARGB(255, 209, 252, 207),
-                      activeColor: Color.fromARGB(255, 2, 59, 64),
+                      checkColor: const Color.fromARGB(255, 209, 252, 207),
+                      activeColor: const Color.fromARGB(255, 2, 59, 64),
                       tristate: false,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       shape: RoundedRectangleBorder(
@@ -307,9 +317,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Cuenta GamiColpaner creada con éxito");
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => pinScreen()),
-    );
+    NavigatorService().navigateTo('/PinScreen');
+
+/*     Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const pinScreen()),
+        (route) => false); */
   }
 }

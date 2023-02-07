@@ -23,6 +23,9 @@ Future<void> main() async {
   await LocalStorage.configurePrefs();
 
   runApp(MaterialApp(
+    routes: {
+      '/pinScreen': (context) => const pinScreen(),
+    },
     debugShowCheckedModeBanner: false,
     home: email == null ? MyApp() : const entrenamientoModulos(),
   ));

@@ -27,6 +27,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
+
       setState(() {});
     });
 
@@ -393,6 +394,9 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
 
     //firebase
     final user = FirebaseAuth.instance.currentUser!;
+
+    String tecnicaElegida;
+
     return Drawer(
       width: drawer_width * 0.60,
       elevation: 0,
@@ -427,7 +431,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                           color: Color.fromARGB(255, 42, 42, 42),
                           fontSize: 25,
                           fontWeight: FontWeight.bold)),
-                  const Text("Técnica de Sistemas",
+                  Text(loggedInUser.tecnica.toString(),
                       style: TextStyle(color: Color.fromARGB(255, 91, 91, 91))),
                   Text(user.email!,
                       style: const TextStyle(
