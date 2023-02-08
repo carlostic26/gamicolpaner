@@ -17,6 +17,7 @@ class entrenamientoModulos extends StatefulWidget {
 class _entrenamientoModulosState extends State<entrenamientoModulos> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -37,7 +38,10 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 185, 238, 198),
+      //color claro: d1fccf: 209, 252, 207
+      //color base: 1f7e87; 31, 126, 135
+      //color oscuro: 023b40: 2, 59, 64
+      backgroundColor: const Color.fromARGB(255, 31, 126, 135),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -83,7 +87,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.green,
+                              color: Color.fromARGB(255, 2, 59, 64),
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Column(
@@ -109,7 +113,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black),
+                                      color: Colors.white),
                                 ),
                               ],
                             ),
@@ -132,7 +136,10 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.green,
+                              //color claro: d1fccf: 209, 252, 207
+                              //color base: 1f7e87; 31, 126, 135
+                              //color oscuro: 023b40: 2, 59, 64
+                              color: Color.fromARGB(255, 2, 59, 64),
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Column(
@@ -158,7 +165,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.black),
+                                      color: Colors.white),
                                 ),
                               ],
                             ),
@@ -401,7 +408,10 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
       width: drawer_width * 0.60,
       elevation: 0,
       child: Container(
-        color: const Color.fromARGB(255, 185, 238, 198),
+        //color claro: d1fccf: 209, 252, 207
+        //color base: 1f7e87; 31, 126, 135
+        //color oscuro: 023b40: 2, 59, 64
+        color: const Color.fromARGB(255, 209, 252, 207),
         child: ListView(
           children: <Widget>[
             Container(
@@ -426,14 +436,15 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                         'https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas-sol_23-2149436200.jpg?w=360'),
                   ),
                   const SizedBox(height: 10.0),
-                  const Text("Oscar Canelo",
-                      style: TextStyle(
+                  Text(loggedInUser.fullName.toString(),
+                      style: const TextStyle(
                           color: Color.fromARGB(255, 42, 42, 42),
                           fontSize: 25,
                           fontWeight: FontWeight.bold)),
-                  Text(loggedInUser.tecnica.toString(),
-                      style: TextStyle(color: Color.fromARGB(255, 91, 91, 91))),
-                  Text(user.email!,
+                  Text('Técnica de ${loggedInUser.tecnica}',
+                      style: const TextStyle(
+                          color: Color.fromARGB(255, 91, 91, 91))),
+                  Text(loggedInUser.email.toString(),
                       style: const TextStyle(
                           fontSize: 10,
                           color: Color.fromARGB(255, 91, 91, 91))),

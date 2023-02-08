@@ -40,10 +40,10 @@ class _desarrolloState extends State<desarrollo> {
   late Image button11;
 
   Image button1DSPressed = Image.asset(
-    'assets/buttons/button_1_pushed.png',
+    'assets/buttons/button_pushed.png',
   );
   Image button1DSUnpressed = Image.asset(
-    'assets/buttons/button_1_unpushed.png',
+    'assets/buttons/button_unpushed.png',
   );
 
   Image button2DSPressed = Image.asset(
@@ -54,10 +54,10 @@ class _desarrolloState extends State<desarrollo> {
   );
 
   Image button3DSPressed = Image.asset(
-    'assets/buttons/button_1_pushed.png',
+    'assets/buttons/button_pushed.png',
   );
   Image button3DSUnpressed = Image.asset(
-    'assets/buttons/button_1_unpushed.png',
+    'assets/buttons/button_unpushed.png',
   );
 
   Image button4DSPressed = Image.asset(
@@ -68,10 +68,10 @@ class _desarrolloState extends State<desarrollo> {
   );
 
   Image button5DSPressed = Image.asset(
-    'assets/buttons/button_1_pushed.png',
+    'assets/buttons/button_pushed.png',
   );
   Image button5DSUnpressed = Image.asset(
-    'assets/buttons/button_1_unpushed.png',
+    'assets/buttons/button_unpushed.png',
   );
 
   Image button6DSPressed = Image.asset(
@@ -82,10 +82,10 @@ class _desarrolloState extends State<desarrollo> {
   );
 
   Image button7DSPressed = Image.asset(
-    'assets/buttons/button_1_pushed.png',
+    'assets/buttons/button_pushed.png',
   );
   Image button7DSUnpressed = Image.asset(
-    'assets/buttons/button_1_unpushed.png',
+    'assets/buttons/button_unpushed.png',
   );
 
   Image button8DSPressed = Image.asset(
@@ -96,10 +96,10 @@ class _desarrolloState extends State<desarrollo> {
   );
 
   Image button9DSPressed = Image.asset(
-    'assets/buttons/button_1_pushed.png',
+    'assets/buttons/button_pushed.png',
   );
   Image button9DSUnpressed = Image.asset(
-    'assets/buttons/button_1_unpushed.png',
+    'assets/buttons/button_unpushed.png',
   );
 
   Image button10DSPressed = Image.asset(
@@ -661,7 +661,7 @@ class _desarrolloState extends State<desarrollo> {
     });
 
     Future.delayed(const Duration(seconds: 1), () {
-      Image.asset("assets/button_1_unpushed.png");
+      Image.asset("assets/button_unpushed.png");
     });
   }
 

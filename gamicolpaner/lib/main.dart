@@ -2,7 +2,6 @@ import 'package:gamicolpaner/controller/services/local_storage.dart';
 import 'package:gamicolpaner/model/dbhelper.dart';
 import 'package:gamicolpaner/vista/screens/auth/login_screen.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
-import 'package:gamicolpaner/vista/screens/home_screen.dart';
 import 'package:gamicolpaner/vista/screens/pin_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

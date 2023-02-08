@@ -20,6 +20,7 @@ class RegistrationScreen extends StatefulWidget {
 final navigatorkey = GlobalKey<NavigatorState>();
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  late BuildContext _context;
   final _auth = FirebaseAuth.instance;
 
   final _formKey = GlobalKey<FormState>();
@@ -40,7 +41,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    NavigatorService().init(context);
+    _context = context;
   }
 
   @override
@@ -194,6 +195,9 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           for (int j = 0; j < items_tecnicas.length; j++) {
                             if (j == i) {
                               isSelected[j] = value!;
+                              if (value) {
+                                selectedTecnica = items_tecnicas[j];
+                              }
                             } else {
                               isSelected[j] = false;
                             }
@@ -307,7 +311,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     userModel.email = user!.email;
     userModel.uid = user.uid;
     userModel.fullName = fullNameEditingController.text;
-    userModel.tecnica = selectedTecnica.toString();
+    userModel.tecnica = selectedTecnica;
     userModel.sumScoreRC = '0';
     userModel.sumScoreDS = '0';
 
@@ -317,11 +321,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Cuenta GamiColpaner creada con éxito");
 
-    NavigatorService().navigateTo('/PinScreen');
+    //NavigatorService().navigateTo('/pinScreen');
 
-/*     Navigator.pushAndRemoveUntil(
-        context,
+    gotopinscreen();
+  }
+
+  gotopinscreen() {
+    Navigator.pushAndRemoveUntil(
+        _context,
         MaterialPageRoute(builder: (context) => const pinScreen()),
-        (route) => false); */
+        (route) => false);
   }
 }
