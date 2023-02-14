@@ -6,6 +6,7 @@ import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 
 class entrenamientoModulos extends StatefulWidget {
   const entrenamientoModulos({super.key});
@@ -41,7 +42,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
       //color claro: d1fccf: 209, 252, 207
       //color base: 1f7e87; 31, 126, 135
       //color oscuro: 023b40: 2, 59, 64
-      backgroundColor: const Color.fromARGB(255, 31, 126, 135),
+      backgroundColor: colors_colpaner.base,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -81,13 +82,13 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const world_game(
-                                        requiredModulo: 'Matemáticas',
+                                        modulo: 'Matemáticas',
                                       )),
                             );
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 2, 59, 64),
+                              color: colors_colpaner.oscuro,
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Column(
@@ -130,16 +131,13 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const world_game(
-                                        requiredModulo: 'Inglés',
+                                        modulo: 'Inglés',
                                       )),
                             );
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                              //color claro: d1fccf: 209, 252, 207
-                              //color base: 1f7e87; 31, 126, 135
-                              //color oscuro: 023b40: 2, 59, 64
-                              color: Color.fromARGB(255, 2, 59, 64),
+                              color: colors_colpaner.oscuro,
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Column(
@@ -408,24 +406,13 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
       width: drawer_width * 0.60,
       elevation: 0,
       child: Container(
-        //color claro: d1fccf: 209, 252, 207
-        //color base: 1f7e87; 31, 126, 135
-        //color oscuro: 023b40: 2, 59, 64
-        color: const Color.fromARGB(255, 209, 252, 207),
+        color: colors_colpaner.base,
         child: ListView(
           children: <Widget>[
             Container(
               //height: 150.0,
               alignment: Alignment.center,
-              //imagen de fondo decorativo, es el cuadro detras del avatar
-              //
-/*               decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 185, 238, 198),
-                  image: DecorationImage(
-                      image: NetworkImage(
-                        "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEguAew123nq51EReZ1giaM9ny73tC9h7o1RBXE2TVfIpQabivXCy9eyHhVXkO1E1aJCiad-wmwUflNL6rgF5x964401Nre6WBt0Av_VHEb55CCp483_o27TlGlXmCP_dul-3mdtC3fJSDhqCylnV0bQY9Ih04gf6bbam4Bcc_nHS-NoGXXcH-Gs9P8/s16000/1675262458900.jpg",
-                      ),
-                      fit: BoxFit.cover)), */
+
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -436,18 +423,23 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                         'https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas-sol_23-2149436200.jpg?w=360'),
                   ),
                   const SizedBox(height: 10.0),
-                  Text(loggedInUser.fullName.toString(),
-                      style: const TextStyle(
-                          color: Color.fromARGB(255, 42, 42, 42),
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold)),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Text(loggedInUser.fullName.toString(),
+                        style: const TextStyle(
+                            color: colors_colpaner.claro,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold)),
+                  ),
                   Text('Técnica de ${loggedInUser.tecnica}',
                       style: const TextStyle(
-                          color: Color.fromARGB(255, 91, 91, 91))),
+                        color: colors_colpaner.claro,
+                      )),
                   Text(loggedInUser.email.toString(),
                       style: const TextStyle(
-                          fontSize: 10,
-                          color: Color.fromARGB(255, 91, 91, 91))),
+                        fontSize: 10,
+                        color: colors_colpaner.claro,
+                      )),
                   const SizedBox(height: 50.0),
                 ],
               ),
@@ -455,49 +447,57 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
             ListTile(
                 title: const Text("Entrenamiento",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
+                        color: colors_colpaner.claro,
                         fontWeight: FontWeight.bold)),
                 leading: const Icon(
                   Icons.psychology,
-                  color: Colors.grey,
+                  color: colors_colpaner.claro,
                 ),
                 onTap: () => {
                       Navigator.pop(context),
                     }),
             ListTile(
                 title: const Text("Mis Puntajes",
-                    style: TextStyle(color: Color.fromARGB(255, 99, 99, 99))),
+                    style: TextStyle(
+                      color: colors_colpaner.oscuro,
+                    )),
                 leading: const Icon(
                   Icons.sports_score,
-                  color: Colors.grey,
+                  color: colors_colpaner.oscuro,
                 ),
                 onTap: () {}),
             ListTile(
               title: const Text("Mi Usuario",
-                  style: TextStyle(color: Color.fromARGB(255, 99, 99, 99))),
+                  style: TextStyle(
+                    color: colors_colpaner.oscuro,
+                  )),
               leading: const Icon(
                 Icons.face,
-                color: Colors.grey,
+                color: colors_colpaner.oscuro,
               ),
               //at press, run the method
               onTap: () {},
             ),
             ListTile(
               title: const Text("Patrones ICFES",
-                  style: TextStyle(color: Color.fromARGB(255, 99, 99, 99))),
+                  style: TextStyle(
+                    color: colors_colpaner.oscuro,
+                  )),
               leading: const Icon(
                 Icons.insights,
-                color: Colors.grey,
+                color: colors_colpaner.oscuro,
               ),
               //at press, run the method
               onTap: () {},
             ),
             ListTile(
               title: const Text("Usabilidad",
-                  style: TextStyle(color: Color.fromARGB(255, 99, 99, 99))),
+                  style: TextStyle(
+                    color: colors_colpaner.oscuro,
+                  )),
               leading: const Icon(
                 Icons.extension,
-                color: Colors.grey,
+                color: colors_colpaner.oscuro,
               ),
               //at press, run the method
               onTap: () {},
@@ -508,24 +508,28 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
             Expanded(
               child: ListTile(
                 title: const Text("",
-                    style: TextStyle(color: Color.fromARGB(255, 99, 99, 99))),
+                    style: TextStyle(
+                      color: colors_colpaner.oscuro,
+                    )),
                 leading: const Icon(
                   Icons.settings,
-                  color: Colors.grey,
+                  color: colors_colpaner.oscuro,
                 ),
                 //at press, run the method
                 onTap: () {},
               ),
             ),
             const Divider(
-              color: Colors.grey,
+              color: colors_colpaner.claro,
             ),
             ListTile(
               title: const Text("Cerrar sesión",
-                  style: TextStyle(color: Color.fromARGB(255, 99, 99, 99))),
+                  style: TextStyle(
+                    color: colors_colpaner.oscuro,
+                  )),
               leading: const Icon(
                 Icons.logout,
-                color: Colors.grey,
+                color: colors_colpaner.oscuro,
               ),
               //at press, run the method
               onTap: () {

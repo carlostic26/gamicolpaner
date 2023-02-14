@@ -67,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => homeScreen()),
+                                  builder: (context) => entrenamientoModulos()),
                             );
                           } else {
                             //toast: Pin inválido.

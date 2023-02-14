@@ -1,10 +1,11 @@
 import 'package:gamicolpaner/vista/screens/auth/registration_screen.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
-import 'package:gamicolpaner/vista/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../visual/colors_colpaner.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -47,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.mail,
-            color: Color.fromARGB(255, 209, 252, 207),
+            color: colors_colpaner.claro,
           ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Correo",
@@ -56,8 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide:
-                const BorderSide(color: Color.fromARGB(255, 209, 252, 207)),
+            borderSide: BorderSide(color: colors_colpaner.claro),
           ),
         ));
 
@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: InputDecoration(
           prefixIcon: const Icon(
             Icons.vpn_key,
-            color: Color.fromARGB(255, 209, 252, 207),
+            color: colors_colpaner.claro,
           ),
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Contraseña",
@@ -91,18 +91,14 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
-            borderSide:
-                const BorderSide(color: Color.fromARGB(255, 209, 252, 207)),
+            borderSide: BorderSide(color: colors_colpaner.claro),
           ),
         ));
 
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      //color claro: d1fccf: 209, 252, 207
-      //color base: 1f7e87; 31, 126, 135
-      //color oscuro: 023b40: 2, 59, 64
-      color: const Color.fromARGB(255, 2, 59, 64),
+      color: colors_colpaner.oscuro,
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
@@ -114,17 +110,14 @@ class _LoginScreenState extends State<LoginScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 20,
-              color: Color.fromARGB(255, 209, 252, 207),
+              color: colors_colpaner.claro,
               fontWeight: FontWeight.bold),
         ),
       ),
     );
 
     return Scaffold(
-      //color claro: d1fccf: 209, 252, 207
-      //color base: 1f7e87; 31, 126, 135
-      //color oscuro: 023b40: 2, 59, 64
-      backgroundColor: const Color.fromARGB(255, 31, 126, 135),
+      backgroundColor: colors_colpaner.base,
       body: Center(
         child: SingleChildScrollView(
             child: Container(
@@ -140,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                         height: 150,
                         child: Image.network(
-                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEim9Hj2p9LsGTL47iHayHV-ouvuSJKTa0pAIbhBro6xnmb4dZXLNCJyahomAVWDv0Py1sLKY2i-2GLch21OnyG_oSYylW1BjHK05nGKmWps6BIt-FpA90jjaejXufQ6AwhR0cDtrpQ5b4_v6oLUiGwIxhWbZE89Kk11r2feQjQwObLu3OJNhm80A5I/s320/logo.png",
+                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgC0xjUWBSKcScr9rfqTl4h4wbTK9MoDxHGCisH2gKD0Sjt_kcYHPDFRvi0nPhLYrvro7oWc_MRtMgPUjtP-z0IymAmMTqL2UGNIWavUjAjrSueeQgisTAZ4MNKLhimWsmquYOT1Ncfl_I9Rlq3z3SP5u_n5F0qUBGnAccW4ygDvUDGHIYX5VFIU0o/w320-h320/logo%20GAMICOLPANER%20actualizado.png",
                           fit: BoxFit.contain,
                         )),
                     const SizedBox(height: 45),
@@ -180,12 +173,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                         const RegistrationScreen()));
                           },
                           child: const Text(
-                            //color claro: d1fccf: 209, 252, 207
-                            //color base: 1f7e87; 31, 126, 135
-                            //color oscuro: 023b40: 2, 59, 64
                             "Regístrate",
                             style: TextStyle(
-                                color: Color.fromARGB(255, 209, 252, 207),
+                                color: Colors.black,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 15),
                           ),

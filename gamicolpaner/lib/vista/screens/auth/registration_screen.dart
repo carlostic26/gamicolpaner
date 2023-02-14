@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gamicolpaner/vista/screens/pin_screen.dart';
+import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 
@@ -160,7 +161,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
-      color: const Color.fromARGB(255, 2, 59, 64),
+      color: colors_colpaner.oscuro,
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         minWidth: MediaQuery.of(context).size.width,
@@ -172,7 +173,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 20,
-              color: Color.fromARGB(255, 209, 252, 207),
+              color: colors_colpaner.claro,
               fontWeight: FontWeight.bold),
         ),
       ),
@@ -208,8 +209,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       //color claro: d1fccf: 209, 252, 207
                       //color base: 1f7e87; 31, 126, 135
                       //color oscuro: 023b40: 2, 59, 64
-                      checkColor: const Color.fromARGB(255, 209, 252, 207),
-                      activeColor: const Color.fromARGB(255, 2, 59, 64),
+                      checkColor: colors_colpaner.claro,
+                      activeColor: colors_colpaner.base,
                       tristate: false,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       shape: RoundedRectangleBorder(
@@ -229,13 +230,12 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       //color claro: d1fccf: 209, 252, 207
       //color base: 1f7e87; 31, 126, 135
       //color oscuro: 023b40: 2, 59, 64
-      backgroundColor: const Color.fromARGB(255, 31, 126, 135),
+      backgroundColor: colors_colpaner.base,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back,
-              color: Color.fromARGB(255, 209, 252, 207)),
+          icon: const Icon(Icons.arrow_back, color: colors_colpaner.claro),
           onPressed: () {
             Navigator.of(context).pop();
           },
