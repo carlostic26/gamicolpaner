@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
+import 'package:gamicolpaner/controller/modulo.dart';
 
 class entrenamientoModulos extends StatefulWidget {
   const entrenamientoModulos({super.key});
@@ -127,6 +128,8 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
+                            setModulo('Inglés');
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(

@@ -26,6 +26,7 @@ class _world_gameState extends State<world_game> {
 
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
+
   late Image button1,
       button2,
       button3,
@@ -72,23 +73,45 @@ class _world_gameState extends State<world_game> {
 
   @override
   Widget build(BuildContext context) {
+    final puntajesRefMat = FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel1')
+        .doc(user!.uid);
+
+    final puntajesRefIng = FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('ingles')
+        .collection('nivel1')
+        .doc(user!.uid);
+
+/*     puntajesRefMat.get().then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+        // la instancia existe, puedes obtener sus campos normalmente
+        var valorPuntaje = documentSnapshot.data() as Map<String, dynamic>?;
+        if (valorPuntaje != null && valorPuntaje.containsKey('puntaje')) {
+          var puntaje = valorPuntaje['puntaje'];
+          // hacer algo con valorPuntaje
+        }
+        // hacer algo con el puntaje obtenido
+      } else {
+        // la instancia no existe, establece el valor predeterminado en cero
+        var puntaje = 0;
+        // hacer algo con el valor predeterminado
+      }
+    }); */
+
     return Scaffold(
         appBar: null,
         body: Center(
           child: Expanded(
             child: Stack(
-              //alignment: Alignment.center,
               children: [
                 CachedNetworkImage(
-                  //imagen de fonto
                   imageUrl:
                       'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5Q4hvD_1Mg-3b4w0_w4rnkdo8iHWn1Pp2hLCbKLnnW4eUPY1LnmKF20V0zcIMNSJHSDUgqvVBNJqOodIeVRG87TewfsawutA9AdVEJpYxFVhBCoSpo6sVGKGe6uOLXG2KyuxYYR218nXHid185Agcdc-RkbrYrnw0FB3WWX7HBgs8kxesCJCf8k0/s16000/solo%20ruta%203.png',
-                  //height: 1000,
-
-                  //dimension de llenado ancho y alto de pantalla candy crush
                   height: MediaQuery.of(context).size.height * 1.0,
                   width: MediaQuery.of(context).size.width * 1.0,
-
                   fit: BoxFit.fill,
                 ),
 
@@ -160,13 +183,27 @@ class _world_gameState extends State<world_game> {
                                       fontSize: 13),
                                 ),
                                 //SizedBox(height: 5),
-                                Text(
-                                  loggedInUser.sumScoreDS.toString(),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'BubblegumSans',
-                                    fontSize: 22,
-                                  ),
+                                StreamBuilder<DocumentSnapshot>(
+                                  stream: _modulo == 'Matemáticas'
+                                      ? puntajesRefMat.snapshots()
+                                      : _modulo == 'Inglés'
+                                          ? puntajesRefIng.snapshots()
+                                          : puntajesRefIng
+                                              .snapshots(), //aqui seria en caso de otro cambiar RefSoc por ejemplo y asi sucesivamente
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return const Text('Cargando...');
+                                    }
+                                    final puntaje =
+                                        snapshot.data!['puntaje'] ?? 0;
+                                    return Text(
+                                      '$puntaje',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontFamily: 'BubblegumSans',
+                                          fontSize: 15),
+                                    );
+                                  },
                                 ),
                               ],
                             ),

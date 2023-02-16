@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
+import 'package:gamicolpaner/controller/modulo.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
@@ -24,6 +25,7 @@ class level1Quiz extends StatefulWidget {
 }
 
 class _level1QuizState extends State<level1Quiz> {
+  //guarda el modulo ingresado en sharedPreferences
   void _storeModulo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('modulo', widget.modulo);
@@ -61,6 +63,7 @@ class QuestionWidget extends StatefulWidget {
 class _QuestionWidgetState extends State<QuestionWidget> {
   String _modulo = '';
 
+//recibe el modulo guardado anteriormente en sharedPreferences
   void _getModuloFromSharedPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -846,10 +849,28 @@ Future<void> _guardarPuntaje(int score) async {
   final level = 1; // Número de nivel (o el nivel correspondiente)
   final puntaje = score; // Puntaje obtenido
 
-  final puntajesRefMat = FirebaseFirestore.instance.collection('puntajes_mat');
+//obtiene el modulo del shp
+  String _modulo = await getModulo();
 
-  await puntajesRefMat
-      .add({'userId': user!.uid, 'level': level, 'puntaje': puntaje});
+  if (_modulo == 'Matemáticas') {
+    final puntajesRefMat = FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel1')
+        .doc(user!.uid);
+
+    await puntajesRefMat.set({'userId': user.uid, 'puntaje': puntaje});
+  }
+
+  if (_modulo == 'Inglés') {
+    final puntajesRefIng = FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('ingles')
+        .collection('nivel1')
+        .doc(user!.uid);
+
+    await puntajesRefIng.set({'userId': user.uid, 'puntaje': puntaje});
+  }
 }
 
 class ResultPage extends StatelessWidget {
@@ -859,6 +880,15 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String _modulo = '';
+
+    //recibe el modulo guardado anteriormente en sharedPreferences
+    void _getModuloFromSharedPrefs() async {
+      final prefs = await SharedPreferences.getInstance();
+
+      _modulo = prefs.getString('modulo') ?? '';
+    }
+
     return Stack(
       children: <Widget>[
         //CONTAINER DEL FONDO QUE CONTIENE IMAGEN DE FONDO LADRILLOS
@@ -892,7 +922,6 @@ class ResultPage extends StatelessWidget {
                     iconSize: 3,
                     onPressed: () {
                       Navigator.pop(context);
-
                       Navigator.push(
                           context,
                           PageRouteBuilder(
@@ -914,7 +943,9 @@ class ResultPage extends StatelessWidget {
                               pageBuilder: (BuildContext context,
                                   Animation<double> animation,
                                   Animation<double> secAnimattion) {
-                                return const entrenamientoModulos();
+                                return world_game(
+                                  modulo: _modulo,
+                                );
                               }));
                     },
                   ),
