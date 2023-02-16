@@ -1,5 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
@@ -15,15 +13,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 */
 
-class level1Quiz extends StatefulWidget {
+class level5Quiz extends StatefulWidget {
   final String modulo;
-  const level1Quiz({required this.modulo, Key? key}) : super(key: key);
+  const level5Quiz({required this.modulo, Key? key}) : super(key: key);
 
   @override
-  State<level1Quiz> createState() => _level1QuizState();
+  State<level5Quiz> createState() => _level5QuizState();
 }
 
-class _level1QuizState extends State<level1Quiz> {
+class _level5QuizState extends State<level5Quiz> {
   void _storeModulo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('modulo', widget.modulo);
@@ -225,7 +223,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   Padding buildQuestion(Question question) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -266,7 +264,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
   ElevatedButton buildElevatedButton() {
     return ElevatedButton(
-      onPressed: () async {
+      onPressed: () {
         if (_questionNumber < 5) {
           _controller.nextPage(
             duration: const Duration(milliseconds: 250),
@@ -283,9 +281,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               builder: (context) => ResultPage(score: _score),
             ),
           );
-
-          await _guardarPuntaje(
-              _score); // Llamar a la función para guardar el puntaje
         }
 
         // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
@@ -840,17 +835,6 @@ final questionsSoc = [
         const Option(text: 'D. Derecho y arquitectura', isCorrect: false)
       ]),
 ];
-
-Future<void> _guardarPuntaje(int score) async {
-  final user = FirebaseAuth.instance.currentUser;
-  final level = 1; // Número de nivel (o el nivel correspondiente)
-  final puntaje = score; // Puntaje obtenido
-
-  final puntajesRefMat = FirebaseFirestore.instance.collection('puntajes_mat');
-
-  await puntajesRefMat
-      .add({'userId': user!.uid, 'level': level, 'puntaje': puntaje});
-}
 
 class ResultPage extends StatelessWidget {
   const ResultPage({Key? key, required this.score}) : super(key: key);

@@ -8,6 +8,8 @@ import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level1/level1_quiz.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level2/level2.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level3/level3.dart';
+import 'package:gamicolpaner/vista/screens/niveles/level4/level4.dart';
+import 'package:gamicolpaner/vista/screens/niveles/level5/level5_quiz.dart';
 import 'package:giff_dialog/giff_dialog.dart';
 
 class world_game extends StatefulWidget {
@@ -378,7 +380,7 @@ class _world_gameState extends State<world_game> {
                           // when it is released
                           button5 = buttonUnpressed;
                         });
-
+                        showDialogLevel(5);
                         //DialogHelper.showDialogLevel4DS(context);
                       },
                     ),
@@ -407,7 +409,7 @@ class _world_gameState extends State<world_game> {
                           // when it is released
                           button4 = buttonUnpressed;
                         });
-
+                        showDialogLevel(4);
                         //DialogHelper.showDialogLevel5DS(context);
                       },
                     ),
@@ -534,8 +536,11 @@ class _world_gameState extends State<world_game> {
         'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh2Z-aZWSpJfAT6p1ki7lhQrWW-qO5hRj6T4p0DDxrvx9WxNH5pH2a0CSRmYa4POVjKp4J5khGE17BmDhaNUsGo0QMpRPoL3HoDgc0WIqFxCsktAr9_s1D8oIVvlUoNs9_5tiNR3XcJvOqEWRBmEAbQK-BuypAjMRLUYIXj23MUK02i0uUNVMXprjs/s1600/MajesticIdioticArachnid-max-1mb.gif';
     String imageLvl3 =
         'http://pa1.narvii.com/6625/e90f6237ad16279bb59f3b3dea459eae44b831b5_00.gif';
-    String imageLvl4 = '';
-    String imageLvl5 = '';
+    String imageLvl4 =
+        'https://developer.android.com/static/images/guide/topics/ui/drag-and-drop-between-apps.gif?hl=es-419';
+    String imageLvl5 =
+        'https://blogger.googleusercontent.com/img/a/AVvXsEjTy5Oytt0iwUvfxK4rm2nGlFjPENSj1kk-2bwqYAM1rzPtncL68VR9eUYTK9vbyByREPPtdGUAUupeM8f_CD5KsmgZbJe8k3WAw4--qhFxpcpFgGqsq1u2saxiui1FfP704AjtaBlGlSOsrpi31Upev6OA5612vSGY23eh7wAS24TGlS8hUHxHa6s=s16000';
+
     String imageLvl6 = '';
     String imageLvl7 = '';
     String imageLvl8 = '';
@@ -714,7 +719,7 @@ class _world_gameState extends State<world_game> {
                               )
                             : level == 4
                                 ? const Text(
-                                    'En este nivel realizarás un quiz básico sobre usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
+                                    'En este nivel tendrás que leer conceptos y asociarlos con la respuesta correcta. Tienes un numero limite de intentos.',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 15,
@@ -722,7 +727,7 @@ class _world_gameState extends State<world_game> {
                                   )
                                 : level == 5
                                     ? const Text(
-                                        'En este nivel realizarás un quiz básico sobre usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
+                                        'En este nivel realizarás un quiz intermedio sobre la usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                           fontSize: 15,
@@ -818,11 +823,11 @@ class _world_gameState extends State<world_game> {
                                           modulo: _modulo,
                                         )
                                       : level == 4
-                                          ? level1Quiz(
+                                          ? level4(
                                               modulo: _modulo,
                                             )
                                           : level == 5
-                                              ? level1Quiz(
+                                              ? level5Quiz(
                                                   modulo: _modulo,
                                                 )
                                               : level == 6

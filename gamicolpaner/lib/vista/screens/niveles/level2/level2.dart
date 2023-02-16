@@ -7,7 +7,9 @@ import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level2/level2_logic.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level2/scoreCards.dart';
+import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soundpool/soundpool.dart';
 
 /*NIVEL TIPO GAMICARD
@@ -27,6 +29,15 @@ class level2 extends StatefulWidget {
 }
 
 class _level2State extends State<level2> {
+  String _modulo = '';
+
+  void _getModuloFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _modulo = prefs.getString('modulo') ?? '';
+    });
+  }
+
   final GameCards _gameCards = GameCards();
   double tries = 0;
   int valTries = 0;
@@ -52,7 +63,7 @@ class _level2State extends State<level2> {
           fit: BoxFit.cover,
         ), */
         Scaffold(
-          backgroundColor: colors_colpaner.oscuro,
+          backgroundColor: colors_colpaner.base,
           body: Stack(
             alignment: Alignment.center,
             children: <Widget>[
@@ -81,7 +92,7 @@ class _level2State extends State<level2> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         scoreBoard1("Intentos", "${tries.toInt()}"),
-                        scoreBoard1("Score", "${score}")
+                        scoreBoard1("Puntos", "${score}")
                       ],
                     ),
                     SizedBox(
@@ -168,7 +179,7 @@ class _level2State extends State<level2> {
                                 child: Container(
                                   padding: const EdgeInsets.all(16.0),
                                   decoration: BoxDecoration(
-                                    color: colors_colpaner.base,
+                                    color: colors_colpaner.oscuro,
                                     borderRadius: BorderRadius.circular(8.0),
                                     image: DecorationImage(
                                         image: NetworkImage(
@@ -182,16 +193,17 @@ class _level2State extends State<level2> {
                 ),
               ),
 
-              //btn regresar
-              Positioned(
-                  top: 20,
-                  left: -05,
+              //flecha atras
+              Align(
+                alignment: Alignment.topLeft,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                   child: ShakeWidgetX(
                     child: IconButton(
                       icon: Image.asset('assets/flecha_left.png'),
-                      iconSize: 50,
+                      iconSize: 3,
                       onPressed: () {
-                        _soundBack();
+                        Navigator.pop(context);
                         Navigator.push(
                             context,
                             PageRouteBuilder(
@@ -213,25 +225,19 @@ class _level2State extends State<level2> {
                                 pageBuilder: (BuildContext context,
                                     Animation<double> animation,
                                     Animation<double> secAnimattion) {
-                                  return const entrenamientoModulos();
+                                  return world_game(
+                                    modulo: _modulo,
+                                  );
                                 }));
                       },
                     ),
-                  )),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ],
     );
   }
-}
-
-Future<void> _soundBack() async {
-  Soundpool pool = Soundpool(streamType: StreamType.notification);
-  int soundId = await rootBundle
-      .load("assets/soundFX/buttonBack.wav")
-      .then((ByteData soundData) {
-    return pool.load(soundData);
-  });
-  int streamId = await pool.play(soundId);
 }

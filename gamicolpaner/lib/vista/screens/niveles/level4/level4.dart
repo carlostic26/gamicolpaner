@@ -6,6 +6,9 @@ import 'package:gamicolpaner/model/dbhelper.dart';
 import 'package:gamicolpaner/model/score.dart';
 import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
+import 'package:gamicolpaner/vista/screens/world_game.dart';
+import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:soundpool/soundpool.dart';
 
 /*NIVEL TIPO GAMIDROP
@@ -16,16 +19,26 @@ import 'package:soundpool/soundpool.dart';
 
 */
 
-class level6 extends StatefulWidget {
-  const level6({Key? key}) : super(key: key);
+class level4 extends StatefulWidget {
+  final String modulo;
+  const level4({required this.modulo, Key? key}) : super(key: key);
 
   @override
-  State<level6> createState() => _level6State();
+  State<level4> createState() => _level4State();
 }
 
 //font code: https://youtu.be/KOh6CkX-d6U
 
-class _level6State extends State<level6> {
+class _level4State extends State<level4> {
+  String _modulo = '';
+
+  void _getModuloFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _modulo = prefs.getString('modulo') ?? '';
+    });
+  }
+
   final Map<String, bool> score = {};
 
   final Map choices = {
@@ -43,7 +56,7 @@ class _level6State extends State<level6> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 255, 233, 230),
+      backgroundColor: colors_colpaner.base,
       body: Stack(
         alignment: Alignment.center,
         children: <Widget>[
@@ -61,16 +74,17 @@ class _level6State extends State<level6> {
             ),
           ),
 
-//FLECHA ATRAS
-          Positioned(
-              top: 20,
-              left: -10,
+          //flecha atras
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
               child: ShakeWidgetX(
                 child: IconButton(
                   icon: Image.asset('assets/flecha_left.png'),
-                  iconSize: 50,
+                  iconSize: 3,
                   onPressed: () {
-                    _soundBack();
+                    Navigator.pop(context);
                     Navigator.push(
                         context,
                         PageRouteBuilder(
@@ -91,17 +105,15 @@ class _level6State extends State<level6> {
                             pageBuilder: (BuildContext context,
                                 Animation<double> animation,
                                 Animation<double> secAnimattion) {
-                              return const entrenamientoModulos();
+                              return world_game(
+                                modulo: _modulo,
+                              );
                             }));
-
-                    //KILL NAVIGATOR WHEN USER TAP BACK BUTTON
-                    Future.delayed(const Duration(seconds: 3), () {
-                      Navigator.of(context)
-                          .popUntil(ModalRoute.withName('/desarrollo'));
-                    });
                   },
                 ),
-              )),
+              ),
+            ),
+          ),
           //banner superior
           Positioned(
             top: -43,
@@ -129,12 +141,12 @@ class _level6State extends State<level6> {
               width: 300,
               alignment: Alignment.topRight,
               child: Text(
-                'Score: ${score.length} / 5',
+                'Score: ${score.length} / 6',
                 textAlign: TextAlign.right,
                 style: const TextStyle(
                     fontSize: 15,
-                    fontFamily: 'ZCOOL',
-                    color: Color.fromARGB(255, 61, 13, 4)),
+                    fontFamily: 'BubblegumSans',
+                    color: colors_colpaner.oscuro),
               ),
             ),
           ),
@@ -150,6 +162,11 @@ class _level6State extends State<level6> {
                     children: choices.keys.map((conceptoAfirmacion) {
                       return Draggable<String>(
                         data: conceptoAfirmacion,
+                        feedback: ConceptoAfirmacion(
+                          conceptoAfirmacion: conceptoAfirmacion,
+                        ),
+                        childWhenDragging:
+                            const ConceptoAfirmacion(conceptoAfirmacion: '🧐'),
                         child: ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(20)),
@@ -157,7 +174,7 @@ class _level6State extends State<level6> {
                             ////  ////  ////  //// CONCEPT INSIDE CARD LEFT
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-                            color: Color.fromARGB(255, 61, 13, 4),
+                            color: colors_colpaner.oscuro,
                             child: ConceptoAfirmacion(
                                 //if concept is correct at draw, then show check emoti in left cards
                                 conceptoAfirmacion:
@@ -166,11 +183,6 @@ class _level6State extends State<level6> {
                                         : conceptoAfirmacion),
                           ),
                         ),
-                        feedback: ConceptoAfirmacion(
-                          conceptoAfirmacion: conceptoAfirmacion,
-                        ),
-                        childWhenDragging:
-                            const ConceptoAfirmacion(conceptoAfirmacion: '🧐'),
                       );
                     }).toList()),
                 Column(
@@ -198,14 +210,16 @@ class _level6State extends State<level6> {
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               child: Container(
                 color: Colors.green,
-                child: const Text(
-                  'Correcto!',
-                  style: TextStyle(
-                      color: Colors.white, fontSize: 25, fontFamily: 'ZCOOL'),
-                ),
                 alignment: Alignment.center,
                 height: 80,
                 width: 200,
+                child: const Text(
+                  'Correcto!',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 25,
+                      fontFamily: 'BubblegumSans'),
+                ),
               ),
             );
           } else {
@@ -215,14 +229,16 @@ class _level6State extends State<level6> {
               child: Container(
                 alignment: Alignment.centerLeft,
                 padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-                color: Color.fromARGB(159, 158, 158, 158),
+                color: colors_colpaner.claro,
+                height: 100,
+                width: 200,
                 child: Text(
                   choices[conceptoAfirmacion],
                   style: const TextStyle(
-                      color: Colors.black, fontSize: 20, fontFamily: 'ZCOOL'),
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontFamily: 'BubblegumSans'),
                 ),
-                height: 100,
-                width: 200,
               ),
             );
           }
@@ -270,20 +286,10 @@ class ConceptoAfirmacion extends StatelessWidget {
               style: const TextStyle(
                   //color text left csrds
                   color: Colors.white,
-                  fontSize: 25,
-                  fontFamily: 'ZCOOL'),
+                  fontSize: 20,
+                  fontFamily: 'BubblegumSans'),
             ),
           )),
     );
   }
-}
-
-Future<void> _soundBack() async {
-  Soundpool pool = Soundpool(streamType: StreamType.notification);
-  int soundId = await rootBundle
-      .load("assets/soundFX/buttonBack.wav")
-      .then((ByteData soundData) {
-    return pool.load(soundData);
-  });
-  int streamId = await pool.play(soundId);
 }

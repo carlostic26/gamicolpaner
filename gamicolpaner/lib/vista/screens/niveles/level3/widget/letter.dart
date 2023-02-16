@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 
 Widget letter(String character, bool hidden) {
   return Container(
@@ -6,7 +7,7 @@ Widget letter(String character, bool hidden) {
     width: 35,
     padding: EdgeInsets.all(1.0),
     decoration: BoxDecoration(
-      color: Color.fromARGB(255, 61, 13, 4), //color red dark
+      color: colors_colpaner.oscuro, //color red dark
       borderRadius: BorderRadius.circular(12.0),
     ),
     child: Visibility(
@@ -16,9 +17,10 @@ Widget letter(String character, bool hidden) {
           //color text pinted word
           character,
           style: const TextStyle(
-            color: Colors.white,
+            color: colors_colpaner.claro,
             fontWeight: FontWeight.bold,
             fontSize: 30.0,
+            fontFamily: 'BubblegumSans',
           ),
         ),
       ),
