@@ -273,7 +273,7 @@ class _world_gameState extends State<world_game> {
                           button10 = buttonUnpressed;
                         });
 
-                        //DialogHelper.showDialoglevel10DS(context);
+                        showDialogLevel(10);
                       },
                     ),
                   ),
@@ -582,7 +582,8 @@ class _world_gameState extends State<world_game> {
     String imageLvl7 = '';
     String imageLvl8 = '';
     String imageLvl9 = '';
-    String imageLvl10 = '';
+    String imageLvl10 =
+        'https://blogger.googleusercontent.com/img/a/AVvXsEj_3Z1kqIpcWZZpGfyXAb9t0fEB0CLZ3jWyVyOZn_jgvYnocpT3Ayj8YKWio-LnlYr0MODwboL1397Cnjs8XVHFHnpAK7nALOPyP-GmWbBVhxg8nc3DHopcHtYluoPBV0no2U7EoZofmi8tH2K8Q3XG6-Fp39XnoZhKX0L-2zMqtNnbW0TpuZzwcmg';
 
     showGeneralDialog(
       barrierColor: Colors.black.withOpacity(0.5),
@@ -649,21 +650,27 @@ class _world_gameState extends State<world_game> {
                         'Nivel 1',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w600),
+                            fontSize: 20,
+                            fontFamily: 'BubblegumSans',
+                            fontWeight: FontWeight.w600),
                       )
                     : level == 2
                         ? const Text(
                             'Nivel 2',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w600),
+                                fontSize: 20,
+                                fontFamily: 'BubblegumSans',
+                                fontWeight: FontWeight.w600),
                           )
                         : level == 3
                             ? const Text(
                                 'Nivel 3',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w600),
+                                    fontSize: 20,
+                                    fontFamily: 'BubblegumSans',
+                                    fontWeight: FontWeight.w600),
                               )
                             : level == 4
                                 ? const Text(
@@ -671,6 +678,7 @@ class _world_gameState extends State<world_game> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                         fontSize: 20,
+                                        fontFamily: 'BubblegumSans',
                                         fontWeight: FontWeight.w600),
                                   )
                                 : level == 5
@@ -679,6 +687,7 @@ class _world_gameState extends State<world_game> {
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
                                             fontSize: 20,
+                                            fontFamily: 'BubblegumSans',
                                             fontWeight: FontWeight.w600),
                                       )
                                     : level == 6
@@ -687,6 +696,7 @@ class _world_gameState extends State<world_game> {
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 fontSize: 20,
+                                                fontFamily: 'BubblegumSans',
                                                 fontWeight: FontWeight.w600),
                                           )
                                         : level == 7
@@ -695,6 +705,7 @@ class _world_gameState extends State<world_game> {
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                     fontSize: 20,
+                                                    fontFamily: 'BubblegumSans',
                                                     fontWeight:
                                                         FontWeight.w600),
                                               )
@@ -704,6 +715,8 @@ class _world_gameState extends State<world_game> {
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                         fontSize: 20,
+                                                        fontFamily:
+                                                            'BubblegumSans',
                                                         fontWeight:
                                                             FontWeight.w600),
                                                   )
@@ -714,17 +727,21 @@ class _world_gameState extends State<world_game> {
                                                             TextAlign.center,
                                                         style: TextStyle(
                                                             fontSize: 20,
+                                                            fontFamily:
+                                                                'BubblegumSans',
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w600),
                                                       )
                                                     : level == 10
                                                         ? const Text(
-                                                            'Nivel 10',
+                                                            'Simulacro',
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
                                                                 fontSize: 20,
+                                                                fontFamily:
+                                                                    'BubblegumSans',
                                                                 fontWeight:
                                                                     FontWeight
                                                                         .w600),
@@ -735,64 +752,63 @@ class _world_gameState extends State<world_game> {
                         'En este nivel realizarás un quiz básico sobre usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 15,
-                        ),
+                            fontSize: 15, fontFamily: 'BubblegumSans'),
                       )
                     : level == 2
                         ? const Text(
                             'En este nivel tendrás que prestar mucha atencion a la afirmación de cada tarjeta. Tu tarea es entenderlas y hacer que coincidan',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 15,
-                            ),
+                                fontSize: 15, fontFamily: 'BubblegumSans'),
                           )
                         : level == 3
                             ? const Text(
                                 'En este nivel tendrás que leer una afirmación y escribir la palabra exacta que la define. Tienes un número limitado de intentos.',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 15,
-                                ),
+                                    fontSize: 15, fontFamily: 'BubblegumSans'),
                               )
                             : level == 4
                                 ? const Text(
                                     'En este nivel tendrás que leer conceptos y asociarlos con la respuesta correcta. Tienes un numero limite de intentos.',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      fontSize: 15,
-                                    ),
+                                        fontSize: 15,
+                                        fontFamily: 'BubblegumSans'),
                                   )
                                 : level == 5
                                     ? const Text(
                                         'En este nivel realizarás un quiz intermedio sobre la usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
                                         textAlign: TextAlign.center,
                                         style: TextStyle(
-                                          fontSize: 15,
-                                        ),
+                                            fontSize: 15,
+                                            fontFamily: 'BubblegumSans'),
                                       )
                                     : level == 6
                                         ? const Text(
                                             'En este nivel realizarás un quiz básico sobre usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
-                                              fontSize: 15,
-                                            ),
+                                                fontSize: 15,
+                                                fontFamily: 'BubblegumSans'),
                                           )
                                         : level == 7
                                             ? const Text(
                                                 'En este nivel realizarás un quiz básico sobre usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                  fontSize: 15,
-                                                ),
+                                                    fontSize: 15,
+                                                    fontFamily:
+                                                        'BubblegumSans'),
                                               )
                                             : level == 8
                                                 ? const Text(
                                                     'En este nivel realizarás un quiz básico sobre usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
-                                                      fontSize: 15,
-                                                    ),
+                                                        fontSize: 15,
+                                                        fontFamily:
+                                                            'BubblegumSans'),
                                                   )
                                                 : level == 9
                                                     ? const Text(
@@ -800,17 +816,19 @@ class _world_gameState extends State<world_game> {
                                                         textAlign:
                                                             TextAlign.center,
                                                         style: TextStyle(
-                                                          fontSize: 15,
-                                                        ),
+                                                            fontSize: 15,
+                                                            fontFamily:
+                                                                'BubblegumSans'),
                                                       )
                                                     : level == 10
                                                         ? const Text(
-                                                            'En este nivel realizarás un quiz básico sobre usabilidad del examen ICFES Saber PRO para validar los conocimientos de la prueba',
+                                                            'Este es el último nivel de GamiColpaner.\n\n Realizarás el simulacro del modulo correspondiente pero esta vez no podrás ver al instante las opciones correctas o incorrectas. \n\nTienes x minutos para terminar.',
                                                             textAlign: TextAlign
                                                                 .center,
                                                             style: TextStyle(
-                                                              fontSize: 15,
-                                                            ),
+                                                                fontSize: 12,
+                                                                fontFamily:
+                                                                    'BubblegumSans'),
                                                           )
                                                         : const Text(''),
                 buttonOkText: const Text(
