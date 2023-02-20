@@ -3,7 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
 import 'package:gamicolpaner/controller/modulo.dart';
-import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
+import 'package:gamicolpaner/model/dbexam.dart';
+import 'package:gamicolpaner/model/question_list_model.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +26,10 @@ class level1Quiz extends StatefulWidget {
 }
 
 class _level1QuizState extends State<level1Quiz> {
+  //llamando la clase question para conectar sqflite
+  late DatabaseHandler handler;
+  Future<List<question>>? _question;
+
   //guarda el modulo ingresado en sharedPreferences
   void _storeModulo() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,6 +40,60 @@ class _level1QuizState extends State<level1Quiz> {
   void initState() {
     super.initState();
     _storeModulo();
+
+    switch (widget.modulo) {
+      case "Matemáticas":
+        {
+          handler = DatabaseHandler();
+          handler.initializeDB().whenComplete(() async {
+            setState(() {
+              _question = getListMAT();
+            });
+          });
+        }
+        break;
+
+      case "Inglés":
+        {
+          handler = DatabaseHandler();
+          handler.initializeDB().whenComplete(() async {
+            setState(() {
+              _question = getListING();
+            });
+          });
+        }
+        break;
+        ;
+    }
+  }
+
+  //Methods that receive the list select from dbhelper
+  Future<List<question>> getListING() async {
+    return await handler.QueryING();
+  }
+
+  Future<List<question>> getListMAT() async {
+    return await handler.QueryMAT();
+  }
+
+  Future<void> _onRefresh() async {
+    setState(() {
+      //hacemos un switch para que sepa que cateogira es la que debe refrescar
+
+      switch (widget.modulo) {
+        case "Matemáticas":
+          {
+            _question = getListING();
+          }
+          break;
+
+        case "Inglés":
+          {
+            _question = getListMAT();
+          }
+          break;
+      }
+    });
   }
 
   @override
