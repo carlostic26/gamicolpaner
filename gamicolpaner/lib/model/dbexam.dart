@@ -1,3 +1,4 @@
+import 'package:gamicolpaner/model/question_list_model.dart';
 import 'package:gamicolpaner/model/score.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -55,99 +56,27 @@ class DatabaseHandler {
     );
   }
 
-  //La siguiente funcion realiza la insercion de las instancias a la tabla puntaje
-
-  //la idea es que esta funcion va a insertar el puntaje completo por nivel dentro de cada modulo
-  //se debe invocar cuando se finalice el juego gameover. Se manda desde alla hacia aca mediante un objeto tipogamilibre donde se ponen todos los datos
-  Future<void> insertScoreLevel_1(scoreColpaner ScoreColpaner) async {
-    final db = await initializeDB();
-
-    //inserta en la tabla scoresTable la informaion que se recibe
-    // ya lo que se recibe es el objeto que contiene la informacion completa
-    await db.insert(
-      'scoresTable',
-      ScoreColpaner.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
-  }
-
-  // La siguiente funcion se selecciona un solo elemento
-  Future<List<scoreColpaner>> Colpaner() async {
-    final db = await initializeDB();
-    final List<Map<String, dynamic>> queryResult =
-        await db.rawQuery('SELECT * FROM score WHERE nivel like ?', ['%1%']);
-    Map<String, dynamic> result = {};
-    for (var r in queryResult) {
-      result.addAll(r);
-    }
-    return queryResult.map((e) => scoreColpaner.fromMap(e)).toList();
-  }
-
-  //La siguiente funcion se selecciona el puntaje y el modulo de la palabra clave que recibe como argumento
-  // se requiere: modulo, nivel
-
-  Future<List<scoreColpaner>> SelectScoreForLevelModule(
-      String modulo, String nivel) async {
+//La siguiente funcion hace la consulta de todos los puntajes segun el modulo seleccionado
+  Future<List<question>> QueryMAT() async {
     final db = await initializeDB();
     final List<Map<String, dynamic>> queryResult = await db.rawQuery(
-        'SELECT score FROM scoreTable WHERE modulo like ? AND nivel like ?',
-        ['%' + modulo + '%' + nivel + '%']);
+        'SELECT * FROM preguntasICFES WHERE modulo like ?', ['%MAT%']);
     Map<String, dynamic> result = {};
     for (var r in queryResult) {
       result.addAll(r);
     }
-    return queryResult.map((e) => scoreColpaner.fromMap(e)).toList();
+    return queryResult.map((e) => question.fromMap(e)).toList();
   }
 
-  //La siguiente funcion actualiza los puntajes segun se requiera
-  //ACTUALIZA TODA LA INFO ROW SEL SCORE SEGUN EL ID QUE LE PASEN. LOS ID'S YA HAN SIDO CREADOR ANTERIORMENTE
-  Future<Future<int>> updateScore(scoreColpaner ScoreGamiLibre) async {
+  //La siguiente funcion hace la consulta de todos los puntajes segun el modulo seleccionado
+  Future<List<question>> QueryING() async {
     final db = await initializeDB();
-
-    return db.update("scoreTable", ScoreGamiLibre.toMap(),
-        where: "id = ?", whereArgs: [ScoreGamiLibre.id]);
-  }
-
-//La siguiente funcion inserta todo un objeto dentro del campo de la tabla de puntajes
-  Future<void> insertScoreLevel_2(scoreColpaner ScoreGamiLibre) async {
-    final db = await initializeDB();
-
-    var resultado = await db.rawInsert(
-        "INSERT INTO scoreTable (modulo, nivel, score) "
-        "VALUES (${ScoreGamiLibre.modulo}, ${ScoreGamiLibre.nivel}, ${ScoreGamiLibre.score})");
-  }
-
-//La siguiente funcion elimina ej puntaje segun el ID
-  Future<void> deleteScore(int id) async {
-    final db = await initializeDB();
-    await db.delete(
-      'scoreTable',
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-  }
-
-//La siguiente funcion hace la consulta de todos los puntajes segun el modulo seleccionado
-  Future<List<scoreColpaner>> QueryAllScoresRC() async {
-    final db = await initializeDB();
-    final List<Map<String, dynamic>> queryResult = await db
-        .rawQuery('SELECT * FROM scoreTable WHERE modulo like ?', ['%MAT%']);
+    final List<Map<String, dynamic>> queryResult = await db.rawQuery(
+        'SELECT * FROM preguntasICFES WHERE modulo like ?', ['%ING%']);
     Map<String, dynamic> result = {};
     for (var r in queryResult) {
       result.addAll(r);
     }
-    return queryResult.map((e) => scoreColpaner.fromMap(e)).toList();
-  }
-
-//La siguiente funcion hace la consulta de todos los puntajes segun el modulo seleccionado
-  Future<List<scoreColpaner>> QueryAllScoresDS() async {
-    final db = await initializeDB();
-    final List<Map<String, dynamic>> queryResult = await db
-        .rawQuery('SELECT * FROM scoreTable WHERE modulo like ?', ['%ING%']);
-    Map<String, dynamic> result = {};
-    for (var r in queryResult) {
-      result.addAll(r);
-    }
-    return queryResult.map((e) => scoreColpaner.fromMap(e)).toList();
+    return queryResult.map((e) => question.fromMap(e)).toList();
   }
 }

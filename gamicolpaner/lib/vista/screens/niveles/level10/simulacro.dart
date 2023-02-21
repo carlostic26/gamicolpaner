@@ -18,15 +18,15 @@ import 'package:gamicolpaner/model/dbexam.dart';
 
 */
 
-class level10_simulacro extends StatefulWidget {
+class simulacro extends StatefulWidget {
   final String modulo;
-  const level10_simulacro({required this.modulo, Key? key}) : super(key: key);
+  const simulacro({required this.modulo, Key? key}) : super(key: key);
 
   @override
-  State<level10_simulacro> createState() => _level10_simulacroState();
+  State<simulacro> createState() => _simulacroState();
 }
 
-class _level10_simulacroState extends State<level10_simulacro> {
+class _simulacroState extends State<simulacro> {
   //llamando la clase question para conectar sqflite
   late DatabaseHandler handler;
   Future<List<question>>? _question;
