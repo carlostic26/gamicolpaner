@@ -57,6 +57,10 @@ class _simulacroState extends State<simulacro> {
           handler.initializeDB().whenComplete(() async {
             setState(() {
               _question = getListMAT();
+
+              print('------------------------\n');
+              print('IMPRIMIENTO _question PARA CORROBORAR QUE NO SEA NULO:\n');
+              print(_question.toString());
             });
           });
         }
@@ -78,15 +82,40 @@ class _simulacroState extends State<simulacro> {
 
   //Methods that receive the list select from dbhelper
   Future<List<question_model>> getListING() async {
-    List<question_model> dbQuestions = await handler.QueryING();
+    List<question_model> dbQuestions = await handler.queryING();
+
+    //print('IMPRIMIENDO getListING de List<question_model> dbQuestions = await handler.queryING();\n $dbQuestions');
+    //imprime: [Instance of 'question_model', Instance of 'question_model', Instance of 'question_model', Instance of 'question_model', Instance of 'question_model']
+
     return dbQuestions
         .map((dbQuestion) => question_model.fromMap(dbQuestion.toMap()))
         .toList();
   }
 
+  //Methods that receive the list select from dbhelper
   Future<List<question_model>> getListMAT() async {
-    return await handler.QueryMAT();
+    List<question_model> dbQuestions = await handler.queryMAT();
+
+/*     List<question_model> list = await getListMAT();
+    for (var question in list) {
+      print(question.toMap().toString());
+    } */
+
+    //print('IMPRIMIENDO getListING de List<question_model> dbQuestions = await handler.queryING();\n $dbQuestions');
+    //imprime: [Instance of 'question_model', Instance of 'question_model', Instance of 'question_model', Instance of 'question_model', Instance of 'question_model']
+
+    return dbQuestions
+        .map((dbQuestion) => question_model.fromMap(dbQuestion.toMap()))
+        .toList();
   }
+
+/*   Future<List<question_model>> getListMAT() async {
+    return await handler.queryMAT();
+  }
+
+  Future<List<question_model>> getListING() async {
+    return await handler.queryMAT();
+  } */
 
   Future<void> _onRefresh() async {
     setState(() {
@@ -95,13 +124,13 @@ class _simulacroState extends State<simulacro> {
       switch (widget.modulo) {
         case "Matemáticas":
           {
-            _question = getListING();
+            _question = getListMAT();
           }
           break;
 
         case "Inglés":
           {
-            _question = getListMAT();
+            _question = getListING();
           }
           break;
       }

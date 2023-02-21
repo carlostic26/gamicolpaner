@@ -40,14 +40,16 @@ class question_model {
       modulo: map['modulo'],
       pregunta: map['pregunta'],
       options: [
-        Option(text: map['op_1'], isCorrect: map['resp_1'] == 1),
-        Option(text: map['op_2'], isCorrect: map['resp_2'] == 1),
-        Option(text: map['op_3'], isCorrect: map['resp_3'] == 1),
-        Option(text: map['op_4'], isCorrect: map['resp_4'] == 1),
+        Option(text: map['resp_1'].toString(), isCorrect: map['op_1'] == 1),
+        Option(text: map['resp_2'].toString(), isCorrect: map['op_2'] == 1),
+        Option(text: map['resp_3'].toString(), isCorrect: map['op_3'] == 1),
+        Option(text: map['resp_4'].toString(), isCorrect: map['op_4'] == 1),
       ],
       imagen: map['imagen'],
       isLocked: map['isLocked'] ?? false,
-      selectedOption: Option.fromMap(map['selectedOption']),
+      selectedOption: map['selectedOption'] != null
+          ? Option.fromMap(map['selectedOption'])
+          : null,
     );
   }
 }
