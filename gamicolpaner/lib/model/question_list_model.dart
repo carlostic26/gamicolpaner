@@ -1,4 +1,4 @@
-class question {
+class question_model {
   final String modulo;
   final String pregunta;
   final String resp_1;
@@ -11,7 +11,7 @@ class question {
   final String op_4;
   final String imagen;
 
-  question({
+  question_model({
     required this.modulo,
     required this.pregunta,
     required this.resp_1,
@@ -41,7 +41,7 @@ class question {
     };
   }
 
-  question.fromMap(Map<String, dynamic> res)
+  question_model.fromMap(Map<String, dynamic> res)
       : modulo = res["modulo"],
         pregunta = res["pregunta"],
         resp_1 = res["resp_1"],
@@ -56,6 +56,6 @@ class question {
 
   @override
   String toString() {
-    return 'question{modulo: $modulo, pregunta: $pregunta, resp_1: $resp_1, resp_2: $resp_2, resp_3: $resp_3, resp_4: $resp_4, op_1: $op_1, op_2: $op_2, op_3: $op_3, op_4: $op_4, imagen: $imagen}';
+    return 'question_model{modulo: $modulo, pregunta: $pregunta, resp_1: $resp_1, resp_2: $resp_2, resp_3: $resp_3, resp_4: $resp_4, op_1: $op_1, op_2: $op_2, op_3: $op_3, op_4: $op_4, imagen: $imagen}';
   }
 }
