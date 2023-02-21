@@ -29,7 +29,7 @@ class simulacro extends StatefulWidget {
 class _simulacroState extends State<simulacro> {
   //llamando la clase question para conectar sqflite
   late DatabaseHandler handler;
-  Future<List<question>>? _question;
+  Future<List<question_model>>? _question;
 
   //guarda el modulo ingresado en sharedPreferences
   void _storeModulo() async {
@@ -69,11 +69,14 @@ class _simulacroState extends State<simulacro> {
   }
 
   //Methods that receive the list select from dbhelper
-  Future<List<question>> getListING() async {
-    return await handler.QueryING();
+  Future<List<question_model>> getListING() async {
+    List<question_model> dbQuestions = await handler.QueryING();
+    return dbQuestions
+        .map((dbQuestion) => question_model.fromMap(dbQuestion.toMap()))
+        .toList();
   }
 
-  Future<List<question>> getListMAT() async {
+  Future<List<question_model>> getListMAT() async {
     return await handler.QueryMAT();
   }
 
@@ -455,14 +458,29 @@ class OptionsWidget extends StatelessWidget {
 }
 
 class Question {
+  factory Question.fromMap(Map<String, dynamic> map) {
+    return Question(
+      text: map['pregunta'],
+      options: [
+        Option(text: map['opcion1'], isCorrect: map['respuesta1'] == 1),
+        Option(text: map['opcion2'], isCorrect: map['respuesta2'] == 1),
+        Option(text: map['opcion3'], isCorrect: map['respuesta3'] == 1),
+        Option(text: map['opcion4'], isCorrect: map['respuesta4'] == 1),
+      ],
+      imagen: map['imagen'],
+    );
+  }
+
   late final String text;
   late final List<Option> options;
+  late final String imagen;
   bool isLocked;
   Option? selectedOption;
 
   Question({
     required this.text,
     required this.options,
+    required this.imagen,
     this.isLocked = false,
     this.selectedOption,
   });
@@ -502,6 +520,7 @@ final questionsMat = [
               'D. Son el conjunto de actividades de software dedicadas al proceso de creación, diseño, despliegue y compatibilidad electrónica',
           isCorrect: false)
     ],
+    imagen: '',
   ),
 
   //Pregunta 2
@@ -513,7 +532,8 @@ final questionsMat = [
         const Option(text: 'B. 30', isCorrect: true),
         const Option(text: 'C. 35', isCorrect: false),
         const Option(text: 'D. 40', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 3
   Question(
@@ -531,7 +551,8 @@ final questionsMat = [
                 'C. Investigación y ejecución, interpretación y formulación, argumentación',
             isCorrect: false),
         const Option(text: 'D. Todas las anteriores', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 4
   Question(
@@ -550,7 +571,8 @@ final questionsMat = [
             text: 'C. Cualquier persona que desee obtenerlos',
             isCorrect: false),
         const Option(text: 'D. A y B son ciertas', isCorrect: true)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 5
   Question(
@@ -562,7 +584,8 @@ final questionsMat = [
         const Option(text: 'B. Ingeniería mecánica y afines', isCorrect: false),
         const Option(text: 'C. Ingeniería de alimentos', isCorrect: false),
         const Option(text: 'D. Derecho y arquitectura', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 ];
 
 final questionsIng = [
@@ -589,6 +612,7 @@ final questionsIng = [
               'D. Son el conjunto de actividades de software dedicadas al proceso de creación, diseño, despliegue y compatibilidad electrónica',
           isCorrect: false)
     ],
+    imagen: '',
   ),
 
   //Pregunta 2
@@ -600,7 +624,8 @@ final questionsIng = [
         const Option(text: 'B. 30', isCorrect: true),
         const Option(text: 'C. 35', isCorrect: false),
         const Option(text: 'D. 40', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 3
   Question(
@@ -618,7 +643,8 @@ final questionsIng = [
                 'C. Investigación y ejecución, interpretación y formulación, argumentación',
             isCorrect: false),
         const Option(text: 'D. Todas las anteriores', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 4
   Question(
@@ -637,7 +663,8 @@ final questionsIng = [
             text: 'C. Cualquier persona que desee obtenerlos',
             isCorrect: false),
         const Option(text: 'D. A y B son ciertas', isCorrect: true)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 5
   Question(
@@ -649,7 +676,8 @@ final questionsIng = [
         const Option(text: 'B. Ingeniería mecánica y afines', isCorrect: false),
         const Option(text: 'C. Ingeniería de alimentos', isCorrect: false),
         const Option(text: 'D. Derecho y arquitectura', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 ];
 
 final questionsNat = [
@@ -673,6 +701,7 @@ final questionsNat = [
               'D. Son el conjunto de actividades de software dedicadas al proceso de creación, diseño, despliegue y compatibilidad electrónica',
           isCorrect: false)
     ],
+    imagen: '',
   ),
 
   //Pregunta 2
@@ -684,7 +713,8 @@ final questionsNat = [
         const Option(text: 'B. 30', isCorrect: true),
         const Option(text: 'C. 35', isCorrect: false),
         const Option(text: 'D. 40', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 3
   Question(
@@ -702,7 +732,8 @@ final questionsNat = [
                 'C. Investigación y ejecución, interpretación y formulación, argumentación',
             isCorrect: false),
         const Option(text: 'D. Todas las anteriores', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 4
   Question(
@@ -721,7 +752,8 @@ final questionsNat = [
             text: 'C. Cualquier persona que desee obtenerlos',
             isCorrect: false),
         const Option(text: 'D. A y B son ciertas', isCorrect: true)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 5
   Question(
@@ -733,7 +765,8 @@ final questionsNat = [
         const Option(text: 'B. Ingeniería mecánica y afines', isCorrect: false),
         const Option(text: 'C. Ingeniería de alimentos', isCorrect: false),
         const Option(text: 'D. Derecho y arquitectura', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 ];
 
 final questionsLen = [
@@ -757,6 +790,7 @@ final questionsLen = [
               'D. Son el conjunto de actividades de software dedicadas al proceso de creación, diseño, despliegue y compatibilidad electrónica',
           isCorrect: false)
     ],
+    imagen: '',
   ),
 
   //Pregunta 2
@@ -768,7 +802,8 @@ final questionsLen = [
         const Option(text: 'B. 30', isCorrect: true),
         const Option(text: 'C. 35', isCorrect: false),
         const Option(text: 'D. 40', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 3
   Question(
@@ -786,7 +821,8 @@ final questionsLen = [
                 'C. Investigación y ejecución, interpretación y formulación, argumentación',
             isCorrect: false),
         const Option(text: 'D. Todas las anteriores', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 4
   Question(
@@ -805,7 +841,8 @@ final questionsLen = [
             text: 'C. Cualquier persona que desee obtenerlos',
             isCorrect: false),
         const Option(text: 'D. A y B son ciertas', isCorrect: true)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 5
   Question(
@@ -817,7 +854,8 @@ final questionsLen = [
         const Option(text: 'B. Ingeniería mecánica y afines', isCorrect: false),
         const Option(text: 'C. Ingeniería de alimentos', isCorrect: false),
         const Option(text: 'D. Derecho y arquitectura', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 ];
 
 final questionsSoc = [
@@ -841,6 +879,7 @@ final questionsSoc = [
               'D. Son el conjunto de actividades de software dedicadas al proceso de creación, diseño, despliegue y compatibilidad electrónica',
           isCorrect: false)
     ],
+    imagen: '',
   ),
 
   //Pregunta 2
@@ -852,7 +891,8 @@ final questionsSoc = [
         const Option(text: 'B. 30', isCorrect: true),
         const Option(text: 'C. 35', isCorrect: false),
         const Option(text: 'D. 40', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 3
   Question(
@@ -870,7 +910,8 @@ final questionsSoc = [
                 'C. Investigación y ejecución, interpretación y formulación, argumentación',
             isCorrect: false),
         const Option(text: 'D. Todas las anteriores', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 4
   Question(
@@ -889,7 +930,8 @@ final questionsSoc = [
             text: 'C. Cualquier persona que desee obtenerlos',
             isCorrect: false),
         const Option(text: 'D. A y B son ciertas', isCorrect: true)
-      ]),
+      ],
+      imagen: ''),
 
   //Pregunta 5
   Question(
@@ -901,7 +943,8 @@ final questionsSoc = [
         const Option(text: 'B. Ingeniería mecánica y afines', isCorrect: false),
         const Option(text: 'C. Ingeniería de alimentos', isCorrect: false),
         const Option(text: 'D. Derecho y arquitectura', isCorrect: false)
-      ]),
+      ],
+      imagen: ''),
 ];
 
 Future<void> _guardarPuntaje(int score) async {
