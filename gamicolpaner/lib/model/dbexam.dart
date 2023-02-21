@@ -11,7 +11,7 @@ class DatabaseHandler {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
-      join(path, 'simulacro_exam_1.db'),
+      join(path, 'simulacro_exam_2.db'),
       onCreate: (database, version) async {
         const String sql = ''
             'CREATE TABLE preguntasICFES ('
@@ -32,7 +32,7 @@ class DatabaseHandler {
         await database.execute(sql);
 
         const String addQuestion = ''
-            'INSERT INTO preguntasICFES(id, modulo, pregunta, resp_1, resp_2, resp_3, resp_4, op_1, op_2, op_3, op_4, imagen ) VALUES '
+            'INSERT INTO preguntasICFES(modulo, pregunta, resp_1, resp_2, resp_3, resp_4, op_1, op_2, op_3, op_4, imagen ) VALUES '
             // MATEMATICAS: X PREGUNTAS
             '("MAT", "¿Cuanto es 1+1?", "100", "12", "13", "2", "0","0","0","1", "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
             '("MAT", "¿Cuanto es 2+1?", "100", "12", "13", "2", "0","0","0","1", "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
@@ -57,7 +57,7 @@ class DatabaseHandler {
   }
 
 //La siguiente funcion hace la consulta de todos los puntajes segun el modulo seleccionado
-  Future<List<question>> QueryMAT() async {
+  Future<List<question_model>> QueryMAT() async {
     final db = await initializeDB();
     final List<Map<String, dynamic>> queryResult = await db.rawQuery(
         'SELECT * FROM preguntasICFES WHERE modulo like ?', ['%MAT%']);
@@ -65,11 +65,11 @@ class DatabaseHandler {
     for (var r in queryResult) {
       result.addAll(r);
     }
-    return queryResult.map((e) => question.fromMap(e)).toList();
+    return queryResult.map((e) => question_model.fromMap(e)).toList();
   }
 
-  //La siguiente funcion hace la consulta de todos los puntajes segun el modulo seleccionado
-  Future<List<question>> QueryING() async {
+  //La siguiente funcion hace la consulta de todos las preguntas que sean del modulo ingles
+  Future<List<question_model>> QueryING() async {
     final db = await initializeDB();
     final List<Map<String, dynamic>> queryResult = await db.rawQuery(
         'SELECT * FROM preguntasICFES WHERE modulo like ?', ['%ING%']);
@@ -77,6 +77,6 @@ class DatabaseHandler {
     for (var r in queryResult) {
       result.addAll(r);
     }
-    return queryResult.map((e) => question.fromMap(e)).toList();
+    return queryResult.map((e) => question_model.fromMap(e)).toList();
   }
 }

@@ -1,3 +1,59 @@
+import '../vista/screens/niveles/level10/simulacro.dart';
+
+class question_model {
+  final String modulo;
+  final String pregunta;
+  final List<Option> options;
+  final String imagen;
+  bool isLocked;
+  Option? selectedOption;
+
+  question_model({
+    required this.modulo,
+    required this.pregunta,
+    required this.options,
+    required this.imagen,
+    this.isLocked = false,
+    this.selectedOption,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'modulo': modulo,
+      'pregunta': pregunta,
+      'op_1': options[0].text,
+      'op_2': options[1].text,
+      'op_3': options[2].text,
+      'op_4': options[3].text,
+      'resp_1': options[0].isCorrect ? 1 : 0,
+      'resp_2': options[1].isCorrect ? 1 : 0,
+      'resp_3': options[2].isCorrect ? 1 : 0,
+      'resp_4': options[3].isCorrect ? 1 : 0,
+      'imagen': imagen,
+      'isLocked': isLocked,
+      'selectedOption': selectedOption?.toMap(),
+    };
+  }
+
+  factory question_model.fromMap(Map<String, dynamic> map) {
+    return question_model(
+      modulo: map['modulo'],
+      pregunta: map['pregunta'],
+      options: [
+        Option(text: map['op_1'], isCorrect: map['resp_1'] == 1),
+        Option(text: map['op_2'], isCorrect: map['resp_2'] == 1),
+        Option(text: map['op_3'], isCorrect: map['resp_3'] == 1),
+        Option(text: map['op_4'], isCorrect: map['resp_4'] == 1),
+      ],
+      imagen: map['imagen'],
+      isLocked: map['isLocked'] ?? false,
+      selectedOption: Option.fromMap(map['selectedOption']),
+    );
+  }
+}
+
+
+/*
 class question_model {
   final String modulo;
   final String pregunta;
@@ -10,6 +66,7 @@ class question_model {
   final String op_3;
   final String op_4;
   final String imagen;
+
 
   question_model({
     required this.modulo,
@@ -59,3 +116,6 @@ class question_model {
     return 'question_model{modulo: $modulo, pregunta: $pregunta, resp_1: $resp_1, resp_2: $resp_2, resp_3: $resp_3, resp_4: $resp_4, op_1: $op_1, op_2: $op_2, op_3: $op_3, op_4: $op_4, imagen: $imagen}';
   }
 }
+
+
+*/

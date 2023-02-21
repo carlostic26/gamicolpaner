@@ -6,6 +6,7 @@ import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
 import 'package:gamicolpaner/model/user_model.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level1/level1_quiz.dart';
+import 'package:gamicolpaner/vista/screens/niveles/level10/simulacro.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level2/level2.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level3/level3.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level4/level4.dart';
@@ -903,7 +904,7 @@ class _world_gameState extends State<world_game> {
                                                                       _modulo,
                                                                 )
                                                               : level == 10
-                                                                  ? level1Quiz(
+                                                                  ? simulacro(
                                                                       modulo:
                                                                           _modulo,
                                                                     )

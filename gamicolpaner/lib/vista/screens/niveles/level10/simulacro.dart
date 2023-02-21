@@ -113,15 +113,18 @@ class _simulacroState extends State<simulacro> {
     return Scaffold(
       backgroundColor: colors_colpaner.base,
       body: Column(
-        children: const [
-          Expanded(child: QuestionWidget()),
+        children: [
+          Expanded(
+              child: QuestionWidget(
+            questions: _question,
+          )),
         ],
       ),
     );
   }
 }
 
-final questionsMat = [
+/* final questionsMat = [
   //para preguntas con imagen se puede usar la clase Question
   // para preguntas sin imagen, se puede usar otra clase comno QuestionNoIMG
 
@@ -571,3 +574,5 @@ final questionsSoc = [
       ],
       imagen: ''),
 ];
+
+ */

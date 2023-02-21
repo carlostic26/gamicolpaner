@@ -1,8 +1,11 @@
 part of simulacro;
 
 class QuestionWidget extends StatefulWidget {
-  const QuestionWidget({
+  Future<List<question_model>>? questions;
+
+  QuestionWidget({
     Key? key,
+    required this.questions,
   }) : super(key: key);
 
   @override
@@ -11,6 +14,8 @@ class QuestionWidget extends StatefulWidget {
 
 //clase que retorna la pregunta en pantalla
 class _QuestionWidgetState extends State<QuestionWidget> {
+  late List<question_model>? _questions = [];
+
   String _modulo = '';
 
 //recibe el modulo guardado anteriormente en sharedPreferences
@@ -31,6 +36,14 @@ class _QuestionWidgetState extends State<QuestionWidget> {
     super.initState();
     _getModuloFromSharedPrefs();
     _controller = PageController(initialPage: 0);
+    loadQuestions();
+  }
+
+  Future<void> loadQuestions() async {
+    final questions = await widget.questions;
+    setState(() {
+      _questions = questions;
+    });
   }
 
   @override
@@ -96,18 +109,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                     ),
                   ),
                 ),
-/*                   Expanded(
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        " #1",
-                        style: TextStyle(
-                            color: colors_colpaner.oscuro,
-                            fontFamily: 'BubblegumSans',
-                            fontSize: 30),
-                      ),
-                    ),
-                  ), */
               ],
             ),
           ),
@@ -137,35 +138,10 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                 itemCount: 5,
                 controller: _controller,
                 physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: _modulo == 'Matemáticas'
-                    ? (context, index) {
-                        final _question = questionsMat[index];
-                        return buildQuestion(_question);
-                      }
-                    : _modulo == 'Inglés'
-                        ? (context, index) {
-                            final _question = questionsIng[index];
-                            return buildQuestion(_question);
-                          }
-                        : _modulo == 'Naturales'
-                            ? (context, index) {
-                                final _question = questionsNat[index];
-                                return buildQuestion(_question);
-                              }
-                            : _modulo == 'Sociales'
-                                ? (context, index) {
-                                    final _question = questionsSoc[index];
-                                    return buildQuestion(_question);
-                                  }
-                                : _modulo == 'Lenguaje'
-                                    ? (context, index) {
-                                        final _question = questionsLen[index];
-                                        return buildQuestion(_question);
-                                      }
-                                    : (context, index) {
-                                        final _question = questionsMat[index];
-                                        return buildQuestion(_question);
-                                      })),
+                itemBuilder: (context, index) {
+                  final _question = _questions![index];
+                  return buildQuestion(_question);
+                })),
         _isLocked ? buildElevatedButton() : const SizedBox.shrink(),
         const SizedBox(height: 20),
         const Divider(
@@ -176,7 +152,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
     );
   }
 
-  Padding buildQuestion(Question question) {
+  Padding buildQuestion(question_model question) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -187,7 +163,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
           Text(
             //TEXTO QUE CONTIENE LA PREGUNTA COMPLETA
-            question.text,
+            question.pregunta,
             style: const TextStyle(
                 color: colors_colpaner.claro,
                 fontFamily: 'BubblegumSans',
