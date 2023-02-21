@@ -11,7 +11,7 @@ class DatabaseHandler {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
-      join(path, 'simulacro_exam_5.db'),
+      join(path, 'simulacro_exam_10.db'),
       onCreate: (database, version) async {
         const String sql = '''
         CREATE TABLE preguntasICFES (
@@ -35,11 +35,11 @@ class DatabaseHandler {
         const String addQuestion = ''
             'INSERT INTO preguntasICFES(modulo, pregunta, resp_1, resp_2, resp_3, resp_4, op_1, op_2, op_3, op_4, imagen ) VALUES '
             // MATEMATICAS: X PREGUNTAS
-            '("MAT", "¿Cuanto es 1+1?", "es 100", "es 12", "es 13", "es 2", 0,0,0,1, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
-            '("MAT", "¿Cuanto es 2+1?", "es 100", "es 12", "es 13", "es 2", 0,0,0,1, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
-            '("MAT", "¿Cuanto es 3+1?", "es 100", "es 12", "es 13", "es 2", 0,0,0,1, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
-            '("MAT", "¿Cuanto es 4+1?", "es 100", "es 12", "es 13", "es 2", 0,0,0,1, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
-            '("MAT", "¿Cuanto es 5+1?", "es 100", "es 12", "es 13", "es 2", 0,0,0,1, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
+            '("MAT", "¿Cuanto es 1+1?", "es 100", "es 2", "es 13", "es 20", 0,1,0,0, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
+            '("MAT", "¿Cuanto es 2+1?", "es 100", "es 12", "es 13", "es 3", 0,0,0,1, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
+            '("MAT", "¿Cuanto es 3+1?", "es 100", "es 4", "es 13", "es 2", 0,1,0,0, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
+            '("MAT", "¿Cuanto es 4+1?", "es 5", "es 12", "es 13", "es 2", 1,0,0,0, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
+            '("MAT", "¿Cuanto es 5+1?", "es 100", "es 12", "es 13", "es 6", 0,0,0,1, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'
 
             // INGLES: X PREGUNAS
             '("ING", "¿Cuando usar el verbo to-be?", "En el cine", "Nunca", "Siempre", "No lo sé", 0,0,1,0, "https://concepto.de/wp-content/uploads/2021/06/suma-e1624939411354.jpg"),'

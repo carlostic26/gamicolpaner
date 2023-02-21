@@ -43,6 +43,11 @@ class _QuestionWidgetState extends State<QuestionWidget> {
     final questions = await widget.questions;
     setState(() {
       _questions = questions;
+
+      print(
+          "imprimir la lista de preguntas _questions:\n $_questions"); // imprimir la lista de preguntas
+      print(
+          " imprimir la longitud de la lista _questions.length: \n${_questions?.length}"); // imprimir la longitud de la lista
     });
   }
 
@@ -62,6 +67,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                   icon: Image.asset('assets/flecha_left.png'),
                   iconSize: 3,
                   onPressed: () {
+                    Navigator.pop(context);
                     Navigator.pop(context);
                     Navigator.push(
                         context,
@@ -134,14 +140,17 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         ),
         //Se imprime el pageView que contiene pregunta y opciones
         Expanded(
-            child: PageView.builder(
-                itemCount: 5,
-                controller: _controller,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final _question = _questions![index];
-                  return buildQuestion(_question);
-                })),
+          child: _questions != null
+              ? PageView.builder(
+                  itemCount: _questions!.length,
+                  controller: _controller,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final _questionBuild = _questions![index];
+                    return buildQuestion(_questionBuild);
+                  })
+              : const SizedBox.shrink(),
+        ),
         _isLocked ? buildElevatedButton() : const SizedBox.shrink(),
         const SizedBox(height: 20),
         const Divider(
@@ -152,7 +161,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
     );
   }
 
-  Padding buildQuestion(question_model question) {
+  Padding buildQuestion(question_model questionBuild) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -163,7 +172,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
 
           Text(
             //TEXTO QUE CONTIENE LA PREGUNTA COMPLETA
-            question.pregunta,
+            questionBuild.pregunta,
             style: const TextStyle(
                 color: colors_colpaner.claro,
                 fontFamily: 'BubblegumSans',
@@ -172,17 +181,17 @@ class _QuestionWidgetState extends State<QuestionWidget> {
           const SizedBox(height: 15),
           Expanded(
               child: OptionsWidget(
-            question: question,
+            question: questionBuild,
             onClickedOption: (option) {
-              if (question.isLocked) {
+              if (questionBuild.isLocked) {
                 return;
               } else {
                 setState(() {
-                  question.isLocked = true;
-                  question.selectedOption = option;
+                  questionBuild.isLocked = true;
+                  questionBuild.selectedOption = option;
                 });
-                _isLocked = question.isLocked;
-                if (question.selectedOption!.isCorrect) {
+                _isLocked = questionBuild.isLocked;
+                if (questionBuild.selectedOption!.isCorrect) {
                   _score++;
                 }
               }

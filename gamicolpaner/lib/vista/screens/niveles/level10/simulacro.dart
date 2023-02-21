@@ -57,10 +57,6 @@ class _simulacroState extends State<simulacro> {
           handler.initializeDB().whenComplete(() async {
             setState(() {
               _question = getListMAT();
-
-              print('------------------------\n');
-              print('IMPRIMIENTO _question PARA CORROBORAR QUE NO SEA NULO:\n');
-              print(_question.toString());
             });
           });
         }
@@ -76,7 +72,6 @@ class _simulacroState extends State<simulacro> {
           });
         }
         break;
-        ;
     }
   }
 
@@ -96,26 +91,10 @@ class _simulacroState extends State<simulacro> {
   Future<List<question_model>> getListMAT() async {
     List<question_model> dbQuestions = await handler.queryMAT();
 
-/*     List<question_model> list = await getListMAT();
-    for (var question in list) {
-      print(question.toMap().toString());
-    } */
-
-    //print('IMPRIMIENDO getListING de List<question_model> dbQuestions = await handler.queryING();\n $dbQuestions');
-    //imprime: [Instance of 'question_model', Instance of 'question_model', Instance of 'question_model', Instance of 'question_model', Instance of 'question_model']
-
     return dbQuestions
         .map((dbQuestion) => question_model.fromMap(dbQuestion.toMap()))
         .toList();
   }
-
-/*   Future<List<question_model>> getListMAT() async {
-    return await handler.queryMAT();
-  }
-
-  Future<List<question_model>> getListING() async {
-    return await handler.queryMAT();
-  } */
 
   Future<void> _onRefresh() async {
     setState(() {
@@ -145,7 +124,13 @@ class _simulacroState extends State<simulacro> {
         children: [
           Expanded(
               child: QuestionWidget(
-            questions: _question,
+            questions: widget.modulo == "Matemáticas"
+                ? getListMAT()
+                : widget.modulo == "Inglés"
+                    ? getListING()
+                    : widget.modulo == "Sociales"
+                        ? getListMAT()
+                        : getListING(),
           )),
         ],
       ),
