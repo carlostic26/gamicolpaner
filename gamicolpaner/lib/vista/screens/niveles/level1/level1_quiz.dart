@@ -851,8 +851,12 @@ Future<void> _guardarPuntaje(int score) async {
   final level = 1; // Número de nivel (o el nivel correspondiente)
   final puntaje = score; // Puntaje obtenido
 
-//obtiene el modulo del shp
+  //obtiene el modulo del shp
   String _modulo = await getModulo();
+
+  //establece el puntaje obtenido y lo guarda en shp
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  await preferences.setInt('puntajes_MAT', score);
 
   if (_modulo == 'Matemáticas') {
     final puntajesRefMat = FirebaseFirestore.instance
