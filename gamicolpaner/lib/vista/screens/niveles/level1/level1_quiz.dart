@@ -19,24 +19,15 @@ import 'package:gamicolpaner/model/dbexam.dart';
 */
 
 class level1Quiz extends StatefulWidget {
-  final String modulo;
-  const level1Quiz({required this.modulo, Key? key}) : super(key: key);
-
+  const level1Quiz({Key? key}) : super(key: key);
   @override
   State<level1Quiz> createState() => _level1QuizState();
 }
 
 class _level1QuizState extends State<level1Quiz> {
-  //guarda el modulo ingresado en sharedPreferences
-  void _storeModulo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('modulo', widget.modulo);
-  }
-
   @override
   void initState() {
     super.initState();
-    _storeModulo();
   }
 
   @override
@@ -122,9 +113,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                             pageBuilder: (BuildContext context,
                                 Animation<double> animation,
                                 Animation<double> secAnimattion) {
-                              return world_game(
-                                modulo: _modulo,
-                              );
+                              return world_game();
                             }));
                   },
                 ),
@@ -289,7 +278,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             ),
           );
 
-          await _guardarPuntaje(
+          await _guardarPuntajeNivel1(
               _score); // Llamar a la función para guardar el puntaje
         }
 
@@ -846,19 +835,19 @@ final questionsSoc = [
       ]),
 ];
 
-Future<void> _guardarPuntaje(int score) async {
+Future<void> _guardarPuntajeNivel1(int score) async {
   final user = FirebaseAuth.instance.currentUser;
-  final level = 1; // Número de nivel (o el nivel correspondiente)
   final puntaje = score; // Puntaje obtenido
 
   //obtiene el modulo del shp
   String _modulo = await getModulo();
 
-  //establece el puntaje obtenido y lo guarda en shp
-  SharedPreferences preferences = await SharedPreferences.getInstance();
-  await preferences.setInt('puntajes_MAT', score);
-
   if (_modulo == 'Matemáticas') {
+//no lo tiene por que escribir en shp porque nunca se escribirá  puntajes a shp, solo se lee de firestore, mas no escribir
+/*     //establece el puntaje obtenido y lo guarda en shp
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setInt('puntajes_MAT', score); */
+
     final puntajesRefMat = FirebaseFirestore.instance
         .collection('puntajes')
         .doc('matematicas')
@@ -869,6 +858,10 @@ Future<void> _guardarPuntaje(int score) async {
   }
 
   if (_modulo == 'Inglés') {
+    //establece el puntaje obtenido y lo guarda en shp
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setInt('puntaje_ing_1', score);
+
     final puntajesRefIng = FirebaseFirestore.instance
         .collection('puntajes')
         .doc('ingles')
@@ -949,9 +942,7 @@ class ResultPage extends StatelessWidget {
                               pageBuilder: (BuildContext context,
                                   Animation<double> animation,
                                   Animation<double> secAnimattion) {
-                                return world_game(
-                                  modulo: _modulo,
-                                );
+                                return world_game();
                               }));
                     },
                   ),

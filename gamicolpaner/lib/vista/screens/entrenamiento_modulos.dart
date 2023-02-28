@@ -8,6 +8,7 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:gamicolpaner/controller/modulo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class entrenamientoModulos extends StatefulWidget {
   const entrenamientoModulos({super.key});
@@ -79,12 +80,13 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                       Expanded(
                         child: InkWell(
                           onTap: () {
+                            //establece en memoria el módulo controlado por el usuario
+                            setModulo('Matemáticas');
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const world_game(
-                                        modulo: 'Matemáticas',
-                                      )),
+                                  builder: (context) => const world_game()),
                             );
                           },
                           child: Container(
@@ -133,9 +135,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const world_game(
-                                        modulo: 'Inglés',
-                                      )),
+                                  builder: (context) => const world_game()),
                             );
                           },
                           child: Container(

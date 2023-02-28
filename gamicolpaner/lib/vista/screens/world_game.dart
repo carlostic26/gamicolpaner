@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
+import 'package:gamicolpaner/controller/modulo.dart';
+import 'package:gamicolpaner/controller/puntajes_shp.dart';
 import 'package:gamicolpaner/model/user_model.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level1/level1_quiz.dart';
@@ -15,9 +17,7 @@ import 'package:giff_dialog/giff_dialog.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class world_game extends StatefulWidget {
-  final String modulo;
-
-  const world_game({required this.modulo, Key? key}) : super(key: key);
+  const world_game({Key? key}) : super(key: key);
 
   @override
   State<world_game> createState() => _world_gameState();
@@ -47,11 +47,19 @@ class _world_gameState extends State<world_game> {
     'assets/button/button_unpushed.png',
   );
 
+  //recibe el modulo guardado anteriormente en sharedPreferences
+  void _getModuloFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _modulo = prefs.getString('modulo') ?? '';
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _modulo = widget.modulo;
+    _getModuloFromSharedPrefs();
     button1 = buttonUnpressed;
     button2 = buttonUnpressed;
     button3 = buttonUnpressed;
@@ -71,94 +79,132 @@ class _world_gameState extends State<world_game> {
       loggedInUser = UserModel.fromMap(value.data());
       setState(() {});
     });
+
+    getPuntajeMat1_firestore();
+    getPuntajeMat2_firestore();
+    //-----
+    getPuntajeIng1_firestore();
+    getPuntajeIng2_firestore();
+  }
+
+  //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeMat1_firestore() async {
+    int puntajeMatNivel1 =
+        0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel1')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeMatNivel1 = data['puntaje'] as int;
+      }
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puntaje_mat_1', puntajeMatNivel1.toString());
+
+    return puntajeMatNivel1;
+  }
+
+//----2
+
+  //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeMat2_firestore() async {
+    int puntajeMatNivel2 =
+        0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel2')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeMatNivel2 = data['puntaje'] as int;
+      }
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puntaje_mat_2', puntajeMatNivel2.toString());
+
+    return puntajeMatNivel2;
+  }
+
+  //--3
+
+  //----------------------------- INGLES ----------------------------------
+  //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeIng1_firestore() async {
+    int puntajeIngNivel1 = 0;
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('ingles')
+        .collection('nivel1')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeIngNivel1 = data['puntaje'] as int;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('puntaje_ing_1', puntajeIngNivel1.toString());
+      }
+    }
+
+    return puntajeIngNivel1;
+  }
+
+  //funcion que busca el nivel 2, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeIng2_firestore() async {
+    int puntajeIngNivel2 = 0;
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('ingles')
+        .collection('nivel2')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeIngNivel2 = data['puntaje'] as int;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('puntaje_ing_2', puntajeIngNivel2.toString());
+      }
+    }
+
+    return puntajeIngNivel2;
   }
 
   @override
   Widget build(BuildContext context) {
+    //same lvel 1
     final getPuntajeMat_1 = FirebaseFirestore.instance
         .collection('puntajes')
         .doc('matematicas')
         .collection('nivel1')
         .doc(user!.uid);
 
-    getPuntajeMat_1.get().then((docSnapshot) {
-      if (docSnapshot.exists) {
-        // El documento existe, podemos obtener el valor que necesitamos
-        int valor = docSnapshot.data()!['puntaje'];
+    //same lvel 1
+    final puntajesRefMat = FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel1')
+        .doc(user!.uid);
 
-        // Ahora podemos guardar el valor en SharedPreferences
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setInt('puntajeMat1', valor);
-          prefs.setInt('puntajeMat2', 2);
-          prefs.setInt('puntajeMat3', valor);
-          prefs.setInt('puntajeMat4', 4);
-          prefs.setInt('puntajeMat5', valor);
-          prefs.setInt('puntajeMat6', 6);
-          prefs.setInt('puntajeMat7', valor);
-          prefs.setInt('puntajeMat8', 8);
-          prefs.setInt('puntajeMat9', 9);
-          prefs.setInt('puntajeMat10', valor);
-        });
-      } else {
-        // El documento no existe, entonces será cero el valor
-        SharedPreferences.getInstance().then((prefs) {
-          prefs.setInt('puntajeMat1', 0);
-        });
-      }
-    }).catchError((error) {
-      // Manejar el error aquí
-    });
-
-/*     Future<int> getPuntajeMat1() async {
-      final puntajesRefMat_1 = FirebaseFirestore.instance
-          .collection('puntajes')
-          .doc('matematicas')
-          .collection('nivel1')
-          .doc(user!.uid);
-
-      final puntajesMat1 = await puntajesRefMat_1.get();
-
-      if (puntajesMat1.exists) {
-        return puntajesMat1.data()!['puntaje'];
-      } else {
-        return 0;
-      }
-    }
-
-    Future<void> guardarPuntajeMat1EnPrefs() async {
-      final puntajeMat1 = await getPuntajeMat1();
-      final intPuntajeMat1 = puntajeMat1.toInt();
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setInt('puntajeMat1', intPuntajeMat1);
-    }
- */
-    // -----------------------------------------------------------------------------------
-
-    Future<int> getPuntajeMat2() async {
-      final puntajesRefMat_2 = FirebaseFirestore.instance
-          .collection('puntajes')
-          .doc('matematicas')
-          .collection('nivel2')
-          .doc(user!.uid);
-
-      final puntajesMat2 = await puntajesRefMat_2.get();
-
-      if (puntajesMat2.exists) {
-        return puntajesMat2.data()!['puntaje'];
-      } else {
-        return 0;
-      }
-    }
-
-    Future<void> guardarPuntajeMat2EnPrefs() async {
-      final puntajeMat2 = await getPuntajeMat2();
-      final intPuntajeMat2 = puntajeMat2.toInt();
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setInt('puntajeMat2', intPuntajeMat2);
-    }
-
-    // --------------------------------------------------------------------------------
-
+    //same lvel 1
     final puntajesRefMat_1 = FirebaseFirestore.instance
         .collection('puntajes')
         .doc('matematicas')
@@ -219,540 +265,500 @@ class _world_gameState extends State<world_game> {
         .collection('nivel10')
         .doc(user!.uid);
 
-    Future<String> calcularTotalPuntajesMat() async {
-      int PuntajesMat = 0;
-
-      final List<Future<DocumentSnapshot>> futures = [
-        puntajesRefMat_1.get(),
-        puntajesRefMat_2.get(),
-        puntajesRefMat_3.get(),
-        puntajesRefMat_4.get(),
-        puntajesRefMat_5.get(),
-        puntajesRefMat_6.get(),
-        puntajesRefMat_7.get(),
-        puntajesRefMat_8.get(),
-        puntajesRefMat_9.get(),
-        puntajesRefMat_10.get(),
-      ];
-
-      final List<DocumentSnapshot> snapshots = await Future.wait(futures);
-
-      for (final snapshot in snapshots) {
-        PuntajesMat += snapshot.get('puntaje') as int;
-      }
-
-      String totalPuntajesMat = PuntajesMat.toString();
-
-      return totalPuntajesMat;
-    }
-
-/*     final List<CollectionReference> puntajesRefsMatTotal = List.generate(
-        10,
-        (index) => FirebaseFirestore.instance
-            .collection('puntajes')
-            .doc('matematicas')
-            .collection('nivel${index + 1}')
-            .doc(user!.uid)
-            .collection('puntajes'));
-
-    // Ejemplo: sumar todos los puntajes de los 10 niveles
-    Future.wait(puntajesRefsMatTotal.map((ref) => ref.get())).then((snapshots) {
-      totalPuntajesMat = snapshots.fold(
-          0,
-          (total, snapshot) =>
-              total +
-              snapshot.docs
-                  .fold(0, (total, doc) => total + doc.get('puntaje') as int));
-      print('Total puntajes: $totalPuntajesMat');
-      setState(() {
-        totalPuntajesMat;
-      });
-    }); */
-
     final puntajesRefIng = FirebaseFirestore.instance
         .collection('puntajes')
         .doc('ingles')
         .collection('nivel1')
         .doc(user!.uid);
 
-    final puntajesRefMat = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel1')
-        .doc(user!.uid);
-
-/*     puntajesRefMat.get().then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        // la instancia existe, puedes obtener sus campos normalmente
-        var valorPuntaje = documentSnapshot.data() as Map<String, dynamic>?;
-        if (valorPuntaje != null && valorPuntaje.containsKey('puntaje')) {
-          var puntaje = valorPuntaje['puntaje'];
-          // hacer algo con valorPuntaje
-        }
-        // hacer algo con el puntaje obtenido
-      } else {
-        // la instancia no existe, establece el valor predeterminado en cero
-        var puntaje = 0;
-        // hacer algo con el valor predeterminado
-      }
-    }); */
-
     return Scaffold(
         appBar: null,
         body: Center(
-          child: Expanded(
-            child: Stack(
-              children: [
-                CachedNetworkImage(
-                  imageUrl:
-                      'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5Q4hvD_1Mg-3b4w0_w4rnkdo8iHWn1Pp2hLCbKLnnW4eUPY1LnmKF20V0zcIMNSJHSDUgqvVBNJqOodIeVRG87TewfsawutA9AdVEJpYxFVhBCoSpo6sVGKGe6uOLXG2KyuxYYR218nXHid185Agcdc-RkbrYrnw0FB3WWX7HBgs8kxesCJCf8k0/s16000/solo%20ruta%203.png',
-                  height: MediaQuery.of(context).size.height * 1.0,
-                  width: MediaQuery.of(context).size.width * 1.0,
-                  fit: BoxFit.fill,
-                ),
+          child: Stack(
+            children: [
+              CachedNetworkImage(
+                imageUrl:
+                    'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5Q4hvD_1Mg-3b4w0_w4rnkdo8iHWn1Pp2hLCbKLnnW4eUPY1LnmKF20V0zcIMNSJHSDUgqvVBNJqOodIeVRG87TewfsawutA9AdVEJpYxFVhBCoSpo6sVGKGe6uOLXG2KyuxYYR218nXHid185Agcdc-RkbrYrnw0FB3WWX7HBgs8kxesCJCf8k0/s16000/solo%20ruta%203.png',
+                height: MediaQuery.of(context).size.height * 1.0,
+                width: MediaQuery.of(context).size.width * 1.0,
+                fit: BoxFit.fill,
+              ),
 
-                //banner superior
-                Positioned(
-                    //height: MediaQuery.of(context).size.height * 1.0,
-                    top: -320,
-                    child: ShakeWidgetY(
-                      child:
-                          Stack(alignment: Alignment.center, children: <Widget>[
-                        Container(
-                          padding: const EdgeInsets.all(1.0),
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height,
+              //banner superior
+              Positioned(
+                  //height: MediaQuery.of(context).size.height * 1.0,
+                  top: -320,
+                  child: ShakeWidgetY(
+                    child:
+                        Stack(alignment: Alignment.center, children: <Widget>[
+                      Container(
+                        padding: const EdgeInsets.all(1.0),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/banner_user.png"),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 374,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(1, 50, 1, 1),
+                          width: 58,
+                          height: 60,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage("assets/banner_user.png"),
+                              image: NetworkImage(
+                                  'http://gamilibre.com/imagenes/user.png'),
                             ),
                           ),
                         ),
-                        Positioned(
-                          top: 374,
-                          child: Container(
-                            padding: const EdgeInsets.fromLTRB(1, 50, 1, 1),
-                            width: 58,
-                            height: 60,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                    'http://gamilibre.com/imagenes/user.png'),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          left: 50,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                loggedInUser.fullName.toString(),
-                                style: const TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: 'BubblegumSans',
-                                    fontSize: 14),
-                              ),
-                              Text(
-                                loggedInUser.tecnica.toString(),
-                                style: const TextStyle(
+                      ),
+                      Positioned(
+                        left: 40,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              loggedInUser.fullName.toString(),
+                              style: const TextStyle(
                                   color: Colors.black,
                                   fontFamily: 'BubblegumSans',
-                                  fontSize: 13,
-                                ),
+                                  fontSize: 14),
+                            ),
+                            Text(
+                              loggedInUser.tecnica.toString(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'BubblegumSans',
+                                fontSize: 13,
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                        Positioned(
-                          right: 60,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 8, 1, 1),
-                            child: Column(
-                              children: [
-                                const Text(
-                                  "Puntaje total",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'BubblegumSans',
-                                      fontSize: 13),
-                                ),
+                      ),
+                      Positioned(
+                        right: 60,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 8, 1, 1),
+                          child: Column(
+                            children: [
+                              const Text(
+                                "Puntaje total",
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'BubblegumSans',
+                                    fontSize: 13),
+                              ),
 
-                                Text(
+/*                                 Text(
                                   puntajesSumadosShpMAT().toString(),
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontFamily: 'BubblegumSans',
                                       fontSize: 13),
-                                ),
-                                //SizedBox(height: 5),
-                                StreamBuilder<DocumentSnapshot>(
-                                  stream: _modulo == 'Matemáticas'
-                                      ? puntajesRefMat.snapshots()
-                                      : _modulo == 'Inglés'
-                                          ? puntajesRefIng.snapshots()
-                                          : puntajesRefIng
-                                              .snapshots(), //aqui seria en caso de otro cambiar RefSoc por ejemplo y asi sucesivamente
-                                  builder: (context, snapshot) {
-                                    if (!snapshot.hasData) {
-                                      return const Text('Cargando...');
-                                    }
-                                    final puntaje =
-                                        snapshot.data!['puntaje'] ?? 0;
+                                ), */
+
+                              FutureBuilder<int>(
+                                future: _modulo == 'Matemáticas'
+                                    ? getPuntajesTotal_MAT()
+                                    : _modulo == 'Inglés'
+                                        ? getPuntajesTotal_ING()
+                                        : getPuntajesTotal_ING(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<int> snapshot) {
+                                  if (snapshot.hasData) {
                                     return Text(
-                                      '$puntaje',
+                                      snapshot.data.toString(),
                                       style: const TextStyle(
-                                          color: Colors.black,
-                                          fontFamily: 'BubblegumSans',
-                                          fontSize: 15),
+                                        color: Colors.black,
+                                        fontFamily: 'BubblegumSans',
+                                        fontSize: 13,
+                                      ),
                                     );
-                                  },
-                                ),
-                              ],
-                            ),
+                                  } else {
+                                    return const SizedBox(
+                                        height: 10,
+                                        width: 10,
+                                        child:
+                                            CircularProgressIndicator()); // O cualquier otro indicador de carga
+                                  }
+                                },
+                              ),
+                              //SizedBox(height: 5),
+                              StreamBuilder<DocumentSnapshot>(
+                                stream: _modulo == 'Matemáticas'
+                                    ? puntajesRefMat.snapshots()
+                                    : _modulo == 'Inglés'
+                                        ? puntajesRefIng.snapshots()
+                                        : puntajesRefMat.snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return const Text('Cargando...');
+                                  }
+
+                                  final puntaje = snapshot.data!.exists
+                                      ? snapshot.data!['puntaje'] ?? '0'
+                                      : '0';
+
+                                  return Text(
+                                    '$puntaje',
+                                    style: const TextStyle(
+                                        color: Colors.black,
+                                        fontFamily: 'BubblegumSans',
+                                        fontSize: 15),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                        )
-                      ]),
-                    )),
+                        ),
+                      )
+                    ]),
+                  )),
 
-                //btn regresar
-                Positioned(
-                    bottom: 20,
-                    left: -5,
-                    child: ShakeWidgetX(
-                      child: IconButton(
-                        icon: Image.asset('assets/flecha_left.png'),
-                        iconSize: 50,
-                        onPressed: () {
-                          //_soundBack();
-                          Navigator.push(
-                              context,
-                              PageRouteBuilder(
-                                  transitionDuration:
-                                      const Duration(seconds: 1),
-                                  transitionsBuilder: (BuildContext context,
-                                      Animation<double> animation,
-                                      Animation<double> secAnimation,
-                                      Widget child) {
-                                    animation = CurvedAnimation(
-                                        parent: animation,
-                                        curve: Curves.elasticInOut);
+              //btn regresar
+              Positioned(
+                  bottom: 20,
+                  left: -5,
+                  child: ShakeWidgetX(
+                    child: IconButton(
+                      icon: Image.asset('assets/flecha_left.png'),
+                      iconSize: 50,
+                      onPressed: () {
+                        //_soundBack();
+                        Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                                transitionDuration: const Duration(seconds: 1),
+                                transitionsBuilder: (BuildContext context,
+                                    Animation<double> animation,
+                                    Animation<double> secAnimation,
+                                    Widget child) {
+                                  animation = CurvedAnimation(
+                                      parent: animation,
+                                      curve: Curves.elasticInOut);
 
-                                    return ScaleTransition(
-                                      alignment: Alignment.center,
-                                      scale: animation,
-                                      child: child,
-                                    );
-                                  },
-                                  pageBuilder: (BuildContext context,
-                                      Animation<double> animation,
-                                      Animation<double> secAnimattion) {
-                                    return const entrenamientoModulos();
-                                  }));
-                        },
-                      ),
-                    )),
-
-                //btn 10
-                Positioned(
-                  top: 110,
-                  right: 115,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 100,
-                    height: 100,
-                    child: GestureDetector(
-                      child: button10, //color of button
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button10 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          // when it is released
-                          button10 = buttonUnpressed;
-                        });
-
-                        showDialogLevel(10);
+                                  return ScaleTransition(
+                                    alignment: Alignment.center,
+                                    scale: animation,
+                                    child: child,
+                                  );
+                                },
+                                pageBuilder: (BuildContext context,
+                                    Animation<double> animation,
+                                    Animation<double> secAnimattion) {
+                                  return const entrenamientoModulos();
+                                }));
                       },
                     ),
+                  )),
+
+              //btn 10
+              Positioned(
+                top: 110,
+                right: 115,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 100,
+                  height: 100,
+                  child: GestureDetector(
+                    child: button10, //color of button
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button10 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        // when it is released
+                        button10 = buttonUnpressed;
+                      });
+
+                      showDialogLevel(10);
+                    },
                   ),
                 ),
+              ),
 
-                //btn 9
-                Positioned(
-                  top: 200,
-                  left: 65,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 65,
-                    height: 65,
-                    child: GestureDetector(
-                      child: button9, //color of button
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button9 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          // when it is released
-                          button9 = buttonUnpressed;
-                        });
+              //btn 9
+              Positioned(
+                top: 200,
+                left: 65,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 65,
+                  height: 65,
+                  child: GestureDetector(
+                    child: button9, //color of button
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button9 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        // when it is released
+                        button9 = buttonUnpressed;
+                      });
 
-                        //DialogHelper.showDialogLevel9DS(context);
-                      },
-                    ),
+                      //DialogHelper.showDialogLevel9DS(context);
+                    },
                   ),
                 ),
+              ),
 
-                //btn 8
-                Positioned(
-                  top: 275,
-                  left: 90,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 70,
-                    height: 70,
-                    child: GestureDetector(
-                      child: button8, //color of button
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button8 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          // when it is released
-                          button8 = buttonUnpressed;
-                        });
+              //btn 8
+              Positioned(
+                top: 275,
+                left: 90,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 70,
+                  height: 70,
+                  child: GestureDetector(
+                    child: button8, //color of button
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button8 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        // when it is released
+                        button8 = buttonUnpressed;
+                      });
 
-                        //DialogHelper.showDialogLevel8DS(context);
-                      },
-                    ),
+                      //DialogHelper.showDialogLevel8DS(context);
+                    },
                   ),
                 ),
+              ),
 
-                //btn 7
-                Positioned(
-                  top: 275,
-                  right: 90,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 72,
-                    height: 72,
-                    child: GestureDetector(
-                      child: button7, //color of button
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button7 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          // when it is released
-                          button7 = buttonUnpressed;
-                        });
+              //btn 7
+              Positioned(
+                top: 275,
+                right: 90,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 72,
+                  height: 72,
+                  child: GestureDetector(
+                    child: button7, //color of button
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button7 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        // when it is released
+                        button7 = buttonUnpressed;
+                      });
 
-                        //DialogHelper.showDialogLevel7DS(context);
-                      },
-                    ),
+                      //DialogHelper.showDialogLevel7DS(context);
+                    },
                   ),
                 ),
+              ),
 
-                //btn 6
-                Positioned(
-                  top: 330,
-                  right: 20,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 78,
-                    height: 78,
-                    child: GestureDetector(
-                      child: button6, //color of button
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button6 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          // when it is released
-                          button6 = buttonUnpressed;
-                        });
+              //btn 6
+              Positioned(
+                top: 330,
+                right: 20,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 78,
+                  height: 78,
+                  child: GestureDetector(
+                    child: button6, //color of button
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button6 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        // when it is released
+                        button6 = buttonUnpressed;
+                      });
 
-                        //DialogHelper.showDialogLevel6DS(context);
-                      },
-                    ),
+                      //DialogHelper.showDialogLevel6DS(context);
+                    },
                   ),
                 ),
+              ),
 
-                //btn 5
-                Positioned(
-                  bottom: 330,
-                  left: 150,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 85,
-                    height: 85,
-                    child: GestureDetector(
-                      child: button5,
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button5 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          // when it is released
-                          button5 = buttonUnpressed;
-                        });
-                        showDialogLevel(5);
-                        //DialogHelper.showDialogLevel4DS(context);
-                      },
-                    ),
+              //btn 5
+              Positioned(
+                bottom: 330,
+                left: 150,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 85,
+                  height: 85,
+                  child: GestureDetector(
+                    child: button5,
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button5 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        // when it is released
+                        button5 = buttonUnpressed;
+                      });
+                      showDialogLevel(5);
+                      //DialogHelper.showDialogLevel4DS(context);
+                    },
                   ),
                 ),
+              ),
 
-                //btn 4
-                Positioned(
-                  bottom: 320,
-                  left: 25,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 87,
-                    height: 87,
-                    child: GestureDetector(
-                      child: button4, //color of button
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button4 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          // when it is released
-                          button4 = buttonUnpressed;
-                        });
-                        showDialogLevel(4);
-                        //DialogHelper.showDialogLevel5DS(context);
-                      },
-                    ),
+              //btn 4
+              Positioned(
+                bottom: 320,
+                left: 25,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 87,
+                  height: 87,
+                  child: GestureDetector(
+                    child: button4, //color of button
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button4 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        // when it is released
+                        button4 = buttonUnpressed;
+                      });
+                      showDialogLevel(4);
+                      //DialogHelper.showDialogLevel5DS(context);
+                    },
                   ),
                 ),
+              ),
 
-                //btn 3
-                Positioned(
-                  bottom: 215,
-                  left: 65,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 95,
-                    height: 95,
-                    child: GestureDetector(
-                      child: button3,
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button3 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          button3 = buttonUnpressed;
-                        });
+              //btn 3
+              Positioned(
+                bottom: 215,
+                left: 65,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 95,
+                  height: 95,
+                  child: GestureDetector(
+                    child: button3,
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button3 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        button3 = buttonUnpressed;
+                      });
 
-                        showDialogLevel(3);
-                        //DialogHelper.showDialogLevel3DS(context);
-                      },
-                    ),
+                      showDialogLevel(3);
+                      //DialogHelper.showDialogLevel3DS(context);
+                    },
                   ),
                 ),
+              ),
 
-                //btn 2
-                Positioned(
-                  bottom: 120,
-                  right: 115,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 100,
-                    height: 100,
-                    child: GestureDetector(
-                      child: button2,
-                      onTapDown: (tap) {
-                        //_soundbutton();
-                        setState(() {
-                          // when it is pressed
-                          button2 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        setState(() {
-                          // when it is released
-                          button2 = buttonUnpressed;
-                        });
+              //btn 2
+              Positioned(
+                bottom: 120,
+                right: 115,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 100,
+                  height: 100,
+                  child: GestureDetector(
+                    child: button2,
+                    onTapDown: (tap) {
+                      //_soundbutton();
+                      setState(() {
+                        // when it is pressed
+                        button2 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      setState(() {
+                        // when it is released
+                        button2 = buttonUnpressed;
+                      });
 
-                        //DialogHelper.showDialogLevel2DS(context);
-                        showDialogLevel(2);
-                      },
-                    ),
+                      //DialogHelper.showDialogLevel2DS(context);
+                      showDialogLevel(2);
+                    },
                   ),
                 ),
+              ),
 
-                //btn inicial 1
-                Positioned(
-                  right: 75,
-                  bottom: -15,
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: Container(
-                    padding: const EdgeInsets.all(1.0),
-                    width: 10,
-                    height: 150,
-                    child: GestureDetector(
-                      child: button1,
-                      onTapDown: (tap) {
-                        setState(() {
-                          // when it is pressed
-                          button1 = buttonPressed;
-                        });
-                      },
-                      onTapUp: (tap) {
-                        //_soundbutton();
+              //btn inicial 1
+              Positioned(
+                right: 75,
+                bottom: -15,
+                height: MediaQuery.of(context).size.height * 0.2,
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: Container(
+                  padding: const EdgeInsets.all(1.0),
+                  width: 10,
+                  height: 150,
+                  child: GestureDetector(
+                    child: button1,
+                    onTapDown: (tap) {
+                      setState(() {
+                        // when it is pressed
+                        button1 = buttonPressed;
+                      });
+                    },
+                    onTapUp: (tap) {
+                      //_soundbutton();
 
-                        setState(() {
-                          // when it is released
-                          button1 = buttonUnpressed;
-                        });
+                      setState(() {
+                        // when it is released
+                        button1 = buttonUnpressed;
+                      });
 
-                        showDialogLevel(1);
+                      showDialogLevel(1);
 
-                        //DialogHelper.showDialoglevel1DS(context);
-                      },
-                    ),
+                      //DialogHelper.showDialoglevel1DS(context);
+                    },
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ));
+  }
+
+  // Función para guardar el puntaje en SharedPreferences
+  void _savePuntajeSHP_MAT(int puntaje) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('puntajeMAT', puntaje);
   }
 
   bool btn1Pressed = false;
@@ -1070,13 +1076,9 @@ class _world_gameState extends State<world_game> {
                             Animation<double> animation,
                             Animation<double> secAnimattion) {
                           return level == 1
-                              ? level1Quiz(
-                                  modulo: _modulo,
-                                )
+                              ? const level1Quiz()
                               : level == 2
-                                  ? level2(
-                                      modulo: _modulo,
-                                    )
+                                  ? level2()
                                   : level == 3
                                       ? level3(
                                           modulo: _modulo,
@@ -1090,30 +1092,19 @@ class _world_gameState extends State<world_game> {
                                                   modulo: _modulo,
                                                 )
                                               : level == 6
-                                                  ? level1Quiz(
-                                                      modulo: _modulo,
-                                                    )
+                                                  ? const level1Quiz()
                                                   : level == 7
-                                                      ? level1Quiz(
-                                                          modulo: _modulo,
-                                                        )
+                                                      ? const level1Quiz()
                                                       : level == 8
-                                                          ? level1Quiz(
-                                                              modulo: _modulo,
-                                                            )
+                                                          ? const level1Quiz()
                                                           : level == 9
-                                                              ? level1Quiz(
-                                                                  modulo:
-                                                                      _modulo,
-                                                                )
+                                                              ? const level1Quiz()
                                                               : level == 10
                                                                   ? simulacro(
                                                                       modulo:
                                                                           _modulo,
                                                                     )
-                                                                  : world_game(
-                                                                      modulo:
-                                                                          _modulo);
+                                                                  : world_game();
                         }),
                   );
                 }),

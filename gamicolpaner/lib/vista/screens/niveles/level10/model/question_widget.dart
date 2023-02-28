@@ -89,9 +89,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                             pageBuilder: (BuildContext context,
                                 Animation<double> animation,
                                 Animation<double> secAnimattion) {
-                              return world_game(
-                                modulo: _modulo,
-                              );
+                              return world_game();
                             }));
                   },
                 ),
