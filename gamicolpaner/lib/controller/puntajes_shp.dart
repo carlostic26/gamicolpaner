@@ -295,17 +295,18 @@ Future<int> getPuntajesTotal_MAT() async {
   //si eliminamos esta forma de obtener por shared preferences, dejandolo separado en
   // una funcon future int, no va a mostrar en tiempo real la sumatoria al banner, debe ser aqui
   String score_m1 = prefs.getString('puntaje_mat_1') ?? '';
-  niv1MAT = int.parse(score_m1);
+  niv1MAT =
+      int.tryParse(score_m1) ?? 0; // Si no se puede convertir, se asigna 0
 
   String score_m2 = prefs.getString('puntaje_mat_2') ?? '';
-  niv2MAT = int.parse(score_m2);
+  niv2MAT = int.tryParse(score_m2) ?? 0;
+
+  String score_m3 = prefs.getString('puntaje_mat_3') ?? '';
+  niv3MAT = int.tryParse(score_m3) ?? 0;
 
   /*
   // no usar el siguiente codigo hasta que los demas niveles guarden el puntaje 
   // o al menos tengan el codigo para guardar los puntajes
-
-  String score_m3 = prefs.getString('puntaje_mat_3') ?? '';
-  niv3MAT = int.parse(score_m3);
 
   String score_m4 = prefs.getString('puntaje_mat_4') ?? '';
   niv4MAT = int.parse(score_m4);
@@ -345,35 +346,38 @@ Future<int> getPuntajesTotal_MAT() async {
 Future<int> getPuntajesTotal_ING() async {
   final prefs = await SharedPreferences.getInstance();
 
-  String score_ing1 = prefs.getString('puntaje_ing_1') ?? '';
-  niv1ING = int.parse(score_ing1);
+  String score_ing1 = prefs.getString('puntaje_ingles_1') ?? '';
+  niv1ING = int.tryParse(score_ing1) ?? 0;
 
-  String score_ing2 = prefs.getString('puntaje_ing_2') ?? '';
-  niv2ING = int.parse(score_ing2);
-/*   
+  String score_ing2 = prefs.getString('puntaje_ingles_2') ?? '';
+  niv2ING = int.tryParse(score_ing2) ?? 0;
 
-  String score_ing3 = prefs.getString('puntaje_ing_3') ?? '';
-  niv3ING = int.parse(score_ing3);
+  String score_ing3 = prefs.getString('puntaje_ingles_3') ?? '';
+  niv3ING =
+      int.tryParse(score_ing3) ?? 0; // Si no se puede convertir, se asigna 0
+/*  
 
-  String score_ing4 = prefs.getString('puntaje_ing_4') ?? '';
+
+
+  String score_ing4 = prefs.getString('puntaje_ingles_4') ?? '';
   niv4ING = int.parse(score_ing4);
 
-  String score_ING5 = prefs.getString('puntaje_ING_5') ?? '';
+  String score_ING5 = prefs.getString('puntaje_ingles_5') ?? '';
   niv5ING = int.parse(score_ING5);
 
-  String score_ING6 = prefs.getString('puntaje_ING_6') ?? '';
+  String score_ING6 = prefs.getString('puntaje_ingles_6') ?? '';
   niv6ING = int.parse(score_ING6);
 
-  String score_ING7 = prefs.getString('puntaje_ING_7') ?? '';
+  String score_ING7 = prefs.getString('puntaje_ingles_7') ?? '';
   niv7ING = int.parse(score_ING7);
 
-  String score_ing8 = prefs.getString('puntaje_ing_8') ?? '';
+  String score_ing8 = prefs.getString('puntaje_ingles_8') ?? '';
   niv8ING = int.parse(score_ing8);
 
-  String score_ING9 = prefs.getString('puntaje_ING_9') ?? '';
+  String score_ING9 = prefs.getString('puntaje_ingles_9') ?? '';
   niv9ING = int.parse(score_ING9);
 
-  String score_ING10 = prefs.getString('puntaje_ING_10') ?? '';
+  String score_ING10 = prefs.getString('puntaje_ingles_10') ?? '';
   niv10ING = int.parse(score_ING10);
  */
   scoreTotal_ING = niv1ING +

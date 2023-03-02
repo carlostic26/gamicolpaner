@@ -97,7 +97,7 @@ class _MyScore2State extends State<MyScore2> {
                   Text(
                     "Inglés",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -114,7 +114,7 @@ class _MyScore2State extends State<MyScore2> {
                   Text(
                     "Matemáticas",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

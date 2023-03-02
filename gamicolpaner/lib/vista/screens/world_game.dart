@@ -79,12 +79,14 @@ class _world_gameState extends State<world_game> {
       loggedInUser = UserModel.fromMap(value.data());
       setState(() {});
     });
-
+    //----- INGLES
+    getPuntajeIngles1_firestore();
+    getPuntajeIngles2_firestore();
+    getPuntajeIngles3_firestore();
+    //----- MATEM
     getPuntajeMat1_firestore();
     getPuntajeMat2_firestore();
-    //-----
-    getPuntajeIng1_firestore();
-    getPuntajeIng2_firestore();
+    getPuntajeMat3_firestore();
   }
 
   //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
@@ -113,8 +115,7 @@ class _world_gameState extends State<world_game> {
   }
 
 //----2
-
-  //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
+  //funcion que busca el nivel 2, si existe, lo envia a shp para ser sumado a puntaje total
   Future<int> getPuntajeMat2_firestore() async {
     int puntajeMatNivel2 =
         0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
@@ -140,11 +141,36 @@ class _world_gameState extends State<world_game> {
   }
 
   //--3
+  //funcion que busca el nivel 2, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeMat3_firestore() async {
+    int puntajeMatNivel3 =
+        0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel3')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeMatNivel3 = data['puntaje'] as int;
+      }
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puntaje_mat_3', puntajeMatNivel3.toString());
+
+    return puntajeMatNivel3;
+  }
 
   //----------------------------- INGLES ----------------------------------
   //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
-  Future<int> getPuntajeIng1_firestore() async {
-    int puntajeIngNivel1 = 0;
+  Future<int> getPuntajeIngles1_firestore() async {
+    int puntajeIngNivel1 =
+        0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
 
     final docSnapshot = await FirebaseFirestore.instance
         .collection('puntajes')
@@ -157,16 +183,17 @@ class _world_gameState extends State<world_game> {
       final data = docSnapshot.data() as Map<String, dynamic>;
       if (data.containsKey('puntaje')) {
         puntajeIngNivel1 = data['puntaje'] as int;
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('puntaje_ing_1', puntajeIngNivel1.toString());
       }
     }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puntaje_ingles_1', puntajeIngNivel1.toString());
 
     return puntajeIngNivel1;
   }
 
   //funcion que busca el nivel 2, si existe, lo envia a shp para ser sumado a puntaje total
-  Future<int> getPuntajeIng2_firestore() async {
+  Future<int> getPuntajeIngles2_firestore() async {
     int puntajeIngNivel2 = 0;
 
     final docSnapshot = await FirebaseFirestore.instance
@@ -181,96 +208,38 @@ class _world_gameState extends State<world_game> {
       if (data.containsKey('puntaje')) {
         puntajeIngNivel2 = data['puntaje'] as int;
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setString('puntaje_ing_2', puntajeIngNivel2.toString());
+        await prefs.setString('puntaje_ingles_2', puntajeIngNivel2.toString());
       }
     }
 
     return puntajeIngNivel2;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    //same lvel 1
-    final getPuntajeMat_1 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel1')
-        .doc(user!.uid);
+  //funcion que busca el nivel 3, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeIngles3_firestore() async {
+    int puntajeIngNivel3 = 0;
 
-    //same lvel 1
-    final puntajesRefMat = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel1')
-        .doc(user!.uid);
-
-    //same lvel 1
-    final puntajesRefMat_1 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel1')
-        .doc(user!.uid);
-
-    final puntajesRefMat_2 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel2')
-        .doc(user!.uid);
-
-    final puntajesRefMat_3 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel3')
-        .doc(user!.uid);
-
-    final puntajesRefMat_4 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel4')
-        .doc(user!.uid);
-
-    final puntajesRefMat_5 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel5')
-        .doc(user!.uid);
-
-    final puntajesRefMat_6 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel6')
-        .doc(user!.uid);
-
-    final puntajesRefMat_7 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel7')
-        .doc(user!.uid);
-
-    final puntajesRefMat_8 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel8')
-        .doc(user!.uid);
-
-    final puntajesRefMat_9 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel9')
-        .doc(user!.uid);
-
-    final puntajesRefMat_10 = FirebaseFirestore.instance
-        .collection('puntajes')
-        .doc('matematicas')
-        .collection('nivel10')
-        .doc(user!.uid);
-
-    final puntajesRefIng = FirebaseFirestore.instance
+    final docSnapshot = await FirebaseFirestore.instance
         .collection('puntajes')
         .doc('ingles')
-        .collection('nivel1')
-        .doc(user!.uid);
+        .collection('nivel3')
+        .doc(user!.uid)
+        .get();
 
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeIngNivel3 = data['puntaje'] as int;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('puntaje_ingles_3', puntajeIngNivel3.toString());
+      }
+    }
+
+    return puntajeIngNivel3;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         appBar: null,
         body: Center(
@@ -316,7 +285,7 @@ class _world_gameState extends State<world_game> {
                         ),
                       ),
                       Positioned(
-                        left: 40,
+                        left: 70,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -327,8 +296,16 @@ class _world_gameState extends State<world_game> {
                                   fontFamily: 'BubblegumSans',
                                   fontSize: 14),
                             ),
-                            Text(
+/*                             Text(
                               loggedInUser.tecnica.toString(),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontFamily: 'BubblegumSans',
+                                fontSize: 13,
+                              ),
+                            ), */
+                            Text(
+                              _modulo,
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontFamily: 'BubblegumSans',
@@ -351,21 +328,12 @@ class _world_gameState extends State<world_game> {
                                     fontFamily: 'BubblegumSans',
                                     fontSize: 13),
                               ),
-
-/*                                 Text(
-                                  puntajesSumadosShpMAT().toString(),
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontFamily: 'BubblegumSans',
-                                      fontSize: 13),
-                                ), */
-
                               FutureBuilder<int>(
                                 future: _modulo == 'Matemáticas'
                                     ? getPuntajesTotal_MAT()
                                     : _modulo == 'Inglés'
                                         ? getPuntajesTotal_ING()
-                                        : getPuntajesTotal_ING(),
+                                        : getPuntajesTotal_MAT(),
                                 builder: (BuildContext context,
                                     AsyncSnapshot<int> snapshot) {
                                   if (snapshot.hasData) {
@@ -384,31 +352,6 @@ class _world_gameState extends State<world_game> {
                                         child:
                                             CircularProgressIndicator()); // O cualquier otro indicador de carga
                                   }
-                                },
-                              ),
-                              //SizedBox(height: 5),
-                              StreamBuilder<DocumentSnapshot>(
-                                stream: _modulo == 'Matemáticas'
-                                    ? puntajesRefMat.snapshots()
-                                    : _modulo == 'Inglés'
-                                        ? puntajesRefIng.snapshots()
-                                        : puntajesRefMat.snapshots(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return const Text('Cargando...');
-                                  }
-
-                                  final puntaje = snapshot.data!.exists
-                                      ? snapshot.data!['puntaje'] ?? '0'
-                                      : '0';
-
-                                  return Text(
-                                    '$puntaje',
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontFamily: 'BubblegumSans',
-                                        fontSize: 15),
-                                  );
                                 },
                               ),
                             ],
@@ -753,12 +696,6 @@ class _world_gameState extends State<world_game> {
             ],
           ),
         ));
-  }
-
-  // Función para guardar el puntaje en SharedPreferences
-  void _savePuntajeSHP_MAT(int puntaje) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('puntajeMAT', puntaje);
   }
 
   bool btn1Pressed = false;
@@ -1118,59 +1055,4 @@ class _world_gameState extends State<world_game> {
       pageBuilder: (context, animation1, animation2) => Container(),
     );
   }
-
-  puntajesSumadosShpMAT() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int punMat1 = prefs.getInt('puntajeMat1') ??
-        0; // Si la variable es nula, asigna un valor predeterminado de 0
-    int punMat2 = prefs.getInt('puntajeMat2') ?? 0;
-    int punMat3 = prefs.getInt('puntajeMat3') ?? 0;
-    int punMat4 = prefs.getInt('puntajeMat4') ?? 0;
-    int punMat5 = prefs.getInt('puntajeMat5') ?? 0;
-    int punMat6 = prefs.getInt('puntajeMat6') ?? 0;
-    int punMat7 = prefs.getInt('puntajeMat7') ?? 0;
-    int punMat8 = prefs.getInt('puntajeMat8') ?? 0;
-    int punMat9 = prefs.getInt('puntajeMat9') ?? 0;
-    int punMat10 = prefs.getInt('puntajeMat10') ?? 0;
-
-    int sumatoria = punMat1 +
-        punMat2 +
-        punMat3 +
-        punMat4 +
-        punMat5 +
-        punMat6 +
-        punMat7 +
-        punMat8 +
-        punMat9 +
-        punMat10;
-
-    return sumatoria;
-  }
-
-/*   puntajesSumadosShpING() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? punIng1 = prefs.getInt('puntajeIng1');
-    int? punIng2 = prefs.getInt('puntajeIng2');
-    int? punIng3 = prefs.getInt('puntajeIng3');
-    int? punIng4 = prefs.getInt('puntajeIng4');
-    int? punIng5 = prefs.getInt('puntajeIng5');
-    int? punIng6 = prefs.getInt('puntajeIng6');
-    int? punIng7 = prefs.getInt('puntajeIng7');
-    int? punIng8 = prefs.getInt('puntajeIng8');
-    int? punIng9 = prefs.getInt('puntajeIng9');
-    int? punIng10 = prefs.getInt('puntajeIng10');
-
-    int sumatoria = punIng1! +
-        punIng2! +
-        punIng3! +
-        punIng4! +
-        punIng5! +
-        punIng6! +
-        punIng7! +
-        punIng8! +
-        punIng9! +
-        punIng10!;
-
-    return sumatoria;
-  } */
 }

@@ -149,7 +149,9 @@ class ShowDialogAvatar extends StatelessWidget {
               //titulo del nivel
               "Selecciona tu avatar",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 12.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 12.0),
             ),
           ),
         ),

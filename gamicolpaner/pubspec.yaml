@@ -47,6 +47,7 @@ flutter:
   assets:
    - assets/button/button_pushed.png
    - assets/button/button_unpushed.png
+   - assets/button/btn_scores.png
    - assets/games/level3/
    - assets/logo_cards.png
    - assets/fonts/

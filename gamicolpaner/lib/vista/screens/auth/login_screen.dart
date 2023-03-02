@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                         height: 150,
                         child: Image.network(
-                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgC0xjUWBSKcScr9rfqTl4h4wbTK9MoDxHGCisH2gKD0Sjt_kcYHPDFRvi0nPhLYrvro7oWc_MRtMgPUjtP-z0IymAmMTqL2UGNIWavUjAjrSueeQgisTAZ4MNKLhimWsmquYOT1Ncfl_I9Rlq3z3SP5u_n5F0qUBGnAccW4ygDvUDGHIYX5VFIU0o/w320-h320/logo%20GAMICOLPANER%20actualizado.png",
+                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrKLH2oorwqT7kcdrskbFaj0TGjvIVKZQ9bq19LoZzrsADTcBHL0NdaDj368LRGQkZn9zaBQslpGqqFVD7CV2KJRdfBYxPIXy7-sWDbn-XgODiHRiTZDpMcVF7vYa2fs6rzpDQPvVbEWWNKbyNVm50Nhvktc-CfsCM6dMiV9fZ1lgl5UfYkqtY3qg/s320/logo%20COLPANER%20APP%20actualizado.png",
                           fit: BoxFit.contain,
                         )),
                     const SizedBox(height: 45),

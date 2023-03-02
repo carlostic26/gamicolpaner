@@ -201,7 +201,7 @@ class _MyScore2State extends State<MyScore2> {
                   Text(
                     "Razonamiento",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -210,7 +210,7 @@ class _MyScore2State extends State<MyScore2> {
                   Text(
                     "Cuantitativo",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -226,7 +226,7 @@ class _MyScore2State extends State<MyScore2> {
                   Text(
                     "Diseño de",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -235,7 +235,7 @@ class _MyScore2State extends State<MyScore2> {
                   Text(
                     "Software",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

@@ -51,7 +51,9 @@ class ShowDialoglevel1DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 1",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -69,7 +71,7 @@ class ShowDialoglevel1DS extends StatelessWidget {
                       text:
                           "Comencemos con un quiz básico sobre el ICFES Saber PRO para validar lo que debemos tener en cuenta 😎",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -197,7 +199,9 @@ class ShowDialogLevel2DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 2",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -215,7 +219,7 @@ class ShowDialogLevel2DS extends StatelessWidget {
                       text:
                           "En ente nivel tendrás que leer muy bien cada enunciado dentro de las tarjetas para hacer match entre ellas. \n\nTienes 20 intentos.",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -334,7 +338,9 @@ class ShowDialogLevel3DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 3",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -352,7 +358,7 @@ class ShowDialogLevel3DS extends StatelessWidget {
                       text:
                           "Segundo Gamiquiz. \n\nTendrás que resolver 5 preguntas tipo ICFES.\n\nRecuerda usar papel y lapiz si lo necesitas.",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -471,7 +477,9 @@ class ShowDialogLevel4DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 4",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -489,7 +497,7 @@ class ShowDialogLevel4DS extends StatelessWidget {
                       text:
                           "En este nivel, deberás completar la palabra correcta de un enunciado. \n\n¡Solo tienes 10 intetos, trata de no equivocarte!",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -608,7 +616,9 @@ class ShowDialogLevel5DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 5",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -626,7 +636,7 @@ class ShowDialogLevel5DS extends StatelessWidget {
                       text:
                           "Tercer Gamiquiz. \n\nTendrás que resolver 5 preguntas tipo ICFES.\n\nRecuerda usar papel y lapiz si lo necesitas.",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -745,7 +755,9 @@ class ShowDialogLevel6DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 6",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -763,7 +775,7 @@ class ShowDialogLevel6DS extends StatelessWidget {
                       text:
                           "En ente nivel tendrás que arrastras y soltar el significado de cada concepto clave.",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -881,7 +893,9 @@ class ShowDialogLevel7DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 7",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -899,7 +913,7 @@ class ShowDialogLevel7DS extends StatelessWidget {
                       text:
                           "Cuarto Gamiquiz. \n\nTendrás que resolver 5 preguntas tipo ICFES.\n\nRecuerda usar papel y lapiz si lo necesitas.",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -1018,7 +1032,9 @@ class ShowDialogLevel8DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 8",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -1036,7 +1052,7 @@ class ShowDialogLevel8DS extends StatelessWidget {
                       text:
                           "En ente nivel tendrás que leer muy bien cada enunciado dentro de las tarjetas para hacer match entre ellas.\n\n¡Sólo tienes 10 intentos!",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -1154,7 +1170,9 @@ class ShowDialogLevel9DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 9",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -1172,7 +1190,7 @@ class ShowDialogLevel9DS extends StatelessWidget {
                       text:
                           "Quinto Gamiquiz. \n\nTendrás que resolver 5 preguntas tipo ICFES.\n\nRecuerda usar papel y lapiz si lo necesitas.",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -1289,7 +1307,9 @@ class ShowDialoglevel10DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 10",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -1307,7 +1327,7 @@ class ShowDialoglevel10DS extends StatelessWidget {
                       text:
                           "En este nivel, deberás completar la palabra correcta de un enunciado. \n\n¡Solo tienes 5 intentos, trata no equivocarte!",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],
@@ -1425,7 +1445,9 @@ class ShowDialoglevel11DS extends StatelessWidget {
               //titulo del nivel
               "NIVEL 11",
               style: TextStyle(
-                  color: Colors.white, fontFamily: 'ZCOOL', fontSize: 30.0),
+                  color: Colors.white,
+                  fontFamily: 'BubblegumSans',
+                  fontSize: 30.0),
             ),
           ),
         ),
@@ -1443,7 +1465,7 @@ class ShowDialoglevel11DS extends StatelessWidget {
                       text:
                           "En ente nivel tendrás que superar 10 oraciones en menos de 60 segundos!!. \n\nDebes conocer los siguientes temas para lograr con éxito este nivel:  Paradigmas, patrones, algoritmos",
                       style: TextStyle(
-                          fontFamily: 'ZCOOL',
+                          fontFamily: 'BubblegumSans',
                           fontSize: 16,
                           color: Colors.white)),
                 ],

@@ -81,10 +81,9 @@ class DialogHelper {
       showDialog(context: context, builder: (builder) => ShowDialogLevel11RC());
 
   //GameOver RC -- recibe un contexto y un puntaje
-  static showDialogGameOver(context, score, puntoPartida) => showDialog(
+  static showDialogGameOver(context, score) => showDialog(
       context: context,
-      builder: (builder) => ShowDialogGameOver(
-            score: score,
-            puntoPartida: puntoPartida,
-          ));
+      barrierDismissible: false,
+      builder: (builder) =>
+          ShowDialogGameOver(score: int.parse(score.toString())));
 }

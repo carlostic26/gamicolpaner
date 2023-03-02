@@ -198,7 +198,7 @@ class _puntajesScreenState extends State<puntajesScreen> {
                   Text(
                     "Razonamiento",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -207,7 +207,7 @@ class _puntajesScreenState extends State<puntajesScreen> {
                   Text(
                     "Cuantitativo",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -223,7 +223,7 @@ class _puntajesScreenState extends State<puntajesScreen> {
                   Text(
                     "Diseño de",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -232,7 +232,7 @@ class _puntajesScreenState extends State<puntajesScreen> {
                   Text(
                     "Software",
                     style: TextStyle(
-                      fontFamily: 'ZCOOL',
+                      fontFamily: 'BubblegumSans',
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,

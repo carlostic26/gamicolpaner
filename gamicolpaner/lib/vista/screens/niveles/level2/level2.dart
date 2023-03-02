@@ -141,7 +141,7 @@ class _level2State extends State<level2> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         scoreBoard1("Intentos", "${tries.toInt()}"),
-                        scoreBoard1("Puntos", "${score}")
+                        scoreBoard1("Puntos", "$score")
                       ],
                     ),
                     SizedBox(
@@ -191,7 +191,7 @@ class _level2State extends State<level2> {
                                         //enviamos score al DialogHelper que conecta a la clase ShowDialogGameOver1
                                         String puntoPartida = 'ds';
                                         DialogHelper.showDialogGameOver(
-                                            context, score, puntoPartida);
+                                            context, score);
                                         // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
                                         var handler = DatabaseHandler();
                                         handler.updateScore(scoreColpaner(
@@ -205,18 +205,22 @@ class _level2State extends State<level2> {
                                       }
                                     } else {
                                       //si el usuario hace mas de 20 intentos, gameover
-                                      if (tries >= 20) {
-                                        //enviamos score al DialogHelper que conecta a la clase ShowDialogGameOver1
-                                        String puntoPartida = 'ds';
+                                      if (tries >= 12) {
                                         DialogHelper.showDialogGameOver(
-                                            context, score, puntoPartida);
+                                            context, score);
+
+                                        //guarda puntaje de nivel en firestore
+                                        _guardarPuntajeNivel2(score);
+
+                                        //enviamos score al DialogHelper que conecta a la clase ShowDialogGameOver1
+/* 
                                         // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
                                         var handler = DatabaseHandler();
                                         handler.updateScore(scoreColpaner(
                                             id: 'DS2',
                                             modulo: 'DS',
                                             nivel: '2',
-                                            score: score.toString()));
+                                            score: score.toString())); */
                                       }
 
                                       print(false);

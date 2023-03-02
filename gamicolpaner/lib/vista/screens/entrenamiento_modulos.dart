@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gamicolpaner/model/user_model.dart';
 import 'package:gamicolpaner/vista/screens/auth/login_screen.dart';
+import 'package:gamicolpaner/vista/screens/mis_puntajes.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -468,7 +469,10 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                   Icons.sports_score,
                   color: colors_colpaner.oscuro,
                 ),
-                onTap: () {}),
+                onTap: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const misPuntajes()));
+                }),
             ListTile(
               title: const Text("Mi Usuario",
                   style: TextStyle(
@@ -536,6 +540,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
               ),
               //at press, run the method
               onTap: () {
+                clearSharedPreferences();
                 logout(context);
               },
             ),
@@ -543,6 +548,12 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
         ),
       ),
     );
+  }
+
+  // función para eliminar todos los registros de Shared Preferences
+  Future<void> clearSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 
   Future<void> logout(BuildContext context) async {

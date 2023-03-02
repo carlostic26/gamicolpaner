@@ -4,7 +4,7 @@ import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
 import 'package:gamicolpaner/model/dbhelper.dart';
 import 'package:gamicolpaner/model/score.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
-import 'package:gamicolpaner/vista/screens/scores_screen.dart';
+import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:soundpool/soundpool.dart';
 
 class level9 extends StatefulWidget {
@@ -124,7 +124,9 @@ class _QuestionWidgetState extends State<QuestionWidget> {
           Text(
             'Pregunta $_questionNumber/${questions.length}',
             style: const TextStyle(
-                color: Colors.white, fontFamily: 'ZCOOL', fontSize: 15.0),
+                color: Colors.white,
+                fontFamily: 'BubblegumSans',
+                fontSize: 15.0),
           ),
           //Se imprime el pageView que contiene pregunta y opciones
           Expanded(
@@ -172,7 +174,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
         Text(
           question.text,
           style: const TextStyle(
-              color: Colors.white, fontFamily: 'ZCOOL', fontSize: 20.0),
+              color: Colors.white, fontFamily: 'BubblegumSans', fontSize: 20.0),
         ),
         const SizedBox(height: 15),
         Expanded(
@@ -229,8 +231,8 @@ class _QuestionWidgetState extends State<QuestionWidget> {
       ),
       child: Text(
         _questionNumber < questions.length ? 'Siguiente' : 'Revisar resultado',
-        style:
-            TextStyle(color: Colors.white, fontFamily: 'ZCOOL', fontSize: 25.0),
+        style: TextStyle(
+            color: Colors.white, fontFamily: 'BubblegumSans', fontSize: 25.0),
       ),
     );
   }
@@ -280,7 +282,9 @@ class OptionsWidget extends StatelessWidget {
                 child: Text(
                   option.text,
                   style: const TextStyle(
-                      color: Colors.black, fontFamily: 'ZCOOL', fontSize: 17.0),
+                      color: Colors.black,
+                      fontFamily: 'BubblegumSans',
+                      fontSize: 17.0),
                 ),
               ),
               getIconForOption(option, question)
@@ -453,49 +457,49 @@ class ResultPage extends StatelessWidget {
               child: Text(
                 'Obtuviste $score/${questions.length}\n\nScore + $score',
                 style: const TextStyle(
-                    color: Colors.white, fontFamily: 'ZCOOL', fontSize: 35.0),
+                    color: Colors.white,
+                    fontFamily: 'BubblegumSans',
+                    fontSize: 35.0),
               ),
             ),
 
             //flecha atras
-            Positioned(
-                top: 20,
-                left: -10,
+            Align(
+              alignment: Alignment.topLeft,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
                 child: ShakeWidgetX(
                   child: IconButton(
                     icon: Image.asset('assets/flecha_left.png'),
-                    iconSize: 50,
+                    iconSize: 3,
                     onPressed: () {
-                      Navigator.push(
-                          context,
-                          PageRouteBuilder(
-                              transitionDuration: const Duration(seconds: 1),
-                              transitionsBuilder: (BuildContext context,
-                                  Animation<double> animation,
-                                  Animation<double> secAnimation,
-                                  Widget child) {
-                                animation = CurvedAnimation(
-                                    parent: animation,
-                                    curve: Curves.elasticOut);
+                      Navigator.of(context).pushReplacement(
+                        PageRouteBuilder(
+                            transitionDuration: const Duration(seconds: 1),
+                            transitionsBuilder: (BuildContext context,
+                                Animation<double> animation,
+                                Animation<double> secAnimation,
+                                Widget child) {
+                              animation = CurvedAnimation(
+                                  parent: animation, curve: Curves.elasticOut);
 
-                                return ScaleTransition(
-                                  alignment: Alignment.center,
-                                  scale: animation,
-                                  child: child,
-                                );
-                              },
-                              pageBuilder: (BuildContext context,
-                                  Animation<double> animation,
-                                  Animation<double> secAnimattion) {
-                                return MyScore2(
-                                  puntoPartida: 'ds',
-                                );
-                              }));
-
-                      _soundBack();
+                              return ScaleTransition(
+                                alignment: Alignment.center,
+                                scale: animation,
+                                child: child,
+                              );
+                            },
+                            pageBuilder: (BuildContext context,
+                                Animation<double> animation,
+                                Animation<double> secAnimattion) {
+                              return const world_game();
+                            }),
+                      );
                     },
                   ),
-                )),
+                ),
+              ),
+            ),
           ]),
         ),
       ],

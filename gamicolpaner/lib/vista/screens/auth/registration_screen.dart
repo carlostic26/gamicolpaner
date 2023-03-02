@@ -256,7 +256,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     SizedBox(
                         height: 150,
                         child: Image.network(
-                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEim9Hj2p9LsGTL47iHayHV-ouvuSJKTa0pAIbhBro6xnmb4dZXLNCJyahomAVWDv0Py1sLKY2i-2GLch21OnyG_oSYylW1BjHK05nGKmWps6BIt-FpA90jjaejXufQ6AwhR0cDtrpQ5b4_v6oLUiGwIxhWbZE89Kk11r2feQjQwObLu3OJNhm80A5I/s320/logo.png",
+                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrKLH2oorwqT7kcdrskbFaj0TGjvIVKZQ9bq19LoZzrsADTcBHL0NdaDj368LRGQkZn9zaBQslpGqqFVD7CV2KJRdfBYxPIXy7-sWDbn-XgODiHRiTZDpMcVF7vYa2fs6rzpDQPvVbEWWNKbyNVm50Nhvktc-CfsCM6dMiV9fZ1lgl5UfYkqtY3qg/s320/logo%20COLPANER%20APP%20actualizado.png",
                           fit: BoxFit.contain,
                         )),
                     const SizedBox(height: 45),

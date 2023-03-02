@@ -343,7 +343,9 @@ class OptionsWidget extends StatelessWidget {
                 child: Text(
                   option.text,
                   style: const TextStyle(
-                      color: Colors.white, fontFamily: 'ZCOOL', fontSize: 16.0),
+                      color: Colors.white,
+                      fontFamily: 'BubblegumSans',
+                      fontSize: 16.0),
                 ),
               ),
               getIconForOption(option, question)

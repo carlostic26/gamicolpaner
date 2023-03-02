@@ -1,15 +1,12 @@
 import 'dart:math';
-import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
 import 'package:gamicolpaner/model/dbhelper.dart';
 import 'package:gamicolpaner/model/score.dart';
 import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
-import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:soundpool/soundpool.dart';
 
 /*NIVEL TIPO GAMIDROP
   Este nivel consiste en leer y arrastrar un concepto a su enunciado correspondiente.
@@ -247,8 +244,8 @@ class _level4State extends State<level4> {
             score[conceptoAfirmacion] = true;
             //game over, si el usuario complet+o las 5 palabras, se genera su score y se cierra el nivel
             if (score.length == 5) {
-              DialogHelper.showDialogGameOver(context, 5,
-                  'ds'); //gana 5 puntos si alcanzó a completar || SCORE
+              DialogHelper.showDialogGameOver(
+                  context, 5); //gana 5 puntos si alcanzó a completar || SCORE
               // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
               var handler = DatabaseHandler();
               handler.updateScore(scoreColpaner(

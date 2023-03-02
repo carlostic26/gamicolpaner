@@ -207,7 +207,7 @@ class _desarrolloState extends State<desarrollo> {
               child: Text(
                 "Diseño de Sotfware",
                 style: TextStyle(
-                    fontFamily: 'ZCOOL',
+                    fontFamily: 'BubblegumSans',
                     color: Colors.white,
                     fontSize: 35,
                     fontWeight: FontWeight.bold),
@@ -249,14 +249,14 @@ class _desarrolloState extends State<desarrollo> {
                           loggedInUser.fullName.toString(),
                           style: const TextStyle(
                               color: Colors.black,
-                              fontFamily: 'ZCOOL',
+                              fontFamily: 'BubblegumSans',
                               fontSize: 14),
                         ),
                         Text(
                           loggedInUser.carrera.toString(),
                           style: const TextStyle(
                             color: Colors.black,
-                            fontFamily: 'ZCOOL',
+                            fontFamily: 'BubblegumSans',
                             fontSize: 13,
                           ),
                         ), */
@@ -271,7 +271,7 @@ class _desarrolloState extends State<desarrollo> {
                           "Puntaje acumulado",
                           style: TextStyle(
                               color: Colors.black,
-                              fontFamily: 'ZCOOL',
+                              fontFamily: 'BubblegumSans',
                               fontSize: 13),
                         ),
                         //SizedBox(height: 5),
@@ -279,7 +279,7 @@ class _desarrolloState extends State<desarrollo> {
                          loggedInUser.sumScoreDS.toString(),
                           style: const TextStyle(
                             color: Colors.black,
-                            fontFamily: 'ZCOOL',
+                            fontFamily: 'BubblegumSans',
                             fontSize: 22,
                           ), 
                         ),*/
