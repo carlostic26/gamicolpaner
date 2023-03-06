@@ -5,6 +5,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
 import 'package:gamicolpaner/model/user_model.dart';
+import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
+import 'package:gamicolpaner/vista/screens/avatars_female.dart';
+import 'package:gamicolpaner/vista/screens/avatars_male.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
@@ -23,9 +26,41 @@ class _misPuntajesState extends State<misPuntajes> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
 
+  String _imageUrl = '';
+
+  //recibe el avatar imageUrl guardado anteriormente en sharedPreferences
+  void _getAvatarFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _imageUrl = prefs.getString('imageUrl') ??
+          'https://blogger.googleusercontent.com/img/a/AVvXsEh98ERadCkCx4UOpV9FQMIUA4BjbzzbYRp9y03UWUwd04EzrgsF-wfVMVZkvCxl9dgemvYWUQUfA89Ly0N9QtXqk2mFQhBCxzN01fa0PjuiV_w4a26RI-YNj94gI0C4j2cR91DwA81MyW5ki3vFYzhGF86mER2jq6m0q7g76R_37aSJDo75yfa-BKw';
+    });
+  }
+
+  bool isAvatar = false;
+
+  Future<bool?> getIsAvatar() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isAvatar = prefs.getBool('isAvatar')!;
+    });
+  }
+
+  String gender = '';
+
+  Future<String?> getGender() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      gender = prefs.getString('gender')!;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
+    getIsAvatar();
+    getGender();
+    _getAvatarFromSharedPrefs();
 
     FirebaseFirestore.instance
         .collection("users")
@@ -52,6 +87,21 @@ class _misPuntajesState extends State<misPuntajes> {
 
     return Scaffold(
       backgroundColor: colors_colpaner.base,
+      appBar: AppBar(
+        title: const Text(
+          "Mis Puntajes",
+          style: TextStyle(
+            fontSize: 16.0, /*fontWeight: FontWeight.bold*/
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor:
+            Colors.transparent, // establece el color de fondo transparente
+        elevation: 0, // elimina la sombra
+        iconTheme: const IconThemeData(
+            color: Colors
+                .white), // cambia el color del icono del botón de menú lateral a negro
+      ),
       body: Stack(
         children: [
           Column(
@@ -676,7 +726,7 @@ class _misPuntajesState extends State<misPuntajes> {
     String tecnicaElegida;
 
     return Drawer(
-      width: 100 * 0.60,
+      width: drawer_width * 0.60,
       elevation: 0,
       child: Container(
         color: colors_colpaner.base,
@@ -690,10 +740,9 @@ class _misPuntajesState extends State<misPuntajes> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 5.0),
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: NetworkImage(
-                        'https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas-sol_23-2149436200.jpg?w=360'),
+                    backgroundImage: NetworkImage(_imageUrl),
                   ),
                   const SizedBox(height: 10.0),
                   Container(
@@ -720,30 +769,30 @@ class _misPuntajesState extends State<misPuntajes> {
             ListTile(
                 title: const Text("Entrenamiento",
                     style: TextStyle(
-                        color: colors_colpaner.claro,
+                        color: colors_colpaner.oscuro,
                         fontWeight: FontWeight.bold)),
                 leading: const Icon(
                   Icons.psychology,
-                  color: colors_colpaner.claro,
+                  color: colors_colpaner.oscuro,
                 ),
                 onTap: () => {
-                      Navigator.pop(context),
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const entrenamientoModulos()))
                     }),
             ListTile(
                 title: const Text("Mis Puntajes",
                     style: TextStyle(
-                      color: colors_colpaner.oscuro,
+                      color: colors_colpaner.claro,
                     )),
                 leading: const Icon(
                   Icons.sports_score,
-                  color: colors_colpaner.oscuro,
+                  color: colors_colpaner.claro,
                 ),
                 onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const misPuntajes()));
+                  Navigator.pop(context);
                 }),
             ListTile(
-              title: const Text("Mi Usuario",
+              title: const Text("Ávatar",
                   style: TextStyle(
                     color: colors_colpaner.oscuro,
                   )),
@@ -752,7 +801,23 @@ class _misPuntajesState extends State<misPuntajes> {
                 color: colors_colpaner.oscuro,
               ),
               //at press, run the method
-              onTap: () {},
+              onTap: () {
+                //si es primera vez que se ingresa, mstrar al usuario dialogo de genero a leegor
+
+                if (isAvatar == true) {
+                  if (gender == 'male') {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const avatarsMale()));
+                  }
+
+                  if (gender == 'female') {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const avatarsFemale()));
+                  }
+                } else {
+                  DialogHelper.gender_dialog(context);
+                }
+              },
             ),
             ListTile(
               title: const Text("Patrones ICFES",

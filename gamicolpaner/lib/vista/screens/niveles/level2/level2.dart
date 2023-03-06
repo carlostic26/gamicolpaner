@@ -46,6 +46,13 @@ class _level2State extends State<level2> {
     });
   }
 
+  final Map<int, String> _countdownMessages = {
+    4: "Comenzamos en",
+    3: "3...",
+    2: "2...",
+    1: "1...",
+  };
+
   String _message = "";
   int _timeLeft = 6;
 
@@ -54,22 +61,7 @@ class _level2State extends State<level2> {
       if (_timeLeft > 1) {
         setState(() {
           _timeLeft--;
-          switch (_timeLeft) {
-            case 4:
-              _message = "Comenzamos en";
-              break;
-            case 3:
-              _message = "3...";
-              break;
-            case 2:
-              _message = "2...";
-              break;
-            case 1:
-              _message = "1...";
-              break;
-            default:
-              _message = "¿Preparado?";
-          }
+          _message = _countdownMessages[_timeLeft] ?? "¿Preparado?";
         });
         _startCountdown();
       } else {
@@ -105,12 +97,6 @@ class _level2State extends State<level2> {
 
     return Stack(
       children: <Widget>[
-/*         Image.asset(
-          "assets/fondo_ladrillos_oscuro.png",
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          fit: BoxFit.cover,
-        ), */
         Scaffold(
           backgroundColor: colors_colpaner.base,
           body: Stack(
@@ -127,7 +113,7 @@ class _level2State extends State<level2> {
                     ),
                     const Center(
                       child: Text(
-                        "MemoryCards",
+                        "Memory Cards",
                         style: TextStyle(
                           fontSize: 48.0,
                           fontFamily: 'BubblegumSans',
@@ -140,8 +126,8 @@ class _level2State extends State<level2> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        scoreBoard1("Intentos", "${tries.toInt()}"),
-                        scoreBoard1("Puntos", "$score")
+                        scoreBoard1("Intentos", "${tries.toInt()}/14"),
+                        scoreBoard1("Puntos", "$score/6")
                       ],
                     ),
                     SizedBox(
@@ -204,8 +190,8 @@ class _level2State extends State<level2> {
                                         _guardarPuntajeNivel2(score);
                                       }
                                     } else {
-                                      //si el usuario hace mas de 20 intentos, gameover
-                                      if (tries >= 12) {
+                                      //si el usuario hace mas de 12 intentos, gameover
+                                      if (tries == 12) {
                                         DialogHelper.showDialogGameOver(
                                             context, score);
 
@@ -213,7 +199,7 @@ class _level2State extends State<level2> {
                                         _guardarPuntajeNivel2(score);
 
                                         //enviamos score al DialogHelper que conecta a la clase ShowDialogGameOver1
-/* 
+                                        /* 
                                         // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
                                         var handler = DatabaseHandler();
                                         handler.updateScore(scoreColpaner(

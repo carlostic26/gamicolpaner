@@ -14,23 +14,26 @@ import 'package:shared_preferences/shared_preferences.dart';
 */
 
 class level5Quiz extends StatefulWidget {
-  final String modulo;
-  const level5Quiz({required this.modulo, Key? key}) : super(key: key);
+  const level5Quiz({Key? key}) : super(key: key);
 
   @override
   State<level5Quiz> createState() => _level5QuizState();
 }
 
 class _level5QuizState extends State<level5Quiz> {
-  void _storeModulo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('modulo', widget.modulo);
+  String _modulo = '';
+
+  void _getModuloFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _modulo = prefs.getString('modulo') ?? '';
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    _storeModulo();
+    _getModuloFromSharedPrefs();
   }
 
   @override

@@ -27,8 +27,7 @@ part 'model/option.dart';
 */
 
 class simulacro extends StatefulWidget {
-  final String modulo;
-  const simulacro({required this.modulo, Key? key}) : super(key: key);
+  const simulacro({Key? key}) : super(key: key);
 
   @override
   State<simulacro> createState() => _simulacroState();
@@ -39,18 +38,21 @@ class _simulacroState extends State<simulacro> {
   late DatabaseHandler handler;
   Future<List<question_model>>? _question;
 
-  //guarda el modulo ingresado en sharedPreferences
-  void _storeModulo() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('modulo', widget.modulo);
+  String _modulo = '';
+
+  void _getModuloFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _modulo = prefs.getString('modulo') ?? '';
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    _storeModulo();
+    _getModuloFromSharedPrefs();
 
-    switch (widget.modulo) {
+    switch (_modulo) {
       case "Matemáticas":
         {
           handler = DatabaseHandler();
@@ -100,7 +102,7 @@ class _simulacroState extends State<simulacro> {
     setState(() {
       //hacemos un switch para que sepa que cateogira es la que debe refrescar
 
-      switch (widget.modulo) {
+      switch (_modulo) {
         case "Matemáticas":
           {
             _question = getListMAT();
@@ -124,11 +126,11 @@ class _simulacroState extends State<simulacro> {
         children: [
           Expanded(
               child: QuestionWidget(
-            questions: widget.modulo == "Matemáticas"
+            questions: _modulo == "Matemáticas"
                 ? getListMAT()
-                : widget.modulo == "Inglés"
+                : _modulo == "Inglés"
                     ? getListING()
-                    : widget.modulo == "Sociales"
+                    : _modulo == "Sociales"
                         ? getListMAT()
                         : getListING(),
           )),

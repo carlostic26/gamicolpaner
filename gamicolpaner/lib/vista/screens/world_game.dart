@@ -25,6 +25,7 @@ class world_game extends StatefulWidget {
 
 class _world_gameState extends State<world_game> {
   String _modulo = '';
+  String _imageUrl = '';
 
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
@@ -55,11 +56,21 @@ class _world_gameState extends State<world_game> {
     });
   }
 
+  //recibe el avatar imageUrl guardado anteriormente en sharedPreferences
+  void _getAvatarFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _imageUrl = prefs.getString('imageUrl') ??
+          'https://blogger.googleusercontent.com/img/a/AVvXsEh98ERadCkCx4UOpV9FQMIUA4BjbzzbYRp9y03UWUwd04EzrgsF-wfVMVZkvCxl9dgemvYWUQUfA89Ly0N9QtXqk2mFQhBCxzN01fa0PjuiV_w4a26RI-YNj94gI0C4j2cR91DwA81MyW5ki3vFYzhGF86mER2jq6m0q7g76R_37aSJDo75yfa-BKw';
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getModuloFromSharedPrefs();
+    _getAvatarFromSharedPrefs();
     button1 = buttonUnpressed;
     button2 = buttonUnpressed;
     button3 = buttonUnpressed;
@@ -240,6 +251,10 @@ class _world_gameState extends State<world_game> {
 
   @override
   Widget build(BuildContext context) {
+    _getAvatarFromSharedPrefs();
+    final double totalWidth = MediaQuery.of(context).size.width;
+    final double cellWidth = (totalWidth - 16) / 3;
+    final double cellHeight = 40 / 3 * cellWidth;
     return Scaffold(
         appBar: null,
         body: Center(
@@ -255,7 +270,6 @@ class _world_gameState extends State<world_game> {
 
               //banner superior
               Positioned(
-                  //height: MediaQuery.of(context).size.height * 1.0,
                   top: -320,
                   child: ShakeWidgetY(
                     child:
@@ -270,19 +284,35 @@ class _world_gameState extends State<world_game> {
                           ),
                         ),
                       ),
+
+                      //image avatar
                       Positioned(
-                        top: 374,
+                        top: 372,
+                        left: MediaQuery.of(context).size.width * 0.40,
                         child: Container(
-                          padding: const EdgeInsets.fromLTRB(1, 50, 1, 1),
-                          width: 58,
-                          height: 60,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                  'http://gamilibre.com/imagenes/user.png'),
-                            ),
-                          ),
-                        ),
+                            padding: const EdgeInsets.all(1.0),
+                            width: 70,
+                            height: 60,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: SizedBox(
+                                width: cellWidth,
+                                height: cellHeight,
+                                child: FadeInImage(
+                                  placeholder: const NetworkImage(
+                                      'https://blogger.googleusercontent.com/img/a/AVvXsEh98ERadCkCx4UOpV9FQMIUA4BjbzzbYRp9y03UWUwd04EzrgsF-wfVMVZkvCxl9dgemvYWUQUfA89Ly0N9QtXqk2mFQhBCxzN01fa0PjuiV_w4a26RI-YNj94gI0C4j2cR91DwA81MyW5ki3vFYzhGF86mER2jq6m0q7g76R_37aSJDo75yfa-BKw'),
+                                  image: NetworkImage(_imageUrl),
+                                  fit: BoxFit.cover,
+                                  imageErrorBuilder: (BuildContext context,
+                                      Object exception,
+                                      StackTrace? stackTrace) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                ),
+                              ),
+                            )),
                       ),
                       Positioned(
                         left: 70,
@@ -296,7 +326,7 @@ class _world_gameState extends State<world_game> {
                                   fontFamily: 'BubblegumSans',
                                   fontSize: 14),
                             ),
-/*                             Text(
+                            /*  Text(
                               loggedInUser.tecnica.toString(),
                               style: const TextStyle(
                                 color: Colors.black,
@@ -1012,22 +1042,18 @@ class _world_gameState extends State<world_game> {
                         pageBuilder: (BuildContext context,
                             Animation<double> animation,
                             Animation<double> secAnimattion) {
+                          int scoreTot = 0;
+
                           return level == 1
                               ? const level1Quiz()
                               : level == 2
-                                  ? level2()
+                                  ? const level2()
                                   : level == 3
-                                      ? level3(
-                                          modulo: _modulo,
-                                        )
+                                      ? const level3()
                                       : level == 4
-                                          ? level4(
-                                              modulo: _modulo,
-                                            )
+                                          ? const level4()
                                           : level == 5
-                                              ? level5Quiz(
-                                                  modulo: _modulo,
-                                                )
+                                              ? const level5Quiz()
                                               : level == 6
                                                   ? const level1Quiz()
                                                   : level == 7
@@ -1037,11 +1063,8 @@ class _world_gameState extends State<world_game> {
                                                           : level == 9
                                                               ? const level1Quiz()
                                                               : level == 10
-                                                                  ? simulacro(
-                                                                      modulo:
-                                                                          _modulo,
-                                                                    )
-                                                                  : world_game();
+                                                                  ? const simulacro()
+                                                                  : const world_game();
                         }),
                   );
                 }),

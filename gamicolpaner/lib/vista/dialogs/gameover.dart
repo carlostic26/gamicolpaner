@@ -2,6 +2,7 @@ import 'package:gamicolpaner/controller/puntajes_shp.dart';
 import 'package:gamicolpaner/vista/screens/mis_puntajes.dart';
 import 'package:gamicolpaner/vista/screens/puntajes.dart';
 import 'package:flutter/material.dart';
+import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -47,24 +48,50 @@ class _ShowDialogGameOver extends State<ShowDialogGameOver> {
         ),
 //GIF LEFT DEMOSTRATION
         Positioned(
-          left: 15,
-          bottom: 35,
-          child: Container(
-            width: 110,
-            height: 140,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20.0),
-              image: const DecorationImage(
-                image: NetworkImage(
-                    'https://i.pinimg.com/originals/91/8b/df/918bdf201dc850502d876c0481e5eb84.gif'),
-                fit: BoxFit.cover,
+          top: 55,
+          left: 18,
+          bottom: 0,
+          child: Column(
+            children: [
+              Container(
+                width: 110,
+                height: 120,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20.0),
+                  image: const DecorationImage(
+                    image: NetworkImage(
+                        'https://i.pinimg.com/originals/91/8b/df/918bdf201dc850502d876c0481e5eb84.gif'),
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
-            ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colors_colpaner
+                      .oscuro, // utilizar el color de fondo deseado en lugar de Colors.blue
+                  foregroundColor:
+                      Colors.white, // opcional, color del texto y del icono
+                  elevation: 4, // opcional, la elevación del botón
+                  shape: RoundedRectangleBorder(
+                    // opcional, la forma del botón
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (context) => const misPuntajes()));
+                },
+                child: const Text(
+                  'Mis Puntajes',
+                  style: TextStyle(fontSize: 20, fontFamily: 'BubblegumSans'),
+                ),
+              ),
+            ],
           ),
         ),
 
         Positioned(
-          top: 22,
+          top: 18,
           child: Container(
             child: const Text(
               //titulo del nivel
@@ -78,14 +105,14 @@ class _ShowDialogGameOver extends State<ShowDialogGameOver> {
         ),
 
         Positioned(
-          right: 10,
-          top: 60,
+          right: 5,
+          top: 50,
           child: Container(
             width: 150,
             child: Expanded(
               child: Column(
                 children: [
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   RichText(
                     text: const TextSpan(
                       children: <TextSpan>[
@@ -123,7 +150,7 @@ class _ShowDialogGameOver extends State<ShowDialogGameOver> {
                         (BuildContext context, AsyncSnapshot<int> snapshot) {
                       if (snapshot.hasData) {
                         return Text(
-                          'Acumulado: ${snapshot.data}',
+                          'Acumulado: ${snapshot.data} + ${widget.score}',
                           style: const TextStyle(
                             color: Colors.white,
                             fontFamily: 'BubblegumSans',
@@ -139,6 +166,29 @@ class _ShowDialogGameOver extends State<ShowDialogGameOver> {
                       }
                     },
                   ),
+                  //BUTTON NEXT
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 9, 0, 8),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (context) => const world_game()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        primary: colors_colpaner.oscuro,
+                        onPrimary: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Icon(
+                        Icons.navigate_next,
+                        size: 30,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -146,28 +196,5 @@ class _ShowDialogGameOver extends State<ShowDialogGameOver> {
         ),
 
         //BUTTON MIS PUNTAJES
-        Positioned(
-            bottom: 2,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colors_colpaner
-                    .oscuro, // utilizar el color de fondo deseado en lugar de Colors.blue
-                foregroundColor:
-                    Colors.white, // opcional, color del texto y del icono
-                elevation: 4, // opcional, la elevación del botón
-                shape: RoundedRectangleBorder(
-                  // opcional, la forma del botón
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) => const misPuntajes()));
-              },
-              child: const Text(
-                'Mis Puntajes',
-                style: TextStyle(fontSize: 20, fontFamily: 'BubblegumSans'),
-              ),
-            )),
       ]);
 }

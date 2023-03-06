@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gamicolpaner/model/user_model.dart';
+import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
+import 'package:gamicolpaner/vista/dialogs/gender_dialog.dart';
 import 'package:gamicolpaner/vista/screens/auth/login_screen.dart';
+import 'package:gamicolpaner/vista/screens/avatars_female.dart';
+import 'package:gamicolpaner/vista/screens/avatars_male.dart';
+import 'package:gamicolpaner/vista/screens/gender_chooser.dart';
 import 'package:gamicolpaner/vista/screens/mis_puntajes.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +26,42 @@ class entrenamientoModulos extends StatefulWidget {
 class _entrenamientoModulosState extends State<entrenamientoModulos> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
+  bool isAvatar = false;
+
+  Future<bool?> getIsAvatar() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isAvatar = prefs.getBool('isAvatar')!;
+    });
+  }
+
+  String gender = '';
+
+  Future<String?> getGender() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      gender = prefs.getString('gender')!;
+    });
+  }
+
+  String _imageUrl = '';
+
+  //recibe el avatar imageUrl guardado anteriormente en sharedPreferences
+  void _getAvatarFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _imageUrl = prefs.getString('imageUrl') ??
+          'https://blogger.googleusercontent.com/img/a/AVvXsEh98ERadCkCx4UOpV9FQMIUA4BjbzzbYRp9y03UWUwd04EzrgsF-wfVMVZkvCxl9dgemvYWUQUfA89Ly0N9QtXqk2mFQhBCxzN01fa0PjuiV_w4a26RI-YNj94gI0C4j2cR91DwA81MyW5ki3vFYzhGF86mER2jq6m0q7g76R_37aSJDo75yfa-BKw';
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
+
+    getIsAvatar();
+    getGender();
+    _getAvatarFromSharedPrefs();
 
     FirebaseFirestore.instance
         .collection("users")
@@ -59,18 +96,6 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
       ),
       body: Stack(
         children: [
-/*           Align(
-            alignment: Alignment.centerRight,
-            child: Opacity(
-              opacity: 0.5,
-              //img background
-              child: Image.network(
-                "https://blogger.googleusercontent.com/img/a/AVvXsEjZrZ4SvLJ-Jj3ZcWHDGbD0fH3DE2dDVGigDobzbj1F7ZrbHBFs9q1i4L1fPDXxt-olYwWxu4Gjp8wLIZGUKAqu-jRAKjUYqZk15RfNFCIUb1noT36rJwtqZs2QVLkoppMY32Nkc5BoetJGTJxJzjqqSbWQVtlbA9oK7PrJANF2vSXOernqiQ-fPA",
-                height: 1000,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ), */
           Column(
             children: <Widget>[
               Expanded(
@@ -83,7 +108,6 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                           onTap: () {
                             //establece en memoria el módulo controlado por el usuario
                             setModulo('Matemáticas');
-
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -398,6 +422,8 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
 
   //NAVIGATION DRAWER
   Widget _getDrawer(BuildContext context) {
+    _getAvatarFromSharedPrefs();
+
     double drawer_height = MediaQuery.of(context).size.height;
     double drawer_width = MediaQuery.of(context).size.width;
 
@@ -421,10 +447,9 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 5.0),
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: NetworkImage(
-                        'https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas-sol_23-2149436200.jpg?w=360'),
+                    backgroundImage: NetworkImage(_imageUrl),
                   ),
                   const SizedBox(height: 10.0),
                   Container(
@@ -474,7 +499,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                       builder: (context) => const misPuntajes()));
                 }),
             ListTile(
-              title: const Text("Mi Usuario",
+              title: const Text("Ávatar",
                   style: TextStyle(
                     color: colors_colpaner.oscuro,
                   )),
@@ -483,7 +508,23 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                 color: colors_colpaner.oscuro,
               ),
               //at press, run the method
-              onTap: () {},
+              onTap: () async {
+                //si es primera vez que se ingresa, mstrar al usuario dialogo de genero a leegor
+
+                if (isAvatar == true) {
+                  if (gender == 'male') {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const avatarsMale()));
+                  }
+
+                  if (gender == 'female') {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => const avatarsFemale()));
+                  }
+                } else {
+                  DialogHelper.gender_dialog(context);
+                }
+              },
             ),
             ListTile(
               title: const Text("Patrones ICFES",

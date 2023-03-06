@@ -13,8 +13,7 @@ import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class level3 extends StatefulWidget {
-  final String modulo;
-  const level3({required this.modulo, Key? key}) : super(key: key);
+  const level3({Key? key}) : super(key: key);
   @override
   State<level3> createState() => _level3State();
 }
@@ -278,6 +277,14 @@ class _level3State extends State<level3> {
 
                                             //guarda puntaje de nivel en firestore
                                             _guardarPuntajeNivel3(Game3.succes);
+
+                                            setState(() {
+                                              numIntentos = 0;
+                                              gameover = true;
+                                              Game3.tries = 0;
+                                              Game3.succes = 0;
+                                              Game3.selectedChar.clear();
+                                            });
                                           }
 
                                           // y si se logra el llenado de las letras minimas completas entonces
@@ -290,6 +297,14 @@ class _level3State extends State<level3> {
                                                 context,
                                                 Game3.succes
                                                     .toString()); //gana 5 puntos si alcanzó a completar || SCORE
+
+                                            setState(() {
+                                              numIntentos = 0;
+                                              gameover = true;
+                                              Game3.tries = 0;
+                                              Game3.succes = 0;
+                                              Game3.selectedChar.clear();
+                                            });
                                           }
                                         });
                                       },

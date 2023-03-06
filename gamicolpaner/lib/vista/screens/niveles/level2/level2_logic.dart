@@ -42,6 +42,9 @@ class GameCards {
   final int cardCount = 12;
 
   void initGame() {
+    cards_list_mat.shuffle(); // reorganiza la lista de imágenes aleatoriamente
+    cards_list_ing.shuffle(); // reorganiza la lista de imágenes aleatoriamente
+
     gameImg = List.generate(cardCount, (index) => hiddenCardpath);
   }
 }

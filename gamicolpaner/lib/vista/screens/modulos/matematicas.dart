@@ -379,7 +379,7 @@ class _desarrolloState extends State<desarrollo> {
                     button10 = button10DSUnpressed;
                   });
 
-                  DialogHelper.showDialoglevel10DS(context);
+                  //DialogHelper.showDialoglevel10DS(context);
                 },
               ),
             ),
@@ -408,7 +408,7 @@ class _desarrolloState extends State<desarrollo> {
                     button9 = button9DSUnpressed;
                   });
 
-                  DialogHelper.showDialogLevel9DS(context);
+                  //DialogHelper.showDialogLevel9DS(context);
                 },
               ),
             ),
@@ -437,7 +437,7 @@ class _desarrolloState extends State<desarrollo> {
                     button8 = button8DSUnpressed;
                   });
 
-                  DialogHelper.showDialogLevel8DS(context);
+                  //DialogHelper.showDialogLevel8DS(context);
                 },
               ),
             ),
@@ -466,7 +466,7 @@ class _desarrolloState extends State<desarrollo> {
                     button7 = button7DSUnpressed;
                   });
 
-                  DialogHelper.showDialogLevel7DS(context);
+                  //DialogHelper.showDialogLevel7DS(context);
                 },
               ),
             ),
@@ -495,7 +495,7 @@ class _desarrolloState extends State<desarrollo> {
                     button6 = button6DSUnpressed;
                   });
 
-                  DialogHelper.showDialogLevel6DS(context);
+                  //DialogHelper.showDialogLevel6DS(context);
                 },
               ),
             ),
@@ -524,7 +524,7 @@ class _desarrolloState extends State<desarrollo> {
                     button5 = button5DSUnpressed;
                   });
 
-                  DialogHelper.showDialogLevel5DS(context);
+                  //DialogHelper.showDialogLevel5DS(context);
                 },
               ),
             ),
@@ -553,7 +553,7 @@ class _desarrolloState extends State<desarrollo> {
                     button4 = button4DSUnpressed;
                   });
 
-                  DialogHelper.showDialogLevel4DS(context);
+                  // DialogHelper.showDialogLevel4DS(context);
                 },
               ),
             ),
@@ -581,7 +581,7 @@ class _desarrolloState extends State<desarrollo> {
                     // when it is released
                     button3 = button3DSUnpressed;
                   });
-                  DialogHelper.showDialogLevel3DS(context);
+                  //DialogHelper.showDialogLevel3DS(context);
                 },
               ),
             ),
@@ -610,7 +610,7 @@ class _desarrolloState extends State<desarrollo> {
                     button2 = button2DSUnpressed;
                   });
 
-                  DialogHelper.showDialogLevel2DS(context);
+                  //DialogHelper.showDialogLevel2DS(context);
                 },
               ),
             ),
@@ -640,7 +640,7 @@ class _desarrolloState extends State<desarrollo> {
                     button1 = button1DSUnpressed;
                   });
 
-                  DialogHelper.showDialoglevel1DS(context);
+                  //DialogHelper.showDialoglevel1DS(context);
                 },
               ),
             ),

@@ -45,6 +45,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
     _context = context;
   }
 
+  bool _isFocused = false;
+
   @override
   Widget build(BuildContext context) {
     final fullNameField = TextFormField(
@@ -71,10 +73,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.account_circle),
+          prefixIconColor: colors_colpaner.claro,
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Nombre Completo",
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(
+              color: colors_colpaner.claro,
+              width: 1.0,
+            ),
           ),
         ));
 
@@ -100,39 +110,56 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.mail),
+          prefixIconColor: colors_colpaner.claro,
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Correo",
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(
+              color: colors_colpaner.claro,
+              width: 1.0,
+            ),
           ),
         ));
 
     final passwordField = TextFormField(
-        autofocus: false,
-        controller: passwordEditingController,
-        obscureText: true,
-        validator: (value) {
-          RegExp regex = RegExp(r'^.{6,}$');
-          if (value!.isEmpty) {
-            return ("Se necesita una contraseña");
-          }
-          if (!regex.hasMatch(value)) {
-            return ("Ingresa una contraseña de al menos 6 caracteres");
-          }
-          return null;
-        },
-        onSaved: (value) {
-          passwordEditingController.text = value!;
-        },
-        textInputAction: TextInputAction.next,
-        decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.vpn_key),
-          contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-          hintText: "Contraseña",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+      autofocus: false,
+      controller: passwordEditingController,
+      obscureText: true,
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{6,}$');
+        if (value!.isEmpty) {
+          return ("Se necesita una contraseña");
+        }
+        if (!regex.hasMatch(value)) {
+          return ("Ingresa una contraseña de al menos 6 caracteres");
+        }
+        return null;
+      },
+      onSaved: (value) {
+        passwordEditingController.text = value!;
+      },
+      textInputAction: TextInputAction.next,
+      decoration: InputDecoration(
+        prefixIcon: const Icon(Icons.vpn_key),
+        prefixIconColor: colors_colpaner.claro,
+        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        hintText: "Contraseña",
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20),
+          borderSide: const BorderSide(
+            color: colors_colpaner.claro,
+            width: 1.0,
           ),
-        ));
+        ),
+      ),
+    );
 
     final confirmPasswordField = TextFormField(
         autofocus: false,
@@ -151,10 +178,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         textInputAction: TextInputAction.done,
         decoration: InputDecoration(
           prefixIcon: const Icon(Icons.vpn_key),
+          prefixIconColor: colors_colpaner.claro,
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Confirmar contraseña",
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20),
+            borderSide: const BorderSide(
+              color: colors_colpaner.claro,
+              width: 1.0,
+            ),
           ),
         ));
 
@@ -295,6 +330,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
       });
 
       firstLog = true;
+
+      //keep user loged in
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      var email = preferences.setString('email', eemail);
 
       //Se carga a sharedpreferences el buleano que validará el primer ingreso
       LocalStorage.prefs.setBool("firstLog", firstLog);

@@ -17,8 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 */
 
 class level4 extends StatefulWidget {
-  final String modulo;
-  const level4({required this.modulo, Key? key}) : super(key: key);
+  const level4({Key? key}) : super(key: key);
 
   @override
   State<level4> createState() => _level4State();

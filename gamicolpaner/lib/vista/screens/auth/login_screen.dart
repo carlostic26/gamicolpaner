@@ -53,10 +53,10 @@ class _LoginScreenState extends State<LoginScreen> {
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Correo",
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide(color: colors_colpaner.claro),
           ),
         ));
@@ -87,10 +87,10 @@ class _LoginScreenState extends State<LoginScreen> {
           contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           hintText: "Contraseña",
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide(color: colors_colpaner.claro),
           ),
         ));
@@ -195,7 +195,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       //ShapredPreferences para mantener al usuario logeado
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      preferences.setString('email', emailController.text);
+      preferences.setString('email', email);
 
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)

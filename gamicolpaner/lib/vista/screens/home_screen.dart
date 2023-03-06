@@ -158,7 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 onTap: () {}),
             ListTile(
-              title: const Text("Mi Usuario",
+              title: const Text("Ávatar",
                   style: TextStyle(color: Color.fromARGB(255, 99, 99, 99))),
               leading: const Icon(
                 Icons.face,
