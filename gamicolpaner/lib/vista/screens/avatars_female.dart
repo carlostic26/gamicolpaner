@@ -24,7 +24,49 @@ class avatarsFemale extends StatefulWidget {
 class _avatarsFemaleState extends State<avatarsFemale> {
   bool _pressed = false;
   int _selectedIndex = -1;
-  List<bool> _pressedList = [false, false, false, false, false, false];
+  List<bool> _pressedList = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
 
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
@@ -237,7 +279,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiOjqtlJ0B6Wr2FircsiqSEoW_zktifuRI1qSbdInXMrBKnNfEc8A-3lkLYyS7Wk6hE6-l2u8vKG2arhhgU-tnnCHWpSQ2BQLRjvFvakSSx8NO7tss0ZP-4_rXzwZssbcN8PJIZuyw71pJnLcTlmQFCPX40gMFEP1ahKsQadpOVLpAN0UXLWzjLC1w/w200-h194/a1.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhto5YXa603LpbIiNTumqrADd40Fc6S232YLhJhaEhCfC3AeB9H6GT4sNma9P1rCQOS9HNCnzR5K2dt6lBzaVmyXEcgvaiR-qu7SStyF6WQU9agTA1rqYqR2k5qbyVZZSEgeawTocX_LOUHavGHEzUgjpiw1ZCAywy6a6Bjp9dOMbhao_tMcVyDtzI/w200-h200/av40.PNG',
                         ),
                         _buildAvatarButton(
                           index: 1,
@@ -246,7 +288,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDq9UyZb1p4kriNXrN-QfrZP_Lj80fPV7EP1Lf6RW7EZhwu1n0y6sCz7Wkzg_SoP41NvuX2GH2xapMlZNbRZ7cDDkVk_sSsLLeyQ1tweAleO_zbZPU0fPAsffIVx7jUQqqQVcbrYuf_KhO_9stdh77W0g4hYxn9eXzyOrv6-MWnaEdEjX7YSjeN20/w200-h197/a2.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjGNAeVLIm7qjXH4uliNNcJuXKbgTbDPG7bk8Ywj9WaSeyAv3jMhX3Tjt9H3EDGVd0pHjjCz6QnUStIn6KuBAQ47hd_mQT5S4TwPA85FazCQeAoND55BBXldtLF8lPSjPDZoW-Y5osWbrVP7j_6CWKWchcE839uGC-X-7JpuPJ6E-cAp6S2Nd5BhF8/w200-h189/av39.PNG',
                         ),
                         _buildAvatarButton(
                           index: 2,
@@ -255,7 +297,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgyIcDtwypK8LqEi1Ad-BSS1uxz4gbcp7M3FlsCPbwlyCLtMQgs4FaMQE2qWDofnZ1HrtxHNobKQQ-0c4854vHAY3X64Q9FtD1Lf468rLB3kvJQdBPcTEkhW6ZWiUrnrSWrIv0rQd5zQCj0KzDqsy-9GxQkANeZwEuIpWyMMlgkV-64aHBKo0Wu7J0/w200-h173/a3.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh2HPERWI-5PdbOCRNCS_BBQ51yTuA30n_wsxkJ4JCPt2emqN3bTzgKjvqXuJE19O6kx-FDdy_Ha5-BT5-yQ6B2ZR9UGJhVwycm5u5Q8ysQL9jlsuVO4K3fjspseyQDcQSt88htxeb_2M0Zd_OM1xugV8gTPfy3lsBBFwYUGX4BgZxDerCf70AiUUo/w200-h196/av38.PNG',
                         ),
                         _buildAvatarButton(
                           index: 3,
@@ -264,7 +306,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiUDqeQ8AiJoaU77yHFHof-0L8cu37nKs7DkVrNPzI5Xc2qVlo9eYCwGZXCzZ1WMDKtSQFPAaLpRWiVLBOQINYwPCo3fP_PeNtJRs95NHjz87vTZnOT-uro400RPcEXmcQc5-xCJ40_38IOJ6aYoLgYebCGBlPF37K9ju3HVkiXjpXuCO5c0uRs9lo/w200-h184/a4.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgeqit-yNgnoaU4lN3ufpbHxLKUYPIFSMPAvnmUHktoy_DAa60_aUPCyKQzLvAdofX3Pij0_veQzUoU5h50J7z6z5nh2pra6iqm0Bod-a4iY-9icPzkwcL203Bn4EaYnlQjYsQ5DFR8vSExo0tokNAuCIH22pyFU_i6kBqSC8HfySE9GSbp7i4P3Ac/w200-h196/av37.PNG',
                         ),
                         _buildAvatarButton(
                           index: 4,
@@ -273,7 +315,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiU3b9bRIHvWyoleUQExaJnFxZGFR_nfek8rv-_idzIdGgfZzBF2ZcqyM1cxCL07rU817M830dmmYZNXTA2p72_JbVJmgKyVcIl5BZm-H4MBZoLLzYLqSXbLG6i-XoyJLbnRSKdd20ygnYS6A8N5WWaSvcdBeIpeaBKR5DFvzCOQn8CCezj75Io9zY/w200-h188/a5.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjFdaYPkg9aZm_ocm0fXp3oP8f0b38Mu-P-iIz3JX2sEJx0N63ggbdkqrVxB-KtlWv-d3ZA7McoogC9com0R-xdMw_cmT7wJU053xL4mpmYTYcDSooRvD-71jT2cKC4BMRH1BOyQs6kJNUTUIdp6WI2NDegwjCkh_jI0AMlQh33mdvPwwzpepUx5LA/w200-h197/av36.PNG',
                         ),
                         _buildAvatarButton(
                           index: 5,
@@ -282,7 +324,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgsaXNdoH1wK8jCEKE73LtHhrr9rqR1NoJV2KnIDl7aIkFaCaU-VAlbRqasIO36pRKFuTYSHwE86auXd6ebJY0m_Jfowh3jZauu5tCLOr5MSo6x33vmr82VI1HswiVszMlEzyp8qA4X_xBPfiBwVoVNAK-b61XatB91TsRNGPJ2lfVNUMXnE7wHlSw/w200-h183/a6.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhY63wHjKuM1sMm_tGmk3QRKoXQsvakGUt4ve9wgw_7-JfW1RwXVRhdkE8VfPMrqwMh3euGJj6vVcFsrejuOpaedd60yNzGwv94aglPpECoSsb1mPUcpJQwYNVnfQ6MqZdNp5Gu8kHhtU_u7kOIL8JUeqh54scNowj_8RF-aA-HobbvMZSoKZe9_dE/w200-h190/av35.PNG',
                         ),
                         _buildAvatarButton(
                           index: 6,
@@ -291,7 +333,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEinRweYojRSLAMDhJ7dv0i_1cSPYldFVOnhPnf4lBqqL-sn3irpKcbawMpXB-fDtqDDBBGqds6BX9dCp3v1yo0WNRfdx3arTUdVt-10l-RzFuPYzTV0ge8T_pbXXjnscqH9qvYYtgVeAZjpJwPLen7kqjeqRVn9Aj4WGq6QPC797gNElWGOjpF7mog/w200-h175/a7.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiYVJd_snGlKMOIs0BGZHIePJWKlxgEcw2ksFxkz4rv2EdBxvTs1trZHVdmukUsbOlwk96LPZFf8M7jmR9aMmX4RHuVu3dP0m7nfQKmUItOZG6ndTiTA6990P9XAVT-TeT1mX8Nhn4Ulbw3dyqLeGD__m7jHnNrkLjiOmOSt03zAMNn1lkSpInPLXc/w200-h197/av34.PNG',
                         ),
                         _buildAvatarButton(
                           index: 7,
@@ -300,7 +342,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiuP2sCiPlv5QCRCWn5n0EMtdpTN-pzuxPsmqhBm33uco__26Y33E5Yc3hAlpW7KFTgLQBIpLY72rss7DP1SyuvNw69se_Sw5UuB6FES7EfEmAh1fWnp0XTHOFrccOf0S367aEi_dJiYd0TGXFXGR-9SYnxiNGGJLb8W4j4x9vMMNHCrg1LxpYiTXA/w193-h200/a8.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiPyIes_khLxavmec13ZS1wBgR7pxLeq5yWMmPCMrIfG_7-IFsPpbYIxggGngNiHcUI7eNaYVSDgyX82xtZVVzbGuuNBz-y-hTyG1JUjy3q_F-JSBjnLd8_wJ-gWptMWG4s0xGz0T3gmtzTdaPlc6Y43pxnrmxViZSA_X06R66ecPQhjnPfN5sZhaY/w198-h200/av33.PNG',
                         ),
                         _buildAvatarButton(
                           index: 8,
@@ -309,7 +351,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjpJ3pxZ-MBVQF_OqSfGTTL3nOKG3HvrEsnbLHNJk_aWW53FseQ3gMhxfb5xd_0AfB4ZXJUTxfbBr1eXuqWbVU6aBag64-pXBSoZtv0nCycsCyLv6BqOcphSX2xfQpRSnaCOHDgUffR4EuIAGDqnVwDp6knydmsSJclUG7Q-p8oBT1mt2iZnVZPlOo/w200-h176/a9.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgv7wR9hLxGhj7kwmO1xdvvww_EgIjo2GNmH9Cyr6Ir72g_G36pJ97BclqTOQlY9OsmM4aTSaH-KT6R5EIdMM6PiW2vZy_IoHtHAauxzPWQmTT2V8TwRpqEbPqMRhOwPgdKJ17IieC3hsiv_VbFvkRo07va8igCQVLjD4I3yErtOe0ck4CJT0MHBm4/w200-h193/av32.PNG',
                         ),
                         _buildAvatarButton(
                           index: 9,
@@ -318,7 +360,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhKOZmTI7fVhyfhZRsZt4IGCY-f3hNo70tYoeEiLh8pEkrLpY4HTk5zv4d9L54VBw3XWyPBjWU5NhD4sESi2auZLorgGshr-DsOxf6kUVSla6RLihdqCEf_ki2Pj3p19wHUU0Z6XIdcKRBaQoTyydgeOantNfeYQIO-fI4l7jFlpvIFvXzwtDmdTFw/w200-h189/a10.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi6acBiTVTbobSAXNqt2OzrSV6jjgqv6d_I0g9jKK7DYEY78QBJm5YW7-qxlFBy0nJXSsyfcrJ6Zk6Cd75CpGvjf79cmSq7J5G4LQHAxeZP-1mc8fHSkHcjk9ieFQ-u4RRtXZVIfZy7M6xRWSNdCc550Uxg8e7nXY-qB7DFou7Vk6WF3ryzsPdBa4E/w200-h185/av31.PNG',
                         ),
                         _buildAvatarButton(
                           index: 10,
@@ -327,7 +369,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEivae6Qa9ZQ9FuL-fPJeCIPsSyzQ2Tkxbpa4cfClHYGQVHfSGGqsUHf5Bl7Fq6s2xZpYU5Lp7DX_yAg9quOAcK7Op0X2GPaiP8MMb-HxWfhmtSBsARCda5OUl2qZsjjqeYHj1Q3mezdhpNlJOMdCGF0aGrsJRogT2jJc-HSxMsXRbURyHXESGGn0RQ/w200-h180/a11.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiJ1LW0_VdGc2AgPc_YDhofyH7JJ5kI56aEwV8_smnf4qmXXSMXH1HxcGT6cEhB0GT1L1-HAl03mLII9upXS5jdEUbY3AUntfd6CbBwL_n3LPv7m3K1ZOs3uqyzPFCZu8rcsDIZ8a75xy3Qo8gfOmt5NAV_XCpk6R6449cvjE0-ZY9DlxMiXST6hwM/w200-h194/av30.PNG',
                         ),
                         _buildAvatarButton(
                           index: 11,
@@ -336,7 +378,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEibgyNVef3pMWSbrV1t9XzN8irYLlX1jQ4AUsxvFupQezI-InwgvKas0GmgxG-fDoJmBBmkdc_La2FTwhFaRbYHKSHxJZKEliiZu8tTpL8HhyGds8AtpaUIdHvDEO4M_mt8cyrywJp7MGiH8qIOBcEgUaGlBvxscXd2A0Qwh1OZCKBQ6eSdbin1PwI/w200-h184/a12.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEidiWbwxSPUEg665riNMVaCHgpz29HrfxI8HpVCSinZELzHnls-aVP1iRpbQE_tUw9j_1Pxd2pXUcYJSALnz8YmIgj9nKDuxb9OZcan4rY-MDxHUNQr4NKy1ekoVq8DBeW0iKjVfR1qWEU6gwsqMMfx9zbPhwMS8BdfxijfM2IvFjjZu20Y9ZvvbBY/w198-h200/av29.PNG',
                         ),
                         _buildAvatarButton(
                           index: 12,
@@ -345,7 +387,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhjstDuUAGlFImGwO7ry2o9KuLyNn9RleLtoSZzI5oZj9by5zupufwfaaTT2JpymTddnvNO_pTipptpKXY6PUSoYRWq2PAWmrelc-DjgtkHPixuO4RbNANo8GNzZ8b8pjZdGVrYdMMTJEzY0BWSTUQ2XWqShCaKy4sNHwaTjXurQpvPycPl8lphJls/w200-h194/a13.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiXYXzHXIBLCjaVaRpeERS7i6tAem9LBn-sUctHu0bfMz_Rq280813p6LlYScNRpO6IGu3Cz25kHcz1r7j5srGEUfGalXh7ia0si_REOp2uXK4zmw1ituCkZi6DEpKIkxg95rE2fqYLldg1zRUB85kRVYxZpo4peLNp3lKtuhfwwXnjHB8Qyi938FI/w200-h188/av28.PNG',
                         ),
                         _buildAvatarButton(
                           index: 13,
@@ -354,7 +396,7 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgJoEf5FVZmF93CAJK6s3IF7gOjpKo8O8ByTjmDW08Eq1aBNOAR3_tAO7EW4HSSOHqmNlIGsAZP6pfH_xTRbtlb1_mnxUYBfCZnCfVuyVpsIM0Qm4zudHoavXovWx57pjDgQx8Ifwm5wFEGs7AYlnCJLEXE0BrVNKd1ZjhVdoIaWYPi55PFvqzrSmc/w196-h200/a14.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh2RL31-WQ1S3E3XdYNa32XdVC6YweD6_tFBnFFU0SsK4K_UQtuv-aXJeHr9K1f1ZHUtCUbZkhNZY1iRklMvbcKTTO4RE9ymyOBZMCm9HV4ei-P7zPiyOOk4oP_SSSEUXAvpYaoS4BRTWgSupo6moBkfKJr2RD-nKkuGdt7fJOPIFJ2ZQPyn7rBmws/w194-h200/av27.PNG',
                         ),
                         _buildAvatarButton(
                           index: 14,
@@ -363,7 +405,232 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                           cellWidth: cellWidth,
                           cellHeight: cellHeight,
                           imageUrl:
-                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjFcEGdckscnEueJkXni-pdqYJ0Jg_tT2BwmpSkWTy4y6BOsE6ctJIpRiPWaPsV9bZgAsOCbzZQQwRjtwcDobAEev3xRM2ttUtHTpXny5lIa4A7-LTSphqiZkRBTFrMfI6y4XV6WGpIdqR9C9MUwpTf9bZF-c4qx-gyCX3PaxYUIx93oWqybyNOzIc/w200-h191/a15.PNG',
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgwyC3swChFIMlJxz-Ry2tN6anNo3Lqa4_wlVK5QyF1AuCwI_h0xw4Rh-bL-6NPdGaBcA7-b_c7W5tMiXy-mhcm_by199iLXa7XnTWB4Gumc-cc1k9VRrQTCGQOmvyXOXcTwwDgg4Hn9pPxsEr0rXjMOoGcu2SbddEMbP1zvfktAbE4Rj-kMKL5u28/w198-h200/av26.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 15,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhuDtcaHx8lwqWjPYYlgKg6hXVeQAhAEr_iy2RLQ_1JKPnp9dQjhYZBU0Kkys9dFjM84LEGk3erElYs1yFTsMVxAMN3jfxZhLH5cAM0W5iD5VPuiNsCftUmkHLek6Z1F_pP8hD71PYbbP_MoSq0fGRsbNshyAoQwvNEVJdU2eFDxGIggV1JfCv_NYs/w200-h189/av24.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 16,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgS_-SAP46vT58CV0C4o302yZ82ral4pKFxm_gyq9i3KlPnIztcL9mTteGM8Ymmq4pgi_kSt0M5At7h7SS2NbnB-pXp76ng_r994ptKRgaFEgg0BRPwy2vDUNGk7QKFmQq4YI5TVg0TL1qrvSYa_KEIAD1WK5t5MlC8QSuMJSRDJngpbQYJThZShno/w200-h186/av25.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 17,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjQqeLsFK6MUCxcjxA6YmyjgIE_AYMME-kNG2IAj0g62IKEZE21GE831Z9ywmq5W6LIV49O6KfjxicL0ZNZkJwvzXhvSUbyr4TdMCBy_oORFFe--zeQ0jXR3OlUXCfyFPxx0c3ZopHM0dP9igxKL6XOTsHLe-RdcOLrBuPv2mZxUq-F8_drsmIVKOg/w200-h193/av23.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 18,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhax6X3MpeVFB-IElovK0dHdc3JQS3zcOPfzIPOThj5Lm5BbPLHcZHH3T3rqdYjTac6lJXRHtRvxPXE0go4pXBHeesLwaDuST6q1vNf6UDY4QlFmzFDNWmOCR8AUV6OVIpd2px00WhUgb06PTkwfaLpa-eagT4fWbRSTt_C9oRnaL254jH6FUZKTwo/w183-h200/av22.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 19,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhIGcaRUqRXtRw5U2ACzMzeF_ahv7HUA866LhevJPVt39IP_CXMa_SMs1cmRsoZrRLUZKrEa62TF9SSNlz4-6mzwWNncepGzu1XMdSMhh3ftGP5YN78qsJTgz8c8s_u2A05bx5JX6BteioGTGoigHTnYpS6uZXUPALZ74JWi0SwT3oJlIuSTtjgg8I/w200-h199/av21.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 20,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgKzJi2T9hv3H0GnUJTrsvs_fYXodZv361cT5ctScAt7gJupOdEaUuVovQewaAKdYmURPqQyBtpvv4iTexCVXXE8jc0yiharOuxv4tMqndapyyMEaoa8XLzR-WfaLWln6OquM_-68XrCctHWdA-d-oN6t_wOeE6EKjMNdJfC17M2wDoO9M9ZWa1-Zg/w200-h191/av20.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 21,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5EUWrV9yVGcE7nq9DUuLe6vwGucks-wSQhv7rBv0dZ0HzWerDUgu3nY-Ui2wNm5hU9h6hwy2dZhWIAD-rJSSvy4T0aa_3CYviN_e6Fp0qtbamxgaM9qVRsGYZ5DDazEyt5aHhylX_P4If9jgs6ldLMyy3DDSnQetGn0og8EFJyEs_gITfzYFvawo/w200-h170/av19.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 22,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjCyHI3QIeCRERHTjwwKNgZvsCfw6mtLST8mvwsKFpKt77CE23sDpw5O0G_hGHS4lacVmX61aDXl_PMegLCyhZLL-hIaA6wRfqwLaAKB1XWHMF15P6SPIadWgeJodaJazQjNKnOCVshUy7JXtPa9NU4AoV5ToiYnQ-wCL1ZC647vOoRu52VQQ2JxO0/w200-h194/av18.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 23,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEirgwlxMaPM1ut-C4YJAKoZ5FzzgVmb32PHzQKCi4KGAbB-DgHli0ZQcsGEVQotUD-nU5Dv2MUcpemF4B8DmYkczEbz8jdAnrFOBF7GMCikfR_yFKxo6SQJ9sSiyNGBR8RYlUmA0RBLw3PO97lqfFN51rb42xjw_Ifqf03Ej60DAzs7-uSbyqIO5Fc/w200-h188/av17.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 24,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjfrXAZDuofTyqAmpjfhd-la815QP-47vRfXgmxKsv2gT2xZ2DpcCZGM6a62GntdJGnTJ5BrAethjYhZLiIbs0VMzd7ttNuht2xsDk65WjM576WooNzIGjlX7ZHfLppSIlUsMUihNXrNOfTge9SoWNplAkUEp5d-AH83hbSh7Uiw18bERZO4O4VwcQ/w200-h190/av16.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 25,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjVYMRkvfBMDiTRkvINyU87bLqBNrNPv1qy5pB09Wwglcb7tugw9R4PyG3QtV8ZW6ZIZRjcm53N11KsPLwF0alSAJwIlsatZ2ltSY4uEBQmhnCr5DZ8AcKo0BEhs8bWF-ZdzmHB-tppVfWY2ZtnYlJUw3iG32yBeB90SqURNB01rk45UmBmu7FUkRE/w200-h195/av15.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 26,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgDpwr1UhODHwXo_VCHvwU_KsuqurcJoW3xHletq3inQY7WoSRsp5Xjr7NIuuDd3bSSkiEEDOJpLpTRe6KvGUiA2avBWwUIwmB9HY0YXvsWyXMHIy3E_-sq4cX_ATCoImda8Ia8_mn2zHdP7zhSVCD0fYL_jyUp38oiliVBUtWiSZZDnx7NZ-d5wX8/w200-h193/av14.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 27,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhZoYP10cm8FumP0Oiq3lvhGHoSWAExUfem8wDJ5SicMh-bN4ttwQqG6RhFVz_2Wrl1HXrPIVnl6QQ1YppcQZnH0aFz7hSsvVdWgcl3an8IXKEqVgpCflYF2vHaKwQkO6KofZjdMyJsKRrkzlHbfmAXjhySzMl7IsDc45dsGeBIfidqtv_PCMdMcVk/w200-h178/av13.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 28,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggExKiusr2qORjsus_gBY9OQrcZcbkmdS4-fifsFaX5EWKqDflqxYSqlWOOHOkxrR5tV8nJgr1l57upae-5dhUaBm_9zS8bxkUoTReuDLKxLd1rqeUyQ3qbucU-UgDyyH0h0V2NfNUr7YCdeU0knHpDK59vZFj1eG-GBN4SbNPJnodubu2oszN-p0/w200-h174/av12.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 29,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjpMsw2nYbGeXQG7yF3GQtmgROo0ppH00k4bKBUs5Xa7CHpVGC6zV_pcJ0gw2lrkLtFmU3oyZD2F_659nByNoBTIRz5nMifn7a-jGN6F_cN6ZJK9UPszxfamwpG9RUDUmLbDM0xWTDKhCNjcyd_cjNrX0co5SxQt8e7aQmYgLBIvHkRBO6lopRrHUU/w189-h200/av11.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 30,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEglr4PB2HMJrv6N2dRYMTTOo6aiRgryDpp4uQJZJk2ymNhY0w7ja81pGU72a-WIgQdTOU9VI4bIZ36h5iyUDLhiWRbOswoHwOKt6m44rGJ5ARg9NyE6uKE6nAt-W4n_IAS0awcjdumXIi-ZFb45RQXokVYlBzCmI6-d47BVl4z--5TiexHLa0B7y2A/w200-h193/av10.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 31,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhYFNlBK-LUnH-00Kl4DkVcFq8ctoXpB6VSD2OphSyi1fFF1b-qnDQ0NiKl2S_M0wunUlmFJvRCtbGwIQGh4IMMaK89ETWGrTHt4m36PNmVvv6KyaD1FxjCNdiS7xlhmmgkHXJ43JkHnGcETUn7rXNwjm3tbb9uXvhf4hn4ndbgUVADxD-vweB8cNU/w200-h185/av9.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 32,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjWOEeJ_mVZ0Fqx9v3--RYm43oxg5ablFP7seDi0eqV0fet6jOCGS2Aal2qZ0rSH8Kf4wguGlKGg2lGjuXqKCk7sGxn1HeI4TMXgrIrwknD3vKQCqclNbLOoLOB8AlJYT5WHsCFNmnp5ZtejOn_YzpfPiL6nXOnqzlnCMaPJ6DCpMkM2uJaOCXzQFw/w194-h200/av8.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 33,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhd0bcuyb_nETqk5yKa6QlsxykUzqxlKrwTSQtYLpaODnxtUGHgUb9w7i7pq2lqXCFdEV9GE_2dRrfuyM1v4sJzz5fdJy6UOjsv-SOFbqY0vvTEhv9HqBChBS2gtJzSKn5qPL2QumkENyHwrsZSbAYzgx_Q8ayvNjFHMsHrtH6cJdtQF5G07ZvCfZY/w200-h183/av7.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 34,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj_VV6UC0ItudKhTRpRU6lhS-Ej-xHnvpWAhRTNAB-p_wZMNkPsE2DEHmw8h0-wsqYcMhWkLe-bH28vC58z7VU-7uO6qXvg1xL0GLsZBhLCzaGB7birxGb2hj9IMB342s2wkP9V3PHWIsuWnOCz-m3jzv-UzSmW5RUQFpdfSFTnwRbKzF6NHtG9_Ls/w200-h186/av6.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 35,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj_BRjorn1dnxDMaJYFWEhQ_xv78yijJ8ytJT-gk8frm0wdvmXGgMFw4caSIxLzufxcLrm2eFM9uiOxsKFqi7wEDSCxMeMKUfk4UouEJp7otvIaE_wz87ge2KmLNaJ0mGqKfhnS19vOwhrwGNxHyTONl3PXjPUN48Ni1xpXpJ4M7mEKFhzliItn9J4/w200-h194/av5.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 36,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhLSL2UFat73krySxwlNjbctGH8Q1BCARfYB3xXNK_kwZu5zeu9oaESaLgCZXywq893k6SY-nA7AU-Sp__7n4q6LQl4hOU9whcNg9NAnVpW8T1F8UxxCIQbllsOlLcLoG7OsvCv2oXzkQb0QCiJY3Umd7micWsbHfMrPSzLpL9BFaSQtkuAHLETIlI/w197-h200/av4.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 37,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiHClvG6OHHV2M_YbsL45VuLIiMnZ4adV5eELdLCe1QwxKY3xUvCq1LjkSAUGhKq4JOLc7jxl-DW2ENPxgtGdxYX8XQThJILFea7oHmodRjgI_k_RyW-N1DEP_hRcoaPRPTKsNYIV3fSQ3i22f4HAt0fneIECIMnjME_7pXvZkseUHmyDiudKVMKAI/w200-h198/av3.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 38,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEggGP_jx_KvhvwjEE7GwLRrvAis22S5KVE2XoW-C7BIjDvkmujpsYMZv3SwiHXURMUq3GpZ5DKju72-clKrNbapbiVHOYLGSh3rWOCKCa2n72J02RVG7e_iGjW5msOVV1iKshTEqFOe8MsDWPyIN0tVRzIVGYY6_m6l8Bw9jxe_5jqFTLGw8Pbee7A/w200-h198/av2.PNG',
+                        ),
+                        _buildAvatarButton(
+                          index: 39,
+                          borderColorPressed: borderColorPressed,
+                          borderColorNormal: borderColorNormal,
+                          cellWidth: cellWidth,
+                          cellHeight: cellHeight,
+                          imageUrl:
+                              'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhiAnS8zOgqplUbuFwQy9UITVXDdf8yjCKwjT92Ly4wqSJKASPekzqcbbriBZCMIYy256pROqaW_ZEFwdV3m8moFr3MyK0N0zYMiSA0HXi6Dqw5jmm70yMB19jvm9gI3NnZQsT0EwGh2m-aQrFBealjig5uYjHhvaYJtH9lt2k57MaAzjLQIbv-Sf4/w200-h192/av1.PNG',
                         ),
                       ],
                     ),
@@ -388,15 +655,29 @@ class _avatarsFemaleState extends State<avatarsFemale> {
   }) {
     return InkResponse(
       onTap: () async {
+        // Si se toca el mismo botón, desmarcarlo
+        if (index == _selectedIndex) {
+          _selectedIndex = -1;
+        } else {
+          _selectedIndex = index;
+        }
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('imageUrl', imageUrl);
+
+        bool primerAcceso;
+
+        primerAcceso = prefs.getBool('primerAcceso')!;
+
         print('Avatar $index pressed');
         setState(() {
-          // Si se toca el mismo botón, desmarcarlo
-          if (index == _selectedIndex) {
-            _selectedIndex = -1;
-          } else {
-            _selectedIndex = index;
+          _getAvatarFromSharedPrefs();
+
+          if (primerAcceso == true) {
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const avatarsFemale()));
+
+            primerAcceso = false;
+            prefs.setBool('primerAcceso', primerAcceso);
           }
         });
       },
@@ -454,10 +735,9 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 5.0),
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 50.0,
-                    backgroundImage: NetworkImage(
-                        'https://img.freepik.com/psd-gratis/3d-ilustracion-persona-gafas-sol_23-2149436200.jpg?w=360'),
+                    backgroundImage: NetworkImage(_imageUrl),
                   ),
                   const SizedBox(height: 10.0),
                   Container(
