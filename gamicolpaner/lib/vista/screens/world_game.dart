@@ -25,7 +25,6 @@ class world_game extends StatefulWidget {
 
 class _world_gameState extends State<world_game> {
   String _modulo = '';
-  String _imageUrl = '';
 
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
@@ -56,6 +55,8 @@ class _world_gameState extends State<world_game> {
     });
   }
 
+  String _imageUrl = '';
+
   //recibe el avatar imageUrl guardado anteriormente en sharedPreferences
   void _getAvatarFromSharedPrefs() async {
     final prefs = await SharedPreferences.getInstance();
@@ -66,11 +67,16 @@ class _world_gameState extends State<world_game> {
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getAvatarFromSharedPrefs();
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _getModuloFromSharedPrefs();
-    _getAvatarFromSharedPrefs();
     button1 = buttonUnpressed;
     button2 = buttonUnpressed;
     button3 = buttonUnpressed;
@@ -260,7 +266,9 @@ class _world_gameState extends State<world_game> {
         body: Center(
           child: Stack(
             children: [
+              //img fondo
               CachedNetworkImage(
+                fadeInDuration: Duration.zero,
                 imageUrl:
                     'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg5Q4hvD_1Mg-3b4w0_w4rnkdo8iHWn1Pp2hLCbKLnnW4eUPY1LnmKF20V0zcIMNSJHSDUgqvVBNJqOodIeVRG87TewfsawutA9AdVEJpYxFVhBCoSpo6sVGKGe6uOLXG2KyuxYYR218nXHid185Agcdc-RkbrYrnw0FB3WWX7HBgs8kxesCJCf8k0/s16000/solo%20ruta%203.png',
                 height: MediaQuery.of(context).size.height * 1.0,
@@ -298,24 +306,20 @@ class _world_gameState extends State<world_game> {
                               child: SizedBox(
                                 width: cellWidth,
                                 height: cellHeight,
-                                child: FadeInImage(
-                                  placeholder: const NetworkImage(
-                                      'https://blogger.googleusercontent.com/img/a/AVvXsEh98ERadCkCx4UOpV9FQMIUA4BjbzzbYRp9y03UWUwd04EzrgsF-wfVMVZkvCxl9dgemvYWUQUfA89Ly0N9QtXqk2mFQhBCxzN01fa0PjuiV_w4a26RI-YNj94gI0C4j2cR91DwA81MyW5ki3vFYzhGF86mER2jq6m0q7g76R_37aSJDo75yfa-BKw'),
-                                  image: NetworkImage(_imageUrl),
+                                child: CachedNetworkImage(
+                                  imageUrl: _imageUrl,
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
                                   fit: BoxFit.cover,
-                                  imageErrorBuilder: (BuildContext context,
-                                      Object exception,
-                                      StackTrace? stackTrace) {
-                                    return const Center(
-                                      child: CircularProgressIndicator(),
-                                    );
-                                  },
                                 ),
                               ),
                             )),
                       ),
                       Positioned(
-                        left: 70,
+                        left: totalWidth * 0.12,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [

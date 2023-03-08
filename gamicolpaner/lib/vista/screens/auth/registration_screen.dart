@@ -1,15 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:gamicolpaner/controller/services/NavigatorServices.dart';
 import 'package:gamicolpaner/controller/services/local_storage.dart';
 import 'package:gamicolpaner/model/user_model.dart';
-import 'package:gamicolpaner/vista/screens/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gamicolpaner/vista/screens/pin_screen.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -46,6 +44,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   bool _isFocused = false;
+  bool isRadioButtonSelected = false;
 
   @override
   Widget build(BuildContext context) {
@@ -193,27 +192,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           ),
         ));
 
-    final signUpButton = Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(30),
-      color: colors_colpaner.oscuro,
-      child: MaterialButton(
-        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width,
-        onPressed: () {
-          signUp(emailEditingController.text, passwordEditingController.text);
-        },
-        child: const Text(
-          "Registrarse",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 20,
-              color: colors_colpaner.claro,
-              fontWeight: FontWeight.bold),
-        ),
-      ),
-    );
-
     final dropdownTecnicas = DropdownButtonHideUnderline(
       child: Column(
         children: [
@@ -233,6 +211,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               isSelected[j] = value!;
                               if (value) {
                                 selectedTecnica = items_tecnicas[j];
+                                isRadioButtonSelected = true;
                               }
                             } else {
                               isSelected[j] = false;
@@ -258,6 +237,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ],
           ),
         ],
+      ),
+    );
+
+    final signUpButton = Material(
+      elevation: 5,
+      borderRadius: BorderRadius.circular(30),
+      color: colors_colpaner.oscuro,
+      child: MaterialButton(
+        padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        minWidth: MediaQuery.of(context).size.width,
+        onPressed: () {
+          signUp(emailEditingController.text, passwordEditingController.text,
+              isRadioButtonSelected);
+        },
+        child: const Text(
+          "Registrarse",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontSize: 20,
+              color: colors_colpaner.claro,
+              fontWeight: FontWeight.bold),
+        ),
       ),
     );
 
@@ -288,12 +289,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                        height: 150,
-                        child: Image.network(
-                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrKLH2oorwqT7kcdrskbFaj0TGjvIVKZQ9bq19LoZzrsADTcBHL0NdaDj368LRGQkZn9zaBQslpGqqFVD7CV2KJRdfBYxPIXy7-sWDbn-XgODiHRiTZDpMcVF7vYa2fs6rzpDQPvVbEWWNKbyNVm50Nhvktc-CfsCM6dMiV9fZ1lgl5UfYkqtY3qg/s320/logo%20COLPANER%20APP%20actualizado.png",
-                          fit: BoxFit.contain,
-                        )),
+                    CachedNetworkImage(
+                      imageUrl:
+                          'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrKLH2oorwqT7kcdrskbFaj0TGjvIVKZQ9bq19LoZzrsADTcBHL0NdaDj368LRGQkZn9zaBQslpGqqFVD7CV2KJRdfBYxPIXy7-sWDbn-XgODiHRiTZDpMcVF7vYa2fs6rzpDQPvVbEWWNKbyNVm50Nhvktc-CfsCM6dMiV9fZ1lgl5UfYkqtY3qg/s320/logo%20COLPANER%20APP%20actualizado.png',
+                      fit: BoxFit.contain,
+                      height: 150,
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                     const SizedBox(height: 45),
                     fullNameField,
                     const SizedBox(height: 20),
@@ -318,25 +322,27 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   bool firstLog = false;
 
   void signUp(
-    String eemail,
-    String ppassword,
-  ) async {
-    if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: eemail, password: ppassword)
-          .then((value) => {postDetailsToFirestore()})
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
+      String eemail, String ppassword, bool isRadioButtonSelected) async {
+    if (isRadioButtonSelected) {
+      if (_formKey.currentState!.validate()) {
+        await _auth
+            .createUserWithEmailAndPassword(email: eemail, password: ppassword)
+            .then((value) => {postDetailsToFirestore()})
+            .catchError((e) {
+          Fluttertoast.showToast(msg: e!.message);
+        });
 
-      firstLog = true;
+        firstLog = true;
 
-      //keep user loged in
-      SharedPreferences preferences = await SharedPreferences.getInstance();
-      var email = preferences.setString('email', eemail);
+        //keep user loged in
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        var email = preferences.setString('email', eemail);
 
-      //Se carga a sharedpreferences el buleano que validará el primer ingreso
-      LocalStorage.prefs.setBool("firstLog", firstLog);
+        //Se carga a sharedpreferences el buleano que validará el primer ingreso
+        LocalStorage.prefs.setBool("firstLog", firstLog);
+      }
+    } else {
+      Fluttertoast.showToast(msg: "Selecciona tu técnica");
     }
   }
 

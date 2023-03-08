@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:gamicolpaner/vista/screens/auth/registration_screen.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -130,12 +131,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(
-                        height: 150,
-                        child: Image.network(
-                          "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrKLH2oorwqT7kcdrskbFaj0TGjvIVKZQ9bq19LoZzrsADTcBHL0NdaDj368LRGQkZn9zaBQslpGqqFVD7CV2KJRdfBYxPIXy7-sWDbn-XgODiHRiTZDpMcVF7vYa2fs6rzpDQPvVbEWWNKbyNVm50Nhvktc-CfsCM6dMiV9fZ1lgl5UfYkqtY3qg/s320/logo%20COLPANER%20APP%20actualizado.png",
-                          fit: BoxFit.contain,
-                        )),
+                    CachedNetworkImage(
+                      imageUrl:
+                          'https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhrKLH2oorwqT7kcdrskbFaj0TGjvIVKZQ9bq19LoZzrsADTcBHL0NdaDj368LRGQkZn9zaBQslpGqqFVD7CV2KJRdfBYxPIXy7-sWDbn-XgODiHRiTZDpMcVF7vYa2fs6rzpDQPvVbEWWNKbyNVm50Nhvktc-CfsCM6dMiV9fZ1lgl5UfYkqtY3qg/s320/logo%20COLPANER%20APP%20actualizado.png',
+                      fit: BoxFit.contain,
+                      height: 150,
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                     const SizedBox(height: 45),
                     emailField,
                     const SizedBox(height: 20),

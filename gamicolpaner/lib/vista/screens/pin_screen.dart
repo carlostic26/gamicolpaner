@@ -33,15 +33,6 @@ class _pinScreenState extends State<pinScreen> {
                 height: 1000,
                 fit: BoxFit.cover,
               ),
-
-              /*
-CachedNetworkImage(
-                        imageUrl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEguAew123nq51EReZ1giaM9ny73tC9h7o1RBXE2TVfIpQabivXCy9eyHhVXkO1E1aJCiad-wmwUflNL6rgF5x964401Nre6WBt0Av_VHEb55CCp483_o27TlGlXmCP_dul-3mdtC3fJSDhqCylnV0bQY9Ih04gf6bbam4Bcc_nHS-NoGXXcH-Gs9P8/s16000/1675262458900.jpg",
-                height: 1000,
-                        fit: BoxFit.cover,
-                      
-
-              */
             ),
           ),
           Center(

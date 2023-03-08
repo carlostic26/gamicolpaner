@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -126,7 +127,9 @@ class _avatarsFemaleState extends State<avatarsFemale> {
         title: const Text(
           "Elige tu ávatar Femenino",
           style: TextStyle(
-            fontSize: 16.0, /*fontWeight: FontWeight.bold*/
+            fontSize: 16.0,
+            /*fontWeight: FontWeight.bold*/
+            fontFamily: 'BubblegumSans',
           ),
         ),
         centerTitle: true,
@@ -735,9 +738,24 @@ class _avatarsFemaleState extends State<avatarsFemale> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 5.0),
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: NetworkImage(_imageUrl),
+                  CachedNetworkImage(
+                    fadeInDuration: Duration.zero,
+                    imageUrl: _imageUrl,
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 100.0,
+                      height: 100.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                   const SizedBox(height: 10.0),
                   Container(

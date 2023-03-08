@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gamicolpaner/model/user_model.dart';
@@ -26,23 +27,6 @@ class entrenamientoModulos extends StatefulWidget {
 class _entrenamientoModulosState extends State<entrenamientoModulos> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
-  bool isAvatar = false;
-
-  Future<bool?> getIsAvatar() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      isAvatar = prefs.getBool('isAvatar')!;
-    });
-  }
-
-  String gender = '';
-
-  Future<String?> getGender() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      gender = prefs.getString('gender')!;
-    });
-  }
 
   String _imageUrl = '';
 
@@ -53,6 +37,28 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
       _imageUrl = prefs.getString('imageUrl') ??
           'https://blogger.googleusercontent.com/img/a/AVvXsEh98ERadCkCx4UOpV9FQMIUA4BjbzzbYRp9y03UWUwd04EzrgsF-wfVMVZkvCxl9dgemvYWUQUfA89Ly0N9QtXqk2mFQhBCxzN01fa0PjuiV_w4a26RI-YNj94gI0C4j2cR91DwA81MyW5ki3vFYzhGF86mER2jq6m0q7g76R_37aSJDo75yfa-BKw';
     });
+  }
+
+  bool isAvatar = false;
+
+  Future<bool> getIsAvatar() async {
+    final prefs = await SharedPreferences.getInstance();
+    isAvatar = prefs.getBool('isAvatar') ?? false;
+    setState(() {
+      this.isAvatar = isAvatar;
+    });
+    return isAvatar;
+  }
+
+  String gender = '';
+
+  Future<String> getGender() async {
+    final prefs = await SharedPreferences.getInstance();
+    String gender = prefs.getString('gender') ?? 'none';
+    setState(() {
+      this.gender = gender;
+    });
+    return gender;
   }
 
   @override
@@ -89,7 +95,8 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
         title: const Text(
           "Entrenamiento",
           style: TextStyle(
-            fontSize: 16.0, /*fontWeight: FontWeight.bold*/
+            fontSize: 16.0,
+            fontFamily: 'BubblegumSans',
           ),
         ),
         centerTitle: true,
@@ -125,24 +132,28 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                                 Expanded(
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: colors_colpaner.oscuro,
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
-                                    child: Image.network(
-                                        "https://cdn.icon-icons.com/icons2/3311/PNG/512/math_book_school_study_icon_209309.png",
-                                        //height: 100,
-                                        fit: BoxFit.cover),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "https://blogger.googleusercontent.com/img/a/AVvXsEi65drZlUOAOrTo1nrlpal6HmYjZk-Ju3SFpee8cYOYbWulOYMcuGxU2M-b0o9424zrXnKeqzc-XaiRXhrN9UBJCYBxFhiJxf_c5yHFlj_QVZgkRfCBGKbtkUn-Nsw9xytcwWDgg3KMtFElAINa4Z7UM8qQxNE4kiWutgOS9M2fS5MMAnFPeNjD9j4",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
                                 ),
                                 const Text(
                                   "Matemáticas",
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                                      fontFamily: 'BubblegumSans',
+                                      fontSize: 25,
                                       color: Colors.white),
+                                ),
+                                const SizedBox(
+                                  height: 5,
                                 ),
                               ],
                             ),
@@ -174,24 +185,28 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                                 Expanded(
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: colors_colpaner.oscuro,
                                       borderRadius: BorderRadius.circular(20.0),
                                     ),
-                                    child: Image.network(
-                                        "https://cdn.icon-icons.com/icons2/230/PNG/256/EnglishLanguage_Flag2_26089.png",
-                                        //width: 150,
-                                        fit: BoxFit.cover),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            "https://blogger.googleusercontent.com/img/a/AVvXsEh7TLYTExTyHj1uyRWLPST62P-r_mQflNxPYVMHI5B-OH8uYkqKnUDHzLz2PwiBKG5gnyd1sBRmCESj5ped63rSK5bjq0umgls4pbAAWmP3EP3082I-Z1BcbVnQJlwGcXpb9wd3oM7eCPLS4jxabo8KQA_gfSFZSFu5pKYDmyE_j5X2kUjNOiK_z-I",
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 5,
                                 ),
                                 const Text(
                                   "Inglés",
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600,
+                                      fontSize: 25,
+                                      fontFamily: 'BubblegumSans',
                                       color: Colors.white),
+                                ),
+                                const SizedBox(
+                                  height: 5,
                                 ),
                               ],
                             ),
@@ -428,7 +443,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
     double drawer_width = MediaQuery.of(context).size.width;
 
     //firebase
-    final user = FirebaseAuth.instance.currentUser!;
+    final user = FirebaseAuth.instance.currentUser;
 
     String tecnicaElegida;
 
@@ -447,25 +462,41 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 5.0),
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: NetworkImage(_imageUrl),
+                  CachedNetworkImage(
+                    fadeInDuration: Duration.zero,
+                    imageUrl: _imageUrl,
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 100.0,
+                      height: 100.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                   const SizedBox(height: 10.0),
                   Container(
                     alignment: Alignment.center,
                     child: Text(loggedInUser.fullName.toString(),
                         style: const TextStyle(
+                            fontFamily: 'BubblegumSans',
                             color: colors_colpaner.claro,
                             fontSize: 25,
                             fontWeight: FontWeight.bold)),
                   ),
                   Text('Técnica de ${loggedInUser.tecnica}',
                       style: const TextStyle(
+                        fontFamily: 'BubblegumSans',
                         color: colors_colpaner.claro,
                       )),
                   Text(loggedInUser.email.toString(),
                       style: const TextStyle(
+                        fontFamily: 'BubblegumSans',
                         fontSize: 10,
                         color: colors_colpaner.claro,
                       )),
@@ -476,6 +507,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
             ListTile(
                 title: const Text("Entrenamiento",
                     style: TextStyle(
+                        fontFamily: 'BubblegumSans',
                         color: colors_colpaner.claro,
                         fontWeight: FontWeight.bold)),
                 leading: const Icon(
@@ -488,6 +520,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
             ListTile(
                 title: const Text("Mis Puntajes",
                     style: TextStyle(
+                      fontFamily: 'BubblegumSans',
                       color: colors_colpaner.oscuro,
                     )),
                 leading: const Icon(
@@ -501,6 +534,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
             ListTile(
               title: const Text("Ávatar",
                   style: TextStyle(
+                    fontFamily: 'BubblegumSans',
                     color: colors_colpaner.oscuro,
                   )),
               leading: const Icon(
@@ -529,6 +563,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
             ListTile(
               title: const Text("Patrones ICFES",
                   style: TextStyle(
+                    fontFamily: 'BubblegumSans',
                     color: colors_colpaner.oscuro,
                   )),
               leading: const Icon(
@@ -541,6 +576,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
             ListTile(
               title: const Text("Usabilidad",
                   style: TextStyle(
+                    fontFamily: 'BubblegumSans',
                     color: colors_colpaner.oscuro,
                   )),
               leading: const Icon(
@@ -573,6 +609,7 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
             ListTile(
               title: const Text("Cerrar sesión",
                   style: TextStyle(
+                    fontFamily: 'BubblegumSans',
                     color: colors_colpaner.oscuro,
                   )),
               leading: const Icon(
@@ -598,7 +635,9 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
   }
 
   Future<void> logout(BuildContext context) async {
-    await FirebaseAuth.instance.signOut();
+    if (FirebaseAuth.instance.currentUser != null) {
+      await FirebaseAuth.instance.signOut();
+    }
     Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()));
   }

@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
+import 'package:gamicolpaner/controller/puntajes_shp.dart';
 import 'package:gamicolpaner/model/user_model.dart';
 import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
 import 'package:gamicolpaner/vista/screens/avatars_female.dart';
@@ -39,25 +41,52 @@ class _misPuntajesState extends State<misPuntajes> {
 
   bool isAvatar = false;
 
-  Future<bool?> getIsAvatar() async {
+  Future<bool> getIsAvatar() async {
     final prefs = await SharedPreferences.getInstance();
+    isAvatar = prefs.getBool('isAvatar') ?? false;
     setState(() {
-      isAvatar = prefs.getBool('isAvatar')!;
+      this.isAvatar = isAvatar;
     });
+    return isAvatar;
   }
 
   String gender = '';
 
-  Future<String?> getGender() async {
+  Future<String> getGender() async {
     final prefs = await SharedPreferences.getInstance();
+    String gender = prefs.getString('gender') ?? 'none';
     setState(() {
-      gender = prefs.getString('gender')!;
+      this.gender = gender;
     });
+
+    return gender;
   }
+
+  final colors = [Colors.blue[800], Colors.blue[200]]; // Lista de colores
+
+  int puntos_mat = 0;
+  int puntos_ing = 0;
+  int puntos_test = 5;
+  final int puntosMaximos_test = 100;
 
   @override
   void initState() {
     // TODO: implement initState
+
+    //recibe el puntaje total del modulo mat y lo establece en variable para estitmar procentaje de progreso
+    getPuntajesTotal_MAT().then((value) {
+      setState(() {
+        puntos_mat = value ?? 0;
+      });
+    });
+
+    //recibe el puntaje total del modulo ming y lo establece en variable para estitmar procentaje de progreso
+    getPuntajesTotal_ING().then((value) {
+      setState(() {
+        puntos_ing = value ?? 0;
+      });
+    });
+
     getIsAvatar();
     getGender();
     _getAvatarFromSharedPrefs();
@@ -75,13 +104,14 @@ class _misPuntajesState extends State<misPuntajes> {
     super.initState();
   }
 
-  final colors = [Colors.blue[800], Colors.blue[200]]; // Lista de colores
-
-  final int puntos_test = 5;
-  final int puntosMaximos_test = 100;
-
   @override
   Widget build(BuildContext context) {
+    final double porcentaje_mat =
+        puntos_mat / puntosMaximos_test; // Calcular el porcentaje de progreso
+
+    final double porcentaje_ing =
+        puntos_ing / puntosMaximos_test; // Calcular el porcentaje de progreso
+
     final double porcentaje_test =
         puntos_test / puntosMaximos_test; // Calcular el porcentaje de progreso
 
@@ -91,7 +121,9 @@ class _misPuntajesState extends State<misPuntajes> {
         title: const Text(
           "Mis Puntajes",
           style: TextStyle(
-            fontSize: 16.0, /*fontWeight: FontWeight.bold*/
+            fontSize: 16.0,
+            /*fontWeight: FontWeight.bold*/
+            fontFamily: 'BubblegumSans',
           ),
         ),
         centerTitle: true,
@@ -106,28 +138,23 @@ class _misPuntajesState extends State<misPuntajes> {
         children: [
           Column(
             children: [
-              const SizedBox(height: 80),
+              const SizedBox(height: 20),
               const Align(
                 alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Text(
-                    "Mis puntajes",
+                    "Puntos",
                     style: TextStyle(
                       fontSize: 20.0,
                       fontFamily: 'BubblegumSans',
                       fontWeight: FontWeight.bold,
-                      color: colors_colpaner.claro,
+                      color: colors_colpaner.oscuro,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Divider(
-                thickness: 1,
-                color: colors_colpaner.oscuro,
-              ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
               //--- MIS PUNTAJES
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
@@ -136,8 +163,8 @@ class _misPuntajesState extends State<misPuntajes> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Column(
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             'Matemáticas',
                             style: TextStyle(
                               fontSize: 20.0,
@@ -146,15 +173,42 @@ class _misPuntajesState extends State<misPuntajes> {
                               color: colors_colpaner.claro,
                             ),
                           ),
-                          Text(
-                            '5/100',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'BubblegumSans',
-                              fontWeight: FontWeight.bold,
-                              color: colors_colpaner.claro,
-                            ),
-                          )
+                          Row(
+                            children: [
+                              FutureBuilder<int>(
+                                future: getPuntajesTotal_MAT(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<int> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 20.0,
+                                        fontFamily: 'BubblegumSans',
+                                        fontWeight: FontWeight.bold,
+                                        color: colors_colpaner.claro,
+                                      ),
+                                    );
+                                  } else {
+                                    return const SizedBox(
+                                        height: 10,
+                                        width: 10,
+                                        child:
+                                            CircularProgressIndicator()); // O cualquier otro indicador de carga
+                                  }
+                                },
+                              ),
+                              const Text(
+                                '/100',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'BubblegumSans',
+                                  fontWeight: FontWeight.bold,
+                                  color: colors_colpaner.claro,
+                                ),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -162,7 +216,7 @@ class _misPuntajesState extends State<misPuntajes> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Column(
-                        children: const [
+                        children: [
                           Text(
                             'Inglés',
                             style: TextStyle(
@@ -172,15 +226,42 @@ class _misPuntajesState extends State<misPuntajes> {
                               color: colors_colpaner.claro,
                             ),
                           ),
-                          Text(
-                            '10/100',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'BubblegumSans',
-                              fontWeight: FontWeight.bold,
-                              color: colors_colpaner.claro,
-                            ),
-                          )
+                          Row(
+                            children: [
+                              FutureBuilder<int>(
+                                future: getPuntajesTotal_ING(),
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<int> snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Text(
+                                      snapshot.data.toString(),
+                                      style: const TextStyle(
+                                        fontSize: 20.0,
+                                        fontFamily: 'BubblegumSans',
+                                        fontWeight: FontWeight.bold,
+                                        color: colors_colpaner.claro,
+                                      ),
+                                    );
+                                  } else {
+                                    return const SizedBox(
+                                        height: 10,
+                                        width: 10,
+                                        child:
+                                            CircularProgressIndicator()); // O cualquier otro indicador de carga
+                                  }
+                                },
+                              ),
+                              const Text(
+                                '/100',
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'BubblegumSans',
+                                  fontWeight: FontWeight.bold,
+                                  color: colors_colpaner.claro,
+                                ),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -291,40 +372,140 @@ class _misPuntajesState extends State<misPuntajes> {
                   ],
                 ),
               ),
-              const SizedBox(height: 100),
-
+              const SizedBox(height: 50),
+              const Divider(
+                thickness: 1,
+                color: colors_colpaner.oscuro,
+              ),
               const Align(
-                alignment: Alignment.topRight,
+                alignment: Alignment.topLeft,
                 child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Text(
                     "Progreso",
                     style: TextStyle(
                       fontSize: 20.0,
                       fontFamily: 'BubblegumSans',
                       fontWeight: FontWeight.bold,
-                      color: colors_colpaner.claro,
+                      color: colors_colpaner.oscuro,
                     ),
                   ),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Divider(
-                thickness: 1,
-                color: colors_colpaner.oscuro,
-              ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 30),
               //--- PROGRESO
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                       child: Column(
                         children: [
                           const Text(
                             'Matemáticas',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'BubblegumSans',
+                              fontWeight: FontWeight.bold,
+                              color: colors_colpaner.claro,
+                            ),
+                          ),
+                          //SE MUESTRA UN CIRCULO PROGRESS BAR
+                          const SizedBox(height: 10),
+                          Center(
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  width: 80,
+                                  height: 80,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth:
+                                        8, // Ancho del borde del círculo
+                                    value: porcentaje_mat, // Valor de progreso
+                                    backgroundColor: Colors.grey[
+                                        300], // Color del fondo del círculo
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                            Colors.blue), // Color del progreso
+                                  ),
+                                ),
+                                Positioned.fill(
+                                  child: Center(
+                                    child: Text(
+                                      '${(porcentaje_mat * 100).toStringAsFixed(0)}%', // Texto con el porcentaje de progreso
+                                      style: const TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                          color: colors_colpaner.claro,
+                                          fontFamily: 'BubblegumSans'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Inglés',
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'BubblegumSans',
+                              fontWeight: FontWeight.bold,
+                              color: colors_colpaner.claro,
+                            ),
+                          ),
+                          //SE MUESTRA UN CIRCULO PROGRESS BAR
+                          const SizedBox(height: 10),
+                          Center(
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                  width: 80,
+                                  height: 80,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth:
+                                        8, // Ancho del borde del círculo
+                                    value: porcentaje_ing, // Valor de progreso
+                                    backgroundColor: Colors.grey[
+                                        300], // Color del fondo del círculo
+                                    valueColor:
+                                        const AlwaysStoppedAnimation<Color>(
+                                            Colors.blue), // Color del progreso
+                                  ),
+                                ),
+                                Positioned.fill(
+                                  child: Center(
+                                    child: Text(
+                                      '${(porcentaje_ing * 100).toStringAsFixed(0)}%', // Texto con el porcentaje de progreso
+                                      style: const TextStyle(
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.bold,
+                                          color: colors_colpaner.claro,
+                                          fontFamily: 'BubblegumSans'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: Column(
+                        children: [
+                          const Text(
+                            'Ciudadanas',
                             style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'BubblegumSans',
@@ -375,109 +556,7 @@ class _misPuntajesState extends State<misPuntajes> {
                       child: Column(
                         children: [
                           const Text(
-                            'Matemáticas',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'BubblegumSans',
-                              fontWeight: FontWeight.bold,
-                              color: colors_colpaner.claro,
-                            ),
-                          ),
-                          //SE MUESTRA UN CIRCULO PROGRESS BAR
-                          const SizedBox(height: 10),
-                          Center(
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  width: 80,
-                                  height: 80,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth:
-                                        8, // Ancho del borde del círculo
-                                    value: porcentaje_test, // Valor de progreso
-                                    backgroundColor: Colors.grey[
-                                        300], // Color del fondo del círculo
-                                    valueColor:
-                                        const AlwaysStoppedAnimation<Color>(
-                                            Colors.blue), // Color del progreso
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  child: Center(
-                                    child: Text(
-                                      '${(porcentaje_test * 100).toStringAsFixed(0)}%', // Texto con el porcentaje de progreso
-                                      style: const TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold,
-                                          color: colors_colpaner.claro,
-                                          fontFamily: 'BubblegumSans'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Column(
-                        children: [
-                          const Text(
-                            'Matemáticas',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'BubblegumSans',
-                              fontWeight: FontWeight.bold,
-                              color: colors_colpaner.claro,
-                            ),
-                          ),
-                          //SE MUESTRA UN CIRCULO PROGRESS BAR
-                          const SizedBox(height: 10),
-                          Center(
-                            child: Stack(
-                              children: [
-                                SizedBox(
-                                  width: 80,
-                                  height: 80,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth:
-                                        8, // Ancho del borde del círculo
-                                    value: porcentaje_test, // Valor de progreso
-                                    backgroundColor: Colors.grey[
-                                        300], // Color del fondo del círculo
-                                    valueColor:
-                                        const AlwaysStoppedAnimation<Color>(
-                                            Colors.blue), // Color del progreso
-                                  ),
-                                ),
-                                Positioned.fill(
-                                  child: Center(
-                                    child: Text(
-                                      '${(porcentaje_test * 100).toStringAsFixed(0)}%', // Texto con el porcentaje de progreso
-                                      style: const TextStyle(
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.bold,
-                                          color: colors_colpaner.claro,
-                                          fontFamily: 'BubblegumSans'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                      child: Column(
-                        children: [
-                          const Text(
-                            'Matemáticas',
+                            'Naturales',
                             style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'BubblegumSans',
@@ -628,32 +707,32 @@ class _misPuntajesState extends State<misPuntajes> {
                 ),
               ),
               const SizedBox(height: 30),
-              const Align(
-                alignment: Alignment.topRight,
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(0, 0, 20, 0),
-                  child: Text(
-                    "Ranking",
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'BubblegumSans',
-                      fontWeight: FontWeight.bold,
-                      color: colors_colpaner.claro,
-                    ),
-                  ),
-                ),
-              ),
 
               const Divider(
                 thickness: 1,
                 color: colors_colpaner.oscuro,
               ),
 
-              const SizedBox(height: 10),
+              const Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(20, 10, 20, 0),
+                  child: Text(
+                    "Ranking",
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontFamily: 'BubblegumSans',
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromARGB(255, 216, 164, 10),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
 
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  padding: const EdgeInsets.fromLTRB(50, 0, 50, 0),
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Column(
@@ -740,9 +819,21 @@ class _misPuntajesState extends State<misPuntajes> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 5.0),
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: NetworkImage(_imageUrl),
+                  CachedNetworkImage(
+                    imageUrl: _imageUrl,
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 100.0,
+                      height: 100.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) => CircularProgressIndicator(),
+                    errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                   const SizedBox(height: 10.0),
                   Container(

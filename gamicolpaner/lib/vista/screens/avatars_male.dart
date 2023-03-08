@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,6 @@ class _avatarsMaleState extends State<avatarsMale> {
   UserModel loggedInUser = UserModel();
 
   String _modulo = '';
-  String _imageUrl = '';
 
   //recibe el modulo guardado anteriormente en sharedPreferences
   void _getModuloFromSharedPrefs() async {
@@ -78,6 +78,8 @@ class _avatarsMaleState extends State<avatarsMale> {
       _modulo = prefs.getString('modulo') ?? '';
     });
   }
+
+  String _imageUrl = '';
 
   //recibe el avatar imageUrl guardado anteriormente en sharedPreferences
   void _getAvatarFromSharedPrefs() async {
@@ -88,12 +90,29 @@ class _avatarsMaleState extends State<avatarsMale> {
     });
   }
 
+  bool primerAcceso = false;
+
+  //recibe el avatar imageUrl guardado anteriormente en sharedPreferences
+  Future<bool> _getPrimerAccesoPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool primerAcceso = prefs.getBool('primerAcceso') ?? false;
+    setState(() {
+      this.primerAcceso = primerAcceso;
+    });
+    return primerAcceso;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _getAvatarFromSharedPrefs();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-
-    _getAvatarFromSharedPrefs();
     _getModuloFromSharedPrefs();
+    _getPrimerAccesoPrefs();
     FirebaseFirestore.instance
         .collection("users")
         .doc(user!.uid)
@@ -124,7 +143,9 @@ class _avatarsMaleState extends State<avatarsMale> {
         title: const Text(
           "Elige tu ávatar Masculino",
           style: TextStyle(
-            fontSize: 16.0, /*fontWeight: FontWeight.bold*/
+            fontSize: 16.0,
+            /*fontWeight: FontWeight.bold*/
+            fontFamily: 'BubblegumSans',
           ),
         ),
         centerTitle: true,
@@ -149,36 +170,9 @@ class _avatarsMaleState extends State<avatarsMale> {
                         ),
                       ),
                     ),
-                    //image avatar
+
                     Positioned(
-                      top: 45,
-                      left: MediaQuery.of(context).size.width * 0.40,
-                      child: Container(
-                          padding: const EdgeInsets.all(1.0),
-                          width: 70,
-                          height: 60,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: SizedBox(
-                              width: cellWidth,
-                              height: cellHeight,
-                              child: FadeInImage(
-                                placeholder: const NetworkImage(
-                                    'https://blogger.googleusercontent.com/img/a/AVvXsEh98ERadCkCx4UOpV9FQMIUA4BjbzzbYRp9y03UWUwd04EzrgsF-wfVMVZkvCxl9dgemvYWUQUfA89Ly0N9QtXqk2mFQhBCxzN01fa0PjuiV_w4a26RI-YNj94gI0C4j2cR91DwA81MyW5ki3vFYzhGF86mER2jq6m0q7g76R_37aSJDo75yfa-BKw'),
-                                image: NetworkImage(_imageUrl),
-                                fit: BoxFit.cover,
-                                imageErrorBuilder: (BuildContext context,
-                                    Object exception, StackTrace? stackTrace) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                },
-                              ),
-                            ),
-                          )),
-                    ),
-                    Positioned(
-                      left: 65,
+                      left: totalWidth * 0.12,
                       top: 50,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -199,19 +193,36 @@ class _avatarsMaleState extends State<avatarsMale> {
                               fontSize: 13,
                             ),
                           ),
-/*                           Text(
-                            _modulo,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontFamily: 'BubblegumSans',
-                              fontSize: 13,
-                            ),
-                          ), */
                         ],
                       ),
                     ),
+                    //image avatar
                     Positioned(
-                      right: 50,
+                      top: 45,
+                      left: MediaQuery.of(context).size.width * 0.40,
+                      child: Container(
+                          padding: const EdgeInsets.all(1.0),
+                          width: 70,
+                          height: 60,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: SizedBox(
+                              width: cellWidth,
+                              height: cellHeight,
+                              child: CachedNetworkImage(
+                                imageUrl: _imageUrl,
+                                placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )),
+                    ),
+                    Positioned(
+                      right: totalWidth * 0.15,
                       top: 45,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(0, 8, 1, 1),
@@ -257,7 +268,7 @@ class _avatarsMaleState extends State<avatarsMale> {
                   ],
                 ),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SingleChildScrollView(
@@ -662,10 +673,6 @@ class _avatarsMaleState extends State<avatarsMale> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('imageUrl', imageUrl);
 
-        bool primerAcceso;
-
-        primerAcceso = prefs.getBool('primerAcceso')!;
-
         print('Avatar $index pressed');
         setState(() {
           _getAvatarFromSharedPrefs();
@@ -698,9 +705,13 @@ class _avatarsMaleState extends State<avatarsMale> {
           child: SizedBox(
             width: cellWidth,
             height: cellHeight,
-            child: Image.network(
-              imageUrl,
+            child: CachedNetworkImage(
+              imageUrl: imageUrl,
               fit: BoxFit.cover,
+              placeholder: (context, url) => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),
         ),
@@ -733,9 +744,23 @@ class _avatarsMaleState extends State<avatarsMale> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   const SizedBox(height: 5.0),
-                  CircleAvatar(
-                    radius: 50.0,
-                    backgroundImage: NetworkImage(_imageUrl),
+                  CachedNetworkImage(
+                    imageUrl: _imageUrl,
+                    imageBuilder: (context, imageProvider) => Container(
+                      width: 100.0,
+                      height: 100.0,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                   const SizedBox(height: 10.0),
                   Container(
