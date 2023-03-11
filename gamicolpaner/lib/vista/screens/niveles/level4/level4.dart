@@ -46,11 +46,28 @@ class _level4State extends State<level4> {
     'PATCH':
         'se emplea para modificaciones parciales de un recurso en particular',
     'HEAD': ' no retorna ningún contenido HTTP Response',
-    'GET': 'realiza una petición a un recurso específico',
-    'POST': 'puede enviar datos al servidor por medio del cuerpo (body)',
-    'PUT': 'puede ser ejecutado varias veces y tiene el mismo efecto',
-    'DELETE': ' permite eliminar un recurso específico',
+    'GETU': 'realiza una petición a un recurso específico',
+    'POSTE': 'puede enviar datos al servidor por medio del cuerpo (body)',
+    'PUTA': 'puede ser ejecutado varias veces y tiene el mismo efecto',
+    'DELETEWE': ' permite eliminar un recurso específico',
   };
+
+  Map<String, String> sixChoices = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _startCountdown();
+    final List<MapEntry<String, String>> choicesList = choices.entries
+        .map((entry) => MapEntry(entry.key.toString(), entry.value.toString()))
+        .toList();
+
+    final Random random = Random();
+    sixChoices = Map.fromEntries(List.generate(
+      6,
+      (_) => choicesList[random.nextInt(choicesList.length)],
+    ));
+  }
 
   int seed = 0;
 
@@ -94,22 +111,6 @@ class _level4State extends State<level4> {
   }
 
   int intentos = 0;
-
-  late Random random;
-  late List<String> allChoices;
-  late List<String> sixChoices;
-
-  @override
-  void initState() {
-    super.initState();
-    _startCountdown();
-    random = Random();
-    allChoices = choices.values.map((value) => value as String).toList();
-    sixChoices = List.generate(
-      6,
-      (_) => allChoices[random.nextInt(allChoices.length)],
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -170,26 +171,6 @@ class _level4State extends State<level4> {
               ),
             ),
           ),
-          /*  //banner superior
-          Positioned(
-            top: -43,
-            child: Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(1.0),
-                  width: 160,
-                  height: 200,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image:
-                          AssetImage("assets/games/general/bannerGamiDrop.png"),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
- */
 
           Align(
             alignment: Alignment.topCenter,
@@ -217,7 +198,7 @@ class _level4State extends State<level4> {
                 Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: choices.keys.map((conceptoAfirmacion) {
+                    children: sixChoices.keys.map((conceptoAfirmacion) {
                       return Draggable<String>(
                         data: conceptoAfirmacion,
                         feedback: ConceptoAfirmacion(
@@ -246,7 +227,7 @@ class _level4State extends State<level4> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: choices.keys
+                  children: sixChoices.keys
                       .map((conceptoAfirmacion) =>
                           _buildDragTarget(conceptoAfirmacion))
                       .toList()
@@ -291,7 +272,7 @@ class _level4State extends State<level4> {
                 height: 100,
                 width: 200,
                 child: Text(
-                  choices[conceptoAfirmacion],
+                  sixChoices[conceptoAfirmacion]!,
                   style: const TextStyle(
                       color: Colors.black,
                       fontSize: 15,
@@ -300,11 +281,6 @@ class _level4State extends State<level4> {
               ),
             );
           }
-        },
-        onMove: (details) {
-          setState(() {
-            intentos++;
-          });
         },
         onWillAccept: (data) => data == conceptoAfirmacion,
         onAccept: (data) {
