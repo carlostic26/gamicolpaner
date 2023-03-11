@@ -1,4 +1,3 @@
-import 'package:gamicolpaner/vista/dialogs/avatars.dart';
 import 'package:gamicolpaner/vista/dialogs/gameover.dart';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/vista/dialogs/gender_dialog.dart';
@@ -11,9 +10,6 @@ class DialogHelper {
       showDialog(context: context, builder: (builder) => genderDialog());
 
   //Dialogos para Diseño
-
-  static showDialogAvatar(context) =>
-      showDialog(context: context, builder: (builder) => ShowDialogAvatar());
 
   //GameOver RC -- recibe un contexto y un puntaje
   static showDialogGameOver(context, score) => showDialog(

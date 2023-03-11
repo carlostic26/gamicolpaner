@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
-import 'package:gamicolpaner/model/dbhelper.dart';
+
 import 'package:gamicolpaner/model/score.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
@@ -218,11 +218,6 @@ class _QuestionWidgetState extends State<QuestionWidget> {
               builder: (context) => ResultPage(score: _score),
             ),
           );
-
-          // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
-          var handler = DatabaseHandler();
-          handler.updateScore(scoreColpaner(
-              id: 'DS9', modulo: 'DS', nivel: '9', score: _score.toString()));
         }
       },
       style: ElevatedButton.styleFrom(

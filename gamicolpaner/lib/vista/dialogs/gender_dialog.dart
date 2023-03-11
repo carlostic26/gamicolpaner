@@ -3,7 +3,6 @@ import 'package:gamicolpaner/controller/puntajes_shp.dart';
 import 'package:gamicolpaner/vista/screens/avatars_female.dart';
 import 'package:gamicolpaner/vista/screens/avatars_male.dart';
 import 'package:gamicolpaner/vista/screens/mis_puntajes.dart';
-import 'package:gamicolpaner/vista/screens/puntajes.dart';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';

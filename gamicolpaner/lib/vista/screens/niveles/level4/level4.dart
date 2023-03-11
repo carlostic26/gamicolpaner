@@ -1,9 +1,10 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
-import 'package:gamicolpaner/model/dbhelper.dart';
+
 import 'package:gamicolpaner/model/score.dart';
 import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
+import 'package:gamicolpaner/vista/screens/niveles/level2/scoreCards.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -45,9 +46,70 @@ class _level4State extends State<level4> {
     'PATCH':
         'se emplea para modificaciones parciales de un recurso en particular',
     'HEAD': ' no retorna ningún contenido HTTP Response',
+    'GET': 'realiza una petición a un recurso específico',
+    'POST': 'puede enviar datos al servidor por medio del cuerpo (body)',
+    'PUT': 'puede ser ejecutado varias veces y tiene el mismo efecto',
+    'DELETE': ' permite eliminar un recurso específico',
   };
 
   int seed = 0;
+
+  String _message = "";
+  int _timeLeft = 6;
+
+  void _startCountdown() {
+    Future.delayed(const Duration(seconds: 1), () {
+      if (_timeLeft > 1) {
+        setState(() {
+          _timeLeft--;
+          switch (_timeLeft) {
+            case 4:
+              _message = "Comenzamos en";
+              break;
+            case 3:
+              _message = "3...";
+              break;
+            case 2:
+              _message = "2...";
+              break;
+            case 1:
+              _message = "1...";
+              break;
+            default:
+              _message = "¿Preparado?";
+          }
+        });
+        _startCountdown();
+      } else {
+        setState(() {
+          _message = "¡Empecemos!";
+        });
+        Future.delayed(const Duration(milliseconds: 500), () {
+          setState(() {
+            _message = "";
+          });
+        });
+      }
+    });
+  }
+
+  int intentos = 0;
+
+  late Random random;
+  late List<String> allChoices;
+  late List<String> sixChoices;
+
+  @override
+  void initState() {
+    super.initState();
+    _startCountdown();
+    random = Random();
+    allChoices = choices.values.map((value) => value as String).toList();
+    sixChoices = List.generate(
+      6,
+      (_) => allChoices[random.nextInt(allChoices.length)],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,14 +163,14 @@ class _level4State extends State<level4> {
                             pageBuilder: (BuildContext context,
                                 Animation<double> animation,
                                 Animation<double> secAnimattion) {
-                              return world_game();
+                              return const world_game();
                             }));
                   },
                 ),
               ),
             ),
           ),
-          //banner superior
+          /*  //banner superior
           Positioned(
             top: -43,
             child: Column(
@@ -127,26 +189,28 @@ class _level4State extends State<level4> {
               ],
             ),
           ),
+ */
 
-//Puntaje de juego respectivo
-          Positioned(
-            top: 83,
-            child: Container(
-              width: 300,
-              alignment: Alignment.topRight,
-              child: Text(
-                'Score: ${score.length} / 6',
-                textAlign: TextAlign.right,
-                style: const TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'BubblegumSans',
-                    color: colors_colpaner.oscuro),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: SizedBox(
+                height: 82.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    scoreBoard1("Intentos", "$intentos/6"),
+                    scoreBoard1("Puntos", "${score.length}")
+                  ],
+                ),
               ),
             ),
           ),
 
           Padding(
-            padding: const EdgeInsets.fromLTRB(1, 105, 1, 30),
+            padding: const EdgeInsets.fromLTRB(1, 120, 1, 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -211,7 +275,7 @@ class _level4State extends State<level4> {
                   'Correcto!',
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 25,
+                      fontSize: 15,
                       fontFamily: 'BubblegumSans'),
                 ),
               ),
@@ -230,12 +294,17 @@ class _level4State extends State<level4> {
                   choices[conceptoAfirmacion],
                   style: const TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
+                      fontSize: 15,
                       fontFamily: 'BubblegumSans'),
                 ),
               ),
             );
           }
+        },
+        onMove: (details) {
+          setState(() {
+            intentos++;
+          });
         },
         onWillAccept: (data) => data == conceptoAfirmacion,
         onAccept: (data) {
@@ -244,14 +313,7 @@ class _level4State extends State<level4> {
             //game over, si el usuario complet+o las 5 palabras, se genera su score y se cierra el nivel
             if (score.length == 5) {
               DialogHelper.showDialogGameOver(
-                  context, 5); //gana 5 puntos si alcanzó a completar || SCORE
-              // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
-              var handler = DatabaseHandler();
-              handler.updateScore(scoreColpaner(
-                  id: 'DS6',
-                  modulo: 'DS',
-                  nivel: '6',
-                  score: score.length.toString()));
+                  context, 6); //gana 5 puntos si alcanzó a completar || SCORE
             }
           });
         },
@@ -280,7 +342,7 @@ class ConceptoAfirmacion extends StatelessWidget {
               style: const TextStyle(
                   //color text left csrds
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 15,
                   fontFamily: 'BubblegumSans'),
             ),
           )),

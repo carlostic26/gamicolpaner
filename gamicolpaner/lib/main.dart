@@ -1,5 +1,6 @@
 import 'package:gamicolpaner/controller/services/local_storage.dart';
-import 'package:gamicolpaner/model/dbhelper.dart';
+import 'package:gamicolpaner/model/dbexam.dart';
+
 import 'package:gamicolpaner/vista/screens/auth/login_screen.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
 import 'package:gamicolpaner/vista/screens/pin_screen.dart';
@@ -15,11 +16,11 @@ Future<void> main() async {
   SharedPreferences preferences = await SharedPreferences.getInstance();
   var email = preferences.getString('email');
 
-  //init db sqlite
-  await DatabaseHandler().initializeDB();
-
 //sharedPreferences init
   await LocalStorage.configurePrefs();
+
+  //init db sqlite
+  await SimulacroHandler().initializeDB();
 
   runApp(MaterialApp(
     routes: {

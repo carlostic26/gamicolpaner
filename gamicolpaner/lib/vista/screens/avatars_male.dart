@@ -745,6 +745,7 @@ class _avatarsMaleState extends State<avatarsMale> {
                 children: <Widget>[
                   const SizedBox(height: 5.0),
                   CachedNetworkImage(
+                    fadeInDuration: Duration.zero,
                     imageUrl: _imageUrl,
                     imageBuilder: (context, imageProvider) => Container(
                       width: 100.0,

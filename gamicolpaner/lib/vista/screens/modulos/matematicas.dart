@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
-import 'package:gamicolpaner/model/dbhelper.dart';
 import 'package:gamicolpaner/controller/services/local_storage.dart';
 import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
@@ -17,8 +16,6 @@ class desarrollo extends StatefulWidget {
 
 // ignore: camel_case_types
 class _desarrolloState extends State<desarrollo> {
-  late DatabaseHandler handler;
-
 /*   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel(); */
 
@@ -111,8 +108,6 @@ class _desarrolloState extends State<desarrollo> {
 
   @override
   void initState() {
-    handler = DatabaseHandler();
-
     button1 = button1DSUnpressed;
     button2 = button2DSUnpressed;
     button3 = button3DSUnpressed;

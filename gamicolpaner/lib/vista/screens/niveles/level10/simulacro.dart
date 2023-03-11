@@ -10,7 +10,6 @@ import 'package:gamicolpaner/model/question_list_model.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:gamicolpaner/model/dbexam.dart';
 
 part 'result_page.dart';
 part 'model/question_widget.dart';
@@ -35,46 +34,48 @@ class simulacro extends StatefulWidget {
 
 class _simulacroState extends State<simulacro> {
   //llamando la clase question para conectar sqflite
-  late DatabaseHandler handler;
+  SimulacroHandler handler = SimulacroHandler();
   Future<List<question_model>>? _question;
 
   String _modulo = '';
 
-  void _getModuloFromSharedPrefs() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _modulo = prefs.getString('modulo') ?? '';
-    });
-  }
-
   @override
   void initState() {
     super.initState();
+    _initializeHandler();
+  }
+
+  Future<void> _initializeHandler() async {
     _getModuloFromSharedPrefs();
 
     switch (_modulo) {
       case "Matemáticas":
         {
-          handler = DatabaseHandler();
-          handler.initializeDB().whenComplete(() async {
-            setState(() {
-              _question = getListMAT();
-            });
+          handler = SimulacroHandler();
+          await handler.initializeDB();
+          setState(() {
+            _question = getListMAT();
           });
         }
         break;
 
       case "Inglés":
         {
-          handler = DatabaseHandler();
-          handler.initializeDB().whenComplete(() async {
-            setState(() {
-              _question = getListING();
-            });
+          handler = SimulacroHandler();
+          await handler.initializeDB();
+          setState(() {
+            _question = getListING();
           });
         }
         break;
     }
+  }
+
+  void _getModuloFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _modulo = prefs.getString('modulo') ?? '';
+    });
   }
 
   //Methods that receive the list select from dbhelper

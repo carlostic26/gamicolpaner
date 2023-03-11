@@ -55,7 +55,8 @@ class _world_gameState extends State<world_game> {
     });
   }
 
-  String _imageUrl = '';
+  String _imageUrl =
+      'https://blogger.googleusercontent.com/img/a/AVvXsEh98ERadCkCx4UOpV9FQMIUA4BjbzzbYRp9y03UWUwd04EzrgsF-wfVMVZkvCxl9dgemvYWUQUfA89Ly0N9QtXqk2mFQhBCxzN01fa0PjuiV_w4a26RI-YNj94gI0C4j2cR91DwA81MyW5ki3vFYzhGF86mER2jq6m0q7g76R_37aSJDo75yfa-BKw';
 
   //recibe el avatar imageUrl guardado anteriormente en sharedPreferences
   void _getAvatarFromSharedPrefs() async {
@@ -774,58 +775,38 @@ class _world_gameState extends State<world_game> {
           child: Opacity(
             opacity: a1.value,
             child: NetworkGiffDialog(
-                image: level == 1
-                    ? Image.network(
-                        imageLvl1,
-                        fit: BoxFit.cover,
-                      )
-                    : level == 2
-                        ? Image.network(
-                            imageLvl2,
-                            fit: BoxFit.cover,
-                          )
-                        : level == 3
-                            ? Image.network(
-                                imageLvl3,
-                                fit: BoxFit.cover,
-                              )
-                            : level == 4
-                                ? Image.network(
-                                    imageLvl4,
-                                    fit: BoxFit.cover,
-                                  )
-                                : level == 5
-                                    ? Image.network(
-                                        imageLvl5,
-                                        fit: BoxFit.cover,
-                                      )
-                                    : level == 6
-                                        ? Image.network(
-                                            imageLvl6,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : level == 7
-                                            ? Image.network(
-                                                imageLvl7,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : level == 8
-                                                ? Image.network(
-                                                    imageLvl8,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : level == 9
-                                                    ? Image.network(
-                                                        imageLvl9,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : level == 10
-                                                        ? Image.network(
-                                                            imageLvl10,
-                                                            fit: BoxFit.cover,
-                                                          )
-                                                        : Image.network('',
-                                                            fit: BoxFit.cover),
+                image: CachedNetworkImage(
+                  imageUrl: level == 1
+                      ? imageLvl1
+                      : level == 2
+                          ? imageLvl2
+                          : level == 3
+                              ? imageLvl3
+                              : level == 4
+                                  ? imageLvl4
+                                  : level == 5
+                                      ? imageLvl5
+                                      : level == 6
+                                          ? imageLvl6
+                                          : level == 7
+                                              ? imageLvl7
+                                              : level == 8
+                                                  ? imageLvl8
+                                                  : level == 9
+                                                      ? imageLvl9
+                                                      : level == 10
+                                                          ? imageLvl10
+                                                          : imageLvl10,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) => const SizedBox(
+                    width: 10,
+                    height: 10,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.0,
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ),
                 title: level == 1
                     ? const Text(
                         'Nivel 1',

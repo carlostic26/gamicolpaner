@@ -7,11 +7,11 @@ import 'package:path/path.dart';
 //Contiene codigo SQL que se ejecutara una unica vez almacenando los datos en la cache del dispositivo
 //se recomienda iterar el numero del nombre de la base de datos de la linea 13
 
-class DatabaseHandler {
+class SimulacroHandler {
   Future<Database> initializeDB() async {
     String path = await getDatabasesPath();
     return openDatabase(
-      join(path, 'simulacro_exam_10.db'),
+      join(path, 'simulacro_exam_11.db'),
       onCreate: (database, version) async {
         const String sql = '''
         CREATE TABLE preguntasICFES (

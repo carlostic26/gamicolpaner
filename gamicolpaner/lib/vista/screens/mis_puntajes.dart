@@ -70,9 +70,8 @@ class _misPuntajesState extends State<misPuntajes> {
   final int puntosMaximos_test = 100;
 
   @override
-  void initState() {
-    // TODO: implement initState
-
+  void didChangeDependencies() {
+    super.didChangeDependencies();
     //recibe el puntaje total del modulo mat y lo establece en variable para estitmar procentaje de progreso
     getPuntajesTotal_MAT().then((value) {
       setState(() {
@@ -86,7 +85,10 @@ class _misPuntajesState extends State<misPuntajes> {
         puntos_ing = value ?? 0;
       });
     });
+  }
 
+  @override
+  void initState() {
     getIsAvatar();
     getGender();
     _getAvatarFromSharedPrefs();
@@ -101,7 +103,165 @@ class _misPuntajesState extends State<misPuntajes> {
       setState(() {});
     });
 
+    //----- INGLES
+    getPuntajeIngles1_firestore();
+    getPuntajeIngles2_firestore();
+    getPuntajeIngles3_firestore();
+    //----- MATEM
+    getPuntajeMat1_firestore();
+    getPuntajeMat2_firestore();
+    getPuntajeMat3_firestore();
+
     super.initState();
+  }
+
+  //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeMat1_firestore() async {
+    int puntajeMatNivel1 =
+        0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel1')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeMatNivel1 = data['puntaje'] as int;
+      }
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puntaje_mat_1', puntajeMatNivel1.toString());
+
+    return puntajeMatNivel1;
+  }
+
+//----2
+  //funcion que busca el nivel 2, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeMat2_firestore() async {
+    int puntajeMatNivel2 =
+        0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel2')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeMatNivel2 = data['puntaje'] as int;
+      }
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puntaje_mat_2', puntajeMatNivel2.toString());
+
+    return puntajeMatNivel2;
+  }
+
+  //--3
+  //funcion que busca el nivel 2, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeMat3_firestore() async {
+    int puntajeMatNivel3 =
+        0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel3')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeMatNivel3 = data['puntaje'] as int;
+      }
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puntaje_mat_3', puntajeMatNivel3.toString());
+
+    return puntajeMatNivel3;
+  }
+
+  //----------------------------- INGLES ----------------------------------
+  //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeIngles1_firestore() async {
+    int puntajeIngNivel1 =
+        0; // Inicializar la variable con un valor predeterminado en caso de que no haya datos
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('ingles')
+        .collection('nivel1')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeIngNivel1 = data['puntaje'] as int;
+      }
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('puntaje_ingles_1', puntajeIngNivel1.toString());
+
+    return puntajeIngNivel1;
+  }
+
+  //funcion que busca el nivel 2, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeIngles2_firestore() async {
+    int puntajeIngNivel2 = 0;
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('ingles')
+        .collection('nivel2')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeIngNivel2 = data['puntaje'] as int;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('puntaje_ingles_2', puntajeIngNivel2.toString());
+      }
+    }
+
+    return puntajeIngNivel2;
+  }
+
+  //funcion que busca el nivel 3, si existe, lo envia a shp para ser sumado a puntaje total
+  Future<int> getPuntajeIngles3_firestore() async {
+    int puntajeIngNivel3 = 0;
+
+    final docSnapshot = await FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('ingles')
+        .collection('nivel3')
+        .doc(user!.uid)
+        .get();
+
+    if (docSnapshot.exists) {
+      final data = docSnapshot.data() as Map<String, dynamic>;
+      if (data.containsKey('puntaje')) {
+        puntajeIngNivel3 = data['puntaje'] as int;
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('puntaje_ingles_3', puntajeIngNivel3.toString());
+      }
+    }
+
+    return puntajeIngNivel3;
   }
 
   @override
@@ -122,6 +282,7 @@ class _misPuntajesState extends State<misPuntajes> {
           "Mis Puntajes",
           style: TextStyle(
             fontSize: 16.0,
+            color: colors_colpaner.claro,
             /*fontWeight: FontWeight.bold*/
             fontFamily: 'BubblegumSans',
           ),
@@ -131,8 +292,18 @@ class _misPuntajesState extends State<misPuntajes> {
             Colors.transparent, // establece el color de fondo transparente
         elevation: 0, // elimina la sombra
         iconTheme: const IconThemeData(
-            color: Colors
-                .white), // cambia el color del icono del botón de menú lateral a negro
+            color: colors_colpaner
+                .claro), // cambia el color del icono del botón de menú lateral a negro
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh),
+            onPressed: () {
+              //Navigator.pop(context);
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => const misPuntajes()));
+            },
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -217,7 +388,7 @@ class _misPuntajesState extends State<misPuntajes> {
                       padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Column(
                         children: [
-                          Text(
+                          const Text(
                             'Inglés',
                             style: TextStyle(
                               fontSize: 20.0,
@@ -723,7 +894,7 @@ class _misPuntajesState extends State<misPuntajes> {
                       fontSize: 30.0,
                       fontFamily: 'BubblegumSans',
                       fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 216, 164, 10),
+                      color: colors_colpaner.claro,
                     ),
                   ),
                 ),
@@ -820,6 +991,7 @@ class _misPuntajesState extends State<misPuntajes> {
                 children: <Widget>[
                   const SizedBox(height: 5.0),
                   CachedNetworkImage(
+                    fadeInDuration: Duration.zero,
                     imageUrl: _imageUrl,
                     imageBuilder: (context, imageProvider) => Container(
                       width: 100.0,
@@ -832,8 +1004,10 @@ class _misPuntajesState extends State<misPuntajes> {
                         ),
                       ),
                     ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        const Icon(Icons.error),
                   ),
                   const SizedBox(height: 10.0),
                   Container(

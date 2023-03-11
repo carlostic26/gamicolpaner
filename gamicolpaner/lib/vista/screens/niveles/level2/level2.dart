@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
 import 'package:gamicolpaner/controller/modulo.dart';
-import 'package:gamicolpaner/model/dbhelper.dart';
+
 import 'package:gamicolpaner/model/score.dart';
 import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
@@ -124,7 +124,6 @@ class _level2State extends State<level2> {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         scoreBoard1("Intentos", "${tries.toInt()}/14"),
                         scoreBoard1("Puntos", "$score/6")
@@ -160,6 +159,25 @@ class _level2State extends State<level2> {
                                     valTries++;
                                     tries = (valTries / 2);
 
+                                    //si el usuario hace mas de 12 intentos, gameover
+                                    if (tries >= 12) {
+                                      DialogHelper.showDialogGameOver(
+                                          context, score);
+
+                                      //guarda puntaje de nivel en firestore
+                                      _guardarPuntajeNivel2(score);
+
+                                      //enviamos score al DialogHelper que conecta a la clase ShowDialogGameOver1
+                                      /* 
+                                        // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
+                                        var handler = DatabaseHandler();
+                                        handler.updateScore(scoreColpaner(
+                                            id: 'DS2',
+                                            modulo: 'DS',
+                                            nivel: '2',
+                                            score: score.toString())); */
+                                    }
+
                                     _gameCards.gameImg![index] =
                                         cards_List[index];
                                     _gameCards.matchCheck
@@ -175,56 +193,31 @@ class _level2State extends State<level2> {
                                       //si el usuario completa los 6 matches se muestra dialogo de game over
                                       if (score >= 6) {
                                         //enviamos score al DialogHelper que conecta a la clase ShowDialogGameOver1
-                                        String puntoPartida = 'ds';
-                                        DialogHelper.showDialogGameOver(
-                                            context, score);
-                                        // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
-                                        var handler = DatabaseHandler();
-                                        handler.updateScore(scoreColpaner(
-                                            id: 'DS2',
-                                            modulo: 'DS',
-                                            nivel: '2',
-                                            score: score.toString()));
 
-                                        //guarda puntaje de nivel en firestore
-                                        _guardarPuntajeNivel2(score);
-                                      }
-                                    } else {
-                                      //si el usuario hace mas de 12 intentos, gameover
-                                      if (tries == 12) {
                                         DialogHelper.showDialogGameOver(
                                             context, score);
 
                                         //guarda puntaje de nivel en firestore
                                         _guardarPuntajeNivel2(score);
-
-                                        //enviamos score al DialogHelper que conecta a la clase ShowDialogGameOver1
-                                        /* 
-                                        // Se carga la información de puntaje a la base de datos logrando actualizar todo el campo del registro de puntaje correspondiente al nivel
-                                        var handler = DatabaseHandler();
-                                        handler.updateScore(scoreColpaner(
-                                            id: 'DS2',
-                                            modulo: 'DS',
-                                            nivel: '2',
-                                            score: score.toString())); */
                                       }
-
-                                      print(false);
-                                      Future.delayed(
-                                          const Duration(milliseconds: 500),
-                                          () {
-                                        print(_gameCards.gameImg);
-                                        setState(() {
-                                          _gameCards.gameImg![_gameCards
-                                                  .matchCheck[0].keys.first] =
-                                              _gameCards.hiddenCardpath;
-                                          _gameCards.gameImg![_gameCards
-                                                  .matchCheck[1].keys.first] =
-                                              _gameCards.hiddenCardpath;
-                                          _gameCards.matchCheck.clear();
-                                        });
-                                      });
                                     }
+
+                                    print(false);
+                                    Future.delayed(
+                                        const Duration(milliseconds: 500), () {
+                                      print(_gameCards.gameImg);
+                                      setState(() {
+                                        _gameCards.gameImg![_gameCards
+                                            .matchCheck[0]
+                                            .keys
+                                            .first] = _gameCards.hiddenCardpath;
+                                        _gameCards.gameImg![_gameCards
+                                            .matchCheck[1]
+                                            .keys
+                                            .first] = _gameCards.hiddenCardpath;
+                                        _gameCards.matchCheck.clear();
+                                      });
+                                    });
                                   }
                                 },
                                 child: Container(

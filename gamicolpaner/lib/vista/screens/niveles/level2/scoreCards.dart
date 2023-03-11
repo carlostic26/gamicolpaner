@@ -5,7 +5,7 @@ Widget scoreBoard1(String title, String info) {
   //retorna un expanded como forma responsiva de visualizar el widget segun la pantalla
   return Container(
     margin: const EdgeInsets.all(10.0),
-    padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 30.0),
+    padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 25.0),
     decoration: BoxDecoration(
       color: colors_colpaner.claro,
       borderRadius: BorderRadius.circular(6.0),

@@ -95,12 +95,15 @@ class _entrenamientoModulosState extends State<entrenamientoModulos> {
         title: const Text(
           "Entrenamiento",
           style: TextStyle(
+            color: colors_colpaner.claro,
             fontSize: 16.0,
             fontFamily: 'BubblegumSans',
           ),
         ),
         centerTitle: true,
+        iconTheme: const IconThemeData(color: colors_colpaner.claro),
       ),
+
       body: Stack(
         children: [
           Column(
