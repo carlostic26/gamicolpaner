@@ -2,16 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
 import 'package:gamicolpaner/controller/puntajes_shp.dart';
 import 'package:gamicolpaner/model/user_model.dart';
 import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
 import 'package:gamicolpaner/vista/screens/avatars_female.dart';
 import 'package:gamicolpaner/vista/screens/avatars_male.dart';
 import 'package:gamicolpaner/vista/screens/entrenamiento_modulos.dart';
-import 'package:gamicolpaner/vista/screens/world_game.dart';
 import 'package:gamicolpaner/vista/visual/colors_colpaner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,6 +23,16 @@ class misPuntajes extends StatefulWidget {
 class _misPuntajesState extends State<misPuntajes> {
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
+
+  String _modulo = '';
+
+  //recibe el modulo guardado anteriormente en sharedPreferences
+  void _getModuloFromSharedPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _modulo = prefs.getString('modulo') ?? '';
+    });
+  }
 
   String _imageUrl = '';
 
@@ -72,23 +78,15 @@ class _misPuntajesState extends State<misPuntajes> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //recibe el puntaje total del modulo mat y lo establece en variable para estitmar procentaje de progreso
-    getPuntajesTotal_MAT().then((value) {
-      setState(() {
-        puntos_mat = value ?? 0;
-      });
-    });
-
-    //recibe el puntaje total del modulo ming y lo establece en variable para estitmar procentaje de progreso
-    getPuntajesTotal_ING().then((value) {
-      setState(() {
-        puntos_ing = value ?? 0;
-      });
-    });
+    _getAvatarFromSharedPrefs();
   }
 
   @override
   void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _getModuloFromSharedPrefs();
     getIsAvatar();
     getGender();
     _getAvatarFromSharedPrefs();
@@ -112,7 +110,19 @@ class _misPuntajesState extends State<misPuntajes> {
     getPuntajeMat2_firestore();
     getPuntajeMat3_firestore();
 
-    super.initState();
+    //recibe el puntaje total del modulo mat y lo establece en variable para estitmar procentaje de progreso
+    getPuntajesTotal_MAT().then((value) {
+      setState(() {
+        puntos_mat = value ?? 0;
+      });
+    });
+
+    //recibe el puntaje total del modulo ming y lo establece en variable para estitmar procentaje de progreso
+    getPuntajesTotal_ING().then((value) {
+      setState(() {
+        puntos_ing = value ?? 0;
+      });
+    });
   }
 
   //funcion que busca el nivel 1, si existe, lo envia a shp para ser sumado a puntaje total
@@ -921,44 +931,6 @@ class _misPuntajesState extends State<misPuntajes> {
               ),
             ],
           ),
-
-/*           //flecha atras
-          Align(
-            alignment: Alignment.topLeft,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-              child: ShakeWidgetX(
-                child: IconButton(
-                  icon: Image.asset('assets/flecha_left.png'),
-                  iconSize: 3,
-                  onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      PageRouteBuilder(
-                          transitionDuration: const Duration(seconds: 1),
-                          transitionsBuilder: (BuildContext context,
-                              Animation<double> animation,
-                              Animation<double> secAnimation,
-                              Widget child) {
-                            animation = CurvedAnimation(
-                                parent: animation, curve: Curves.elasticOut);
-
-                            return ScaleTransition(
-                              alignment: Alignment.center,
-                              scale: animation,
-                              child: child,
-                            );
-                          },
-                          pageBuilder: (BuildContext context,
-                              Animation<double> animation,
-                              Animation<double> secAnimattion) {
-                            return const entrenamientoModulos();
-                          }),
-                    );
-                  },
-                ),
-              ),
-            ),
-          ), */
         ],
       ),
       drawer: _getDrawer(context),
@@ -1041,6 +1013,7 @@ class _misPuntajesState extends State<misPuntajes> {
                   color: colors_colpaner.oscuro,
                 ),
                 onTap: () => {
+                      Navigator.pop(context),
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                           builder: (context) => const entrenamientoModulos()))
                     }),
@@ -1071,11 +1044,14 @@ class _misPuntajesState extends State<misPuntajes> {
 
                 if (isAvatar == true) {
                   if (gender == 'male') {
+                    Navigator.pop(context);
+
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const avatarsMale()));
                   }
 
                   if (gender == 'female') {
+                    Navigator.pop(context);
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const avatarsFemale()));
                   }

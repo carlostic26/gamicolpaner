@@ -1,8 +1,9 @@
 import 'dart:math';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamicolpaner/controller/anim/shakeWidget.dart';
-
-import 'package:gamicolpaner/model/score.dart';
+import 'package:gamicolpaner/controller/modulo.dart';
 import 'package:gamicolpaner/vista/dialogs/dialog_helper.dart';
 import 'package:gamicolpaner/vista/screens/niveles/level2/scoreCards.dart';
 import 'package:gamicolpaner/vista/screens/world_game.dart';
@@ -12,9 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 /*NIVEL TIPO GAMIDROP
   Este nivel consiste en leer y arrastrar un concepto a su enunciado correspondiente.
   El jugador deberá situar correctamente cada elemento para ganar puntos.
-
   El sistema validará la respuesta seleccionada aumentando el puntaje iterativo.
-
 */
 
 class level4 extends StatefulWidget {
@@ -24,52 +23,77 @@ class level4 extends StatefulWidget {
   State<level4> createState() => _level4State();
 }
 
-//font code: https://youtu.be/KOh6CkX-d6U
-
 class _level4State extends State<level4> {
-  String _modulo = '';
+  String modul = '';
 
+//recibe el modulo guardado anteriormente en sharedPreferences
   void _getModuloFromSharedPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      _modulo = prefs.getString('modulo') ?? '';
+      modul = prefs.getString('modulo') ?? '';
+
+      print('MODULO EN LEVEL 4 ES: $modul');
     });
+
+    if (modul == 'Matemáticas') {
+      final List<MapEntry<String, String>> choicesList = choicesMAT.entries
+          .map(
+              (entry) => MapEntry(entry.key.toString(), entry.value.toString()))
+          .toList();
+
+      final Random random = Random();
+      sixChoices = Map.fromEntries(List.generate(
+        7,
+        (_) => choicesList[random.nextInt(choicesList.length)],
+      ));
+    }
+
+    if (modul == 'Inglés') {
+      final List<MapEntry<String, String>> choicesList = choicesING.entries
+          .map(
+              (entry) => MapEntry(entry.key.toString(), entry.value.toString()))
+          .toList();
+
+      final Random random = Random();
+      sixChoices = Map.fromEntries(List.generate(
+        7,
+        (_) => choicesList[random.nextInt(choicesList.length)],
+      ));
+    }
+
+    _startCountdown();
   }
 
   final Map<String, bool> score = {};
 
-  final Map choices = {
+  final Map choicesMAT = {
     'GET': 'realiza una petición a un recurso específico',
     'POST': 'puede enviar datos al servidor por medio del cuerpo (body)',
     'PUT': 'puede ser ejecutado varias veces y tiene el mismo efecto',
-    'DELETE': ' permite eliminar un recurso específico',
+    'DELETE': 'permite eliminar un recurso específico',
     'PATCH':
         'se emplea para modificaciones parciales de un recurso en particular',
     'HEAD': ' no retorna ningún contenido HTTP Response',
-    'GETU': 'realiza una petición a un recurso específico',
-    'POSTE': 'puede enviar datos al servidor por medio del cuerpo (body)',
-    'PUTA': 'puede ser ejecutado varias veces y tiene el mismo efecto',
-    'DELETEWE': ' permite eliminar un recurso específico',
+    'GETU': 'realiza en una petición a un recurso específico',
+    'POSTE': 'puede r nenviar datos al servidor por medio del cuerpo (body)',
+    'PUTA': 'puedevxfb ser ejecutado dvvarias veces y tiene el mismo efecto',
+    'DELETEWE': ' permite vds eliminar sdvun  drecurso específico',
   };
 
-  Map<String, String> sixChoices = {};
-
-  @override
-  void initState() {
-    super.initState();
-    _startCountdown();
-    final List<MapEntry<String, String>> choicesList = choices.entries
-        .map((entry) => MapEntry(entry.key.toString(), entry.value.toString()))
-        .toList();
-
-    final Random random = Random();
-    sixChoices = Map.fromEntries(List.generate(
-      6,
-      (_) => choicesList[random.nextInt(choicesList.length)],
-    ));
-  }
-
-  int seed = 0;
+  final Map choicesING = {
+    'GET': 'englisg realiza una petición a un recurso específico',
+    'POST': 'englisgpuede enviar datos al servidor por medio del cuerpo (body)',
+    'PUT': 'englisgpuede ser ejecutado varias veces y tiene el mismo efecto',
+    'DELETE': 'englisgpermite eliminar un recurso específico',
+    'PATCH': 'englisgse emplea para modificacioneticular',
+    'HEAD': 'englisg no retorna ningún contenido HTTP Response',
+    'GETU': 'englisg realiza en una petición a un recurso específico',
+    'POSTE':
+        'englisg puede r nenviar datos al servidor por medio del cuerpo (body)',
+    'PUTA':
+        'englisg puedevxfb ser ejecutado dvvarias veces y tiene el mismo efecto',
+    'DELETEWE': 'englisg permite vds eliminar sdvun  drecurso específico',
+  };
 
   String _message = "";
   int _timeLeft = 6;
@@ -109,6 +133,19 @@ class _level4State extends State<level4> {
       }
     });
   }
+
+  late Map<String, String> sixChoices = {};
+
+  @override
+  void initState() {
+    super.initState();
+
+    _getModuloFromSharedPrefs();
+
+    print('MODULO INIT EN LEVEL 4 ES: $modul');
+  }
+
+  int seed = 0;
 
   int intentos = 0;
 
@@ -182,7 +219,8 @@ class _level4State extends State<level4> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    scoreBoard1("Intentos", "$intentos/6"),
+                    scoreBoard1(
+                        "Intentos", "$intentos/${sixChoices.length + 3}"),
                     scoreBoard1("Puntos", "${score.length}")
                   ],
                 ),
@@ -210,7 +248,7 @@ class _level4State extends State<level4> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(20)),
                           child: Container(
-                            ////  ////  ////  //// CONCEPT INSIDE CARD LEFT
+                            //CONCEPT INSIDE CARD LEFT
                             alignment: Alignment.centerLeft,
                             padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
                             color: colors_colpaner.oscuro,
@@ -262,7 +300,7 @@ class _level4State extends State<level4> {
               ),
             );
           } else {
-            ////  ////  //////text cards answers
+            //text cards answers
             return ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(20)),
               child: Container(
@@ -286,14 +324,61 @@ class _level4State extends State<level4> {
         onAccept: (data) {
           setState(() {
             score[conceptoAfirmacion] = true;
-            //game over, si el usuario complet+o las 5 palabras, se genera su score y se cierra el nivel
-            if (score.length == 5) {
-              DialogHelper.showDialogGameOver(
-                  context, 6); //gana 5 puntos si alcanzó a completar || SCORE
+            intentos++;
+            //game over, si el usuario completo las 5 palabras, se genera su score y se cierra el nivel
+            if (score.length == 5 || intentos >= sixChoices.length + 3) {
+              DialogHelper.showDialogGameOver(context, score.length);
+              _guardarPuntajeNivel4(score.length);
             }
           });
         },
-        onLeave: (data) {});
+        onLeave: (data) {
+          setState(() {
+            intentos++; // Incrementa la variable "intentosRealizados" al realizar un intento
+          });
+//game over, si el usuario completo las 5 palabras o si se acaban los intentos
+          if (score.length >= 5 || intentos >= sixChoices.length + 3) {
+            DialogHelper.showDialogGameOver(context, score.length);
+            _guardarPuntajeNivel4(score.length);
+          }
+        });
+  }
+}
+
+Future<void> _guardarPuntajeNivel4(int score) async {
+  final user = FirebaseAuth.instance.currentUser;
+  final puntaje = score; // Puntaje obtenido
+
+  //obtiene el modulo del shp
+  String _modulo = await getModulo();
+
+  if (_modulo == 'Matemáticas') {
+    //no lo tiene por que escribir en shp porque nunca se escribirá  puntajes a shp, solo se lee de firestore, mas no escribir
+    /*  //establece el puntaje obtenido y lo guarda en shp
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setInt('puntajes_MAT', score); */
+
+    final puntajesRefMat = FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('matematicas')
+        .collection('nivel4')
+        .doc(user!.uid);
+
+    await puntajesRefMat.set({'userId': user.uid, 'puntaje': puntaje});
+  }
+
+  if (_modulo == 'Inglés') {
+/*     //establece el puntaje obtenido y lo guarda en shp
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setInt('puntaje_ing_1', score); */
+
+    final puntajesRefIng = FirebaseFirestore.instance
+        .collection('puntajes')
+        .doc('ingles')
+        .collection('nivel4')
+        .doc(user!.uid);
+
+    await puntajesRefIng.set({'userId': user.uid, 'puntaje': puntaje});
   }
 }
 

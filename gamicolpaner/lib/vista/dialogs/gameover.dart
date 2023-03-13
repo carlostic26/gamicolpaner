@@ -77,6 +77,7 @@ class _ShowDialogGameOver extends State<ShowDialogGameOver> {
                   ),
                 ),
                 onPressed: () {
+                  Navigator.pop(context);
                   Navigator.of(context).pushReplacement(MaterialPageRoute(
                       builder: (context) => const misPuntajes()));
                 },
